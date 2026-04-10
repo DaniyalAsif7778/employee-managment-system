@@ -1,14 +1,14 @@
 
 import React, { useEffect, useState, type ReactElement } from "react";
-import useSignUp from "../hooks/useSingUp.js";
-import { Button, Input } from "../componenets/components.js";
+ 
+ import {Input,Button} from '../componenets/components.js'
 import { useRef } from "react";
-const Signup:React.FC = function () {
-  const nameRef = useRef("")
-  const passwordRef = useRef("")
-  const emailRef = useRef("")
-  const adminRef = useRef("")
-  const employeeRef = useRef("")
+const Signup  = function () {
+  const nameRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const adminRef = useRef<HTMLInputElement>(null)
+  const employeeRef = useRef<HTMLInputElement>( null)
 
   const [name, setName] = useState<string>("");
   const [role, setRole] = useState<string>("");
@@ -30,14 +30,6 @@ const Signup:React.FC = function () {
     return () => clearTimeout(handler);
   }, [email, password]);
 
-  const { signUpHandler } = useSingUp(
-    name,
-    debounceEmail,
-    debouncePassword,
-    role,
-    setEmailError,
-    setPasswordError
-  );
   const isDisabled = !name || !email || !password || !role;
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-bg">
@@ -54,10 +46,7 @@ const Signup:React.FC = function () {
 
         <form
           className="space-y-5"
-          onSubmit={(e) => {
-            e.preventDefault();
-            signUpHandler();
-          }}
+          onSubmit={(e) => e.preventDefault()}
         >
           {/* <Input   
               type="password"
@@ -68,11 +57,11 @@ const Signup:React.FC = function () {
             placeholder="Enter your password"
             value={password}
             onchange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-md bg-[var(--color-navbar)] border border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition" /> 
+            className="w-full px-4 py-2.5 rounded-md bg-navbar border border-border text-text-primary focus:outline-none focus:ring-2 focus:ring-primary transition" /> 
              */}
           {/* Name */}
           <div className="space-y-1">
-            {/* <label className="text-sm text-[var(--color-text-secondary)]">
+            {/* <label className="text-sm text-text-secondary">
               Name
             </label> */}
             <Input
@@ -90,13 +79,13 @@ const Signup:React.FC = function () {
               placeholder="Enter name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 rounded-md bg-[var(--color-navbar)] border border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-primary)]"
+              className="w-full px-4 py-2 rounded-md bg-navbar border border-border text-text-primary focus:outline-none focus:border-primary"
             /> */}
           </div>
 
           {/* Password */}
           <div className="space-y-1">
-            {/* <label className="text-sm text-[var(--color-text-secondary)]">
+            {/* <label className="text-sm text-text-secondary">
               Password
             </label> */}
             <Input
@@ -115,11 +104,11 @@ const Signup:React.FC = function () {
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded-md bg-[var(--color-navbar)] border border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-primary)]"
+              className="w-full px-4 py-2 rounded-md bg-navbar border border-border text-text-primary focus:outline-none focus:border-primary"
             /> */}
             {/* 
             {passwordError && (
-              <p className="text-xs text-[var(--color-error)]">
+              <p className="text-xs text-error">
                 {passwordError}
               </p>
             )} */}
@@ -127,7 +116,7 @@ const Signup:React.FC = function () {
 
           {/* Email */}
           <div className="space-y-1">
-            {/* <label className="text-sm text-[var(--color-text-secondary)]">
+            {/* <label className="text-sm text-text-secondary">
               Email
             </label> */}
             <Input
@@ -146,11 +135,11 @@ const Signup:React.FC = function () {
               placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded-md bg-[var(--color-navbar)] border border-[var(--color-border)] text-[var(--color-text-primary)] focus:outline-none focus:border-[var(--color-primary)]"
+              className="w-full px-4 py-2 rounded-md bg-navbar border border-border text-text-primary focus:outline-none focus:border-primary"
             />
 
             {emailError && (
-              <p className="text-xs text-[var(--color-error)]">
+              <p className="text-xs text-error">
                 {emailError}
             //   </p> */}
             {/* // )} */}

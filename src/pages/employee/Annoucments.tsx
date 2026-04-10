@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function Annoucments() {
+const Annoucments=() =>{
   return (
-    <div className="p-4 text-[var(--color-text-primary)]">
+    <div className="p-4 text-text-primary ">
       Annoucments page
     </div>
   );
 }
+export default   Annoucments

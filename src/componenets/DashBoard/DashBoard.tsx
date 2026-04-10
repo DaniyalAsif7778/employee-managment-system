@@ -1,11 +1,11 @@
 import React from 'react'
 import { Outlet } from 'react-router'
- import DashBordHeader from '../ui/DashBordHeader.jsx'
+ import DashBordHeader from '../ui/DashBordHeader.js'
  
-function DashBoard() {
+ const DashBoard  = ()=> {
   return (
     <div> 
-    <DashBordHeader/> 
+    <DashBordHeader  /> 
       <Outlet/>
     </div>
   )

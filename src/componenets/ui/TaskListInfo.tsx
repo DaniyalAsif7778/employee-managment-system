@@ -1,6 +1,6 @@
 import React, {  useState } from "react";
  
-function TaskListInfo() {
+ const  TaskListInfo=()=> {
    const [newTask, setNewTask] = useState(0);
   const [activeTask, setActiveTask] = useState(0);
   const [completed, setCompleted] = useState(0);

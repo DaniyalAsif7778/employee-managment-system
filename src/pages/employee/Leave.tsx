@@ -1,9 +1,11 @@
 import React from "react";
 
-export default function Leave() {
+ const  Leave=()=> {
   return (
-    <div className="p-4 text-[var(--color-text-primary)]">
+    <div className="p-4 text-text-primary ">
       Leave page
     </div>
   );
 }
+
+export default Leave

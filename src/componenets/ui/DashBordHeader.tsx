@@ -3,36 +3,55 @@ import { NavLink } from 'react-router';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
-import useLogout from '../../hooks/useLogout.jsx';
-import {
-  LayoutDashboard, PlaneTakeoff, CalendarCheck2, Users, ListTodo,
-  Settings, User, Megaphone
-}
-  from 'lucide-react'
+import type { RootState } from '../../store/store.js';
+import { useLogout } from '../../hooks/hooks.js';
+import { 
+  LayoutDashboard, 
+  Users, 
+  CheckSquare, 
+  FileText, 
+  Calendar, 
+  Briefcase,
+  Building2,
+  Megaphone,
+  Settings,
+  UserCircle,
+  MessageSquare,
+  Bell,
+  LogOut
+} from 'lucide-react';
+ 
 import HeaderDrawer from './HeaderDrawer.js';
-export default function DashBordHeader() {
+  const DashBordHeader = () => {
   const navigate = useNavigate();
-  const isOpened = useSelector((state) => state.menue.dashBoardDrawer)
-  const currentUser = useSelector((state) => state.currentUser.user)
+  const isOpened = useSelector((state: RootState) => state.menue.dashBoardDrawer)
+  const currentUser = useSelector((state: RootState) => state.currentUser.user)
 
   const { logOutHandler } = useLogout()
 
-  const adminLinks = [
-    { id: 1, text: "Dashboard",  icon: <LayoutDashboard />, link: "/DashBoard",   end: true  },
-    { id: 2, text: "Employees",  icon: <Users />,           link: "AdminEmployees",  end: false },
-    { id: 3, text: "Tasks",      icon: <ListTodo />,        link: "AdminTasks",      end: false },
-    { id: 4, text: "Settings",   icon: <Settings />,        link: "settings",        end: false },
-  ]
-  
-  const employeeLinks = [
-    { id: 1, text: "Dashboard",    icon: <LayoutDashboard />, link: "/DashBoard",  end: true  },
-    { id: 2, text: "Tasks",        icon: <ListTodo />,        link: "EmployeeTasks",     end: false },
-    { id: 3, text: "Schedule",     icon: <CalendarCheck2 />,  link: "EmployeeSchedule",  end: false },
-    { id: 4, text: "Leave",        icon: <PlaneTakeoff />,    link: "EmployeeLeave",     end: false },
-    { id: 5, text: "Colleagues",   icon: <Users />,           link: "Colleagues",        end: false },
-    { id: 6, text: "Announcements",icon: <Megaphone />,       link: "Annoucments",       end: false },
-     { id: 7, text: "Settings",     icon: <Settings />,        link: "settings",          end: false },
-  ]
+ const adminLinks = [
+  { path: '/Dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { path: '/Dashboard/Employees', icon: Users, label: 'Employees' },
+  { path: '/Dashboard/Departments', icon: Building2, label: 'Departments' },
+  { path: '/Dashboard/Tasks', icon: CheckSquare, label: 'Tasks' },
+  { path: '/Dashboard/Reports', icon: FileText, label: 'Reports' },
+  { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
+  { path: '/Dashboard/Announcements', icon: Megaphone, label: 'Announcements' },
+  { path: '/Dashboard/Notifications', icon: Bell, label: 'Notifications' },
+  { path: '/Dashboard/Settings', icon: Settings, label: 'Settings' },
+];
+
+const employeeLinks = [
+  { path: '/Dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { path: '/Dashboard/Tasks', icon: CheckSquare, label: 'My Tasks' },
+  { path: '/Dashboard/Schedule', icon: Briefcase, label: 'Schedule' },
+  { path: '/Dashboard/Leave', icon: Calendar, label: 'Leave' },
+  { path: '/Dashboard/Colleagues', icon: Users, label: 'Colleagues' },
+  { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
+  { path: '/Dashboard/Announcements', icon: Megaphone, label: 'Announcements' },
+  { path: '/Dashboard/Notifications', icon: Bell, label: 'Notifications' },
+  { path: '/Dashboard/Profile', icon: UserCircle, label: 'Profile' },
+];
 
 
   return (
@@ -47,19 +66,20 @@ export default function DashBordHeader() {
         <div className=' w-full h-full sm:h-3/5  sm:flex  sm:items-start sm:px-1 sm:py-4'>
 
           <ul className=' w-full  flex flex-row justify-evenly sm:flex-col   ' >
-            {currentUser.role == "admin" && currentUser.loginStatus ? (   adminLinks.map((link) => {
+            {    adminLinks.map((link,id) => {
               return (
-                <li className='mb-2' key={link.id}> <NavLink to={link.link}   end={link.end} className={({ isActive }) =>
+                <li className='mb-2' key={ id}> <NavLink to={link.path}     className={({ isActive }) =>
                   `flex   sm:flex-row  sm:justify-start  gap-1 p-2  sm:px-3  sm:py-2 rounded-md text-xs sm:text-sm
                 sm:transition-all sm:duration-150 sm:border-l-2 flex-col   justify-center items-center
                 ${isActive
                     ? 'text-[#009F8E] sm:bg-[#009F8E]/10 border-[#009F8E]'
                     : 'text-[#888] border-transparent hover:text-white hover:bg-white/5'
                   }`
-                } ><span>{link.icon}</span><h3>{link.text}</h3></NavLink></li>
+                } ><link.icon /><h3>{link.label}</h3></NavLink></li>
 
               )
-            })) : (   employeeLinks.map((link) => {
+            })   }
+             {/* { employeeLinks.map((link) => {
               return (
                 <li className='mb-2' key={link.id}> <NavLink to={link.link}  end={link.end} className={({ isActive }) =>
                   `flex   sm:flex-row  sm:justify-start  gap-1 p-2  sm:px-3  sm:py-2 rounded-md text-xs sm:text-sm
@@ -71,9 +91,9 @@ export default function DashBordHeader() {
                 } ><span>{link.icon}</span><h3>{link.text}</h3></NavLink></li>
 
               )
-            }))
-              
-            }
+            
+              })}
+             */}
             
           </ul>
         </div>
@@ -95,3 +115,5 @@ export default function DashBordHeader() {
 
 
 }
+
+export default DashBordHeader;

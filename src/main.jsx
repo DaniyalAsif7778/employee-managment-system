@@ -49,16 +49,16 @@ const router = createBrowserRouter(
           <Route index element={<OverView />} />
 
           <Route element={<AdminRoutes />}>
-            <Route path="AdminDashbord" element={<AdminDashboard />} />
-            <Route path="AdminDepartment" element={<AdminDepartment />} />
-            <Route path="AdminEmployees" element={<AdminEmployees />} />
-            <Route path="AdminProfile" element={<AdminProfile />} />
-            <Route path="AdminReports" element={<AdminReports />} />
-            <Route path="AdminTasks" element={<AdminTasks />} />
+            <Route path="Dashbord" element={<AdminDashboard />} />
+            <Route path="Department" element={<AdminDepartment />} />
+            <Route path="Employees" element={<AdminEmployees />} />
+            <Route path="Profile" element={<AdminProfile />} />
+            <Route path="Reports" element={<AdminReports />} />
+            <Route path="Tasks" element={<AdminTasks />} />
           </Route>
           <Route element={<EmployeeRoutes />}>
 
-            <Route path="employedashboard" element={<EmpolyDashboard />} />
+            <Route path="Dashbord" element={<EmpolyDashboard />} />
 
             <Route path="Annoucments" element={<Annoucments />} />
             <Route path="Colleagues" element={<Colleagues />} />

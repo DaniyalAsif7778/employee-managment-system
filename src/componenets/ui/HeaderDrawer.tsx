@@ -1,7 +1,12 @@
 import React from 'react'
 import { useDispatch  } from 'react-redux'
 import {  setDashBoardStatus } from '../../features/menueSlice.js'
-function HeaderDrawer({ status1  }) {
+
+interface HeaderDrawerProps {
+  status1: boolean;
+}
+
+const  HeaderDrawer = ({ status1 }: HeaderDrawerProps)=> {
     
     const dispatch = useDispatch()
   return (

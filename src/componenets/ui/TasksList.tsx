@@ -3,11 +3,11 @@ import React from "react";
 import { CompletedButton, FailedButton, WorkingButtons } from "../../import.js";
 import { toast } from "react-hot-toast";
 
-function TasksList() {
+ const  TasksList=()=> {
 
 
   return (
-    <div className="Tasks w-full h-[500px] p-4 mt-10 rounded-lg border pointer-events-auto border-border bg-surface overflow-scroll ">
+    <div className="Tasks w-full h-125 p-4 mt-10 rounded-lg border pointer-events-auto border-border bg-surface overflow-scroll ">
 
 
       {/* Header */}

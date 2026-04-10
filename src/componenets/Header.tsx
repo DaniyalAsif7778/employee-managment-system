@@ -3,13 +3,13 @@ import { NavLink } from 'react-router';
   import { useSelector ,useDispatch } from 'react-redux';
  import { setHeaderDrawwer } from '../features/menueSlice.js';
  
- import HeaderDrawer from './components.js'
+ import { HeaderDrawer } from './components.js'
  import { Button } from './components.js';
  import { useLogout } from '../hooks/hooks.js';
 import type { RootState } from '../store/store.js';
- const Header:React.FC=()=> {
+ const Header =()=> {
   const isOpened = useSelector((state:RootState)=> state.menue.headerDrawer)
-  const currentUser = useSelector((state:RootState)=> state.currentUser)
+  const currentUser = useSelector((state:RootState)=> state.currentUser.user)
   // const isOpened = useSelector((state:RootState)=> state.menue.headerDrawer)
    const [status ,setStatus] =useState(true)
   const dispatch = useDispatch()
@@ -26,9 +26,9 @@ useEffect(()=>{
       <div className="flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-3">
-         {
-          currentUser?.loginStatus &&  <HeaderDrawer status1={ true}   />
-         }
+        
+            <HeaderDrawer status1={ true}   />
+         
 <h1 className=' font-bold text-xl whitespace-nowrap'><span className='text-primary '>Emplo</span><span className='text-text-primary'>Manager</span></h1>
         </div>
 
@@ -100,8 +100,8 @@ useEffect(()=>{
                 <Button onclick={()=>{
                   logOutHandler()
                 }} text="Logout" className={`  py-2.5 rounded-md font-medium transition
-              bg-[var(--color-primary)] text-white
-              hover:bg-[var(--color-primary-hover)]`} />
+              bg-primary text-white
+              hover:bg-primary-hover`} type="button" disabled={false} />
               )
             }
           </ul>

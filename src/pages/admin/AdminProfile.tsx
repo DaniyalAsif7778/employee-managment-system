@@ -1,9 +1,9 @@
 import React from "react";
-
-export default function AdminProfile() {
+ const  AdminProfile =()=> {
   return (
-    <div className="p-4 text-[var(--color-text-primary)]">
+    <div className="p-4 text-text-primary">
       AdminProfile page
     </div>
   );
 }
+export default    AdminProfile

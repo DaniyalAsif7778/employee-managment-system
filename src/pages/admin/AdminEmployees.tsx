@@ -1,11 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router";
 import { NavLink } from "react-router";
-export default function AdminEmployees() {
+ const   AdminEmployees=()=> {
   return (
-    <div className="p-4 text-[var(--color-text-primary)]">
+    <div className="p-4 text-text-primary ">
       AdminEmployees page
       <NavLink to="/DashBoard/EmployeeSchedule">emp</NavLink>
     </div>
   );
 }
+export default  AdminEmployees

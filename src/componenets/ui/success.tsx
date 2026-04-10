@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-export default function Toast({ message, duration = 3000, onClose }) {
+interface ToastProps {
+  message: string;
+  duration?: number;
+  onClose: () => void;
+}
+
+const Toast = ({ message, duration = 3000, onClose }: ToastProps) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -40,3 +46,4 @@ export default function Toast({ message, duration = 3000, onClose }) {
     </div>
   );
 }
+export default   Toast

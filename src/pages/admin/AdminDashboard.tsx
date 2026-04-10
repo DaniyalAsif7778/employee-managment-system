@@ -1,23 +1,19 @@
 import React from 'react'
 import { AdminForm ,  EmployeesList} from '../../import.js'
-  import {  useSelector } from 'react-redux'
-function AdminDashboard() {
- 
- const currentUser =  useSelector((state)=> state.currentUser.user)
- console.log(currentUser);
+ const   AdminDashboard=() =>{
  
 
   return (
     <div >
-     {  !currentUser.loginStatus    ?  (<div className='w-full h-screen  flex items-center justify-center'><h1>Please Login...</h1></div>):  ( <div className='w-full h-full p-2 '>
+     <div className='w-full h-full p-2 '>
      
     
    <AdminForm/>
 <EmployeesList/> 
-     </div> ) }
+     </div>
   
     </div >
   )
 }
 
-export default AdminDashboard;
+export default  AdminDashboard;

@@ -1,9 +1,11 @@
 import React from "react";
 
-export default function Tasks() {
+ const Tasks= ()=> {
   return (
-    <div className="p-4 text-[var(--color-text-primary)]">
+    <div className="p-4 text-text-primary ">
       Tasks page
     </div>
   );
 }
+
+export default Tasks;

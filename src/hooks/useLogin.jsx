@@ -1,16 +1,21 @@
 import { useSelector ,useDispatch} from "react-redux"
 import { useNavigate } from "react-router";
  import { setCurrentUser } from "../features/currentUser.js";
+
+// Custom hook for handling user login logic
  function useLogin(email,password,setPasswordError,setEmailError,role) {
     const navigate = useNavigate();
+    // Select admins and employees from the Redux store
     const Admins = useSelector((state)=> state.users.Admins)
     const Employees = useSelector((state)=> state.users.Employees)
 const dispatch = useDispatch();
     console.log(Admins,Employees,email,password);
     
+    // Function to handle login form submission
     function loginHandler(e) {
       e.preventDefault()
     
+      // Basic validation - ensure email and password are provided
       if (!email || !password) return
     
       // 1️⃣ check if email exists in admins
@@ -69,6 +74,7 @@ const dispatch = useDispatch();
       }
     }
     //    useUserFinder(user.id)
+    // Return the login handler function
     return {loginHandler}
 }
 

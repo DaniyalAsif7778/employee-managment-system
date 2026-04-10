@@ -1,6 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router'
-function Button({  text,className , type, link ,loading=false,disabled=false , onclick},) {
+
+interface ButonProps {
+  text:string;className:string;  type: "button" | "submit" | "reset"; link?:string; loading?:boolean;disabled:boolean, onclick?:(e:React.MouseEvent<HTMLButtonElement>)=> void
+}
+function Button({  text,className , type, link ,loading=false,disabled=false , onclick}:ButonProps) {
    
   return (
     

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function StatusBatch({task={status:"done"}}) {
+const  StatusBatch=({task={status:"done"}})=> {
     const bg = {
         overDue:`bg-red-400 h-4 w-4`,
         inProgress:`bg-yellow-400 h-4 w-4`,

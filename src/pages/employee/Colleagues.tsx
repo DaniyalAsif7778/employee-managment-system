@@ -1,11 +1,12 @@
-import React from "react";
+ 
 import { NavLink } from "react-router";
-export default function Colleagues() {
+const Colleagues=() =>{
   return (
-    <div className="p-4 text-[var(--color-text-primary)]">
+    <div className="p-4 text-text-primary ">
       Colleagues page
       <NavLink to="/DashBoard">emp</NavLink>
 
     </div>
   );
 }
+export default   Colleagues

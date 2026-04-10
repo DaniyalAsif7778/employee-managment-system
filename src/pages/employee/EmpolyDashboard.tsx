@@ -1,19 +1,15 @@
 import React from 'react'
 import { DashBordHeader,   TaskListInfo, TasksList } from '../../import.js'
- import { useSelector } from 'react-redux';
-export default function EmpolyDashboard() {
-  const currentUser = useSelector((state)=> state.currentUser.user)
-  console.log(currentUser);
+const EmpolyDashboard=()=> {
   
   return (
     <div >
-      {!currentUser?.loginStatus ? (<div className='w-full h-screen  flex items-center justify-center'><h1>Please Login...</h1></div>) : (
-        <div className='w-[100%] h-full  p-2'>
-          <DashBordHeader />
+        <div className='w-full h-full  p-2'>
+          <DashBordHeader   />
           <TaskListInfo />
           <TasksList />
          
-        </div>)}
+        </div>
 
         </div>
 
@@ -21,3 +17,4 @@ export default function EmpolyDashboard() {
   
 }
 
+export default   EmpolyDashboard

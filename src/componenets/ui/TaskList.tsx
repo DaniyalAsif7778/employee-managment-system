@@ -1,6 +1,6 @@
 import React from 'react'
 
-function TaskList() {
+ const  TaskList=()=> {
   return (
     <div>TaskList</div>
   )

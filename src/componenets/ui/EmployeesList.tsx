@@ -1,17 +1,17 @@
 import { useState } from "react";
  
 
-function EmployeesList() {
+ const  EmployeesList=() =>{
  
   
   return (
-    <div className="w-full bg-[var(--color-surface)] p-6 rounded-xl shadow-md text-[var(--color-text-primary)]">
+    <div className="w-full bg-surface p-6 rounded-xl shadow-md text-text-primary">
       <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-center">
         Employee Summary
       </h2>
 
       {/* Header Row */}
-      <div className="grid grid-cols-6 gap-4 py-3 px-4 bg-[var(--color-navbar)] text-gray-500 rounded-md border mb-2">
+      <div className="grid grid-cols-6 gap-4 py-3 px-4 bg-navbar text-gray-500 rounded-md border mb-2">
         <span className="font-medium">Employee</span>
         <span className="text-center">
           <span className="block md:hidden">N</span>
@@ -39,8 +39,8 @@ function EmployeesList() {
       <div className="flex flex-col gap-3">
     
          
-            <div k className="border rounded-md overflow-hidden">
-              <div className="grid grid-cols-6 gap-4 p-4 bg-[var(--color-navbar)] hover:shadow transition-all">
+            <div className="border rounded-md overflow-hidden">
+              <div className="grid grid-cols-6 gap-4 p-4 bg-navbar hover:shadow transition-all">
                 <div className="font-semibold"> </div>
                 <div className="text-center"> </div>
                 <div className="text-center">  </div>
@@ -57,7 +57,7 @@ function EmployeesList() {
               </div>
 
             
-                <div className="bg-[var(--color-surface)] p-4 flex flex-col gap-3">
+                <div className="bg-surface p-4 flex flex-col gap-3">
                 
                 
                  
@@ -69,10 +69,10 @@ function EmployeesList() {
                             </span>
                             <span className="text-xs md:text-sm"> </span>
                           </div>
-                          <h3 className="font-semibold mt-1 text-base md:text-lg break-words">
+                          <h3 className="font-semibold mt-1 text-base md:text-lg  wrap-break-word">
                             {/* {task.title} */}
                           </h3>
-                          <p className="mt-1 text-text-secondary text-sm md:text-base break-words">
+                          <p className="mt-1 text-text-secondary text-sm md:text-base  wrap-break-word">
                             {/* {isDescOpen */}
                               // ? task.description
                               {/* // : `${task.description.slice(0, 100)}...`} */}

@@ -17,7 +17,7 @@ function Layout() {
     className: `
       bg-surface
       text-text-primary 
-      border border-[var(--color-border)]
+      border border-border
       rounded-xl px-5 py-4
       shadow-[0_8px_30px_rgba(0,0,0,0.5)]
       font-medium backdrop-blur-md
@@ -28,21 +28,21 @@ function Layout() {
       icon: '✅',
       className: `
         border-l-4 border-[var(--color-success)]
-        bg-[var(--color-surface)]
+        bg-surface
       `,
     },
     error: {
       icon: '❌',
       className: `
         border-l-4 border-[var(--color-error)]
-        bg-[var(--color-surface)]
+        bg-surface
       `,
     },
     loading: {
       icon: '⏳',
       className: `
         border-l-4 border-[var(--color-primary)]
-        bg-[var(--color-surface)]
+        bg-surface
       `,
     },
   }}

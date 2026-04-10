@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function AdminReports() {
+ const   AdminReports=()=> {
   return (
-    <div className="p-4 text-[var(--color-text-primary)]">
+    <div className="p-4 text-text-primary ">
       AdminReports page
     </div>
   );
 }
+export default AdminReports

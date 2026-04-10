@@ -2,7 +2,7 @@ import React, { useState } from "react";
  
    import toast from "react-hot-toast";
    import { v4 as uuidv4 } from "uuid";
-function AdminForm() {
+ const  AdminForm = ()=>{
   
 
   const [title, setTitle] = useState("");
@@ -94,7 +94,7 @@ function AdminForm() {
                 name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-4/5 h-[439px] text-text-secondary bg-navbar outline-none rounded border border-border"
+                className="w-4/5 h-109.75 text-text-secondary bg-navbar outline-none rounded border border-border"
               ></textarea>
             </div>
             <div className="w-full flex justify-start p-4">
