@@ -20,9 +20,9 @@ const StatCard = ({ title='Total Employees',
                 <Number number={value} className={'text-xl'} />
                 <CompletionRates className={'text-primary text-sm' }   rate={22} time={'from last month'}  />
             </div>
-            <div className='flex justify-end'   >
+            <div className='flex justify-end  p-2 '   >
 
-               <span className='w-10 h-10 flex items-center justify-center rounded-full' style={{ backgroundColor: iconBg }}><Icon  style={{ color: iconColor }} />
+               <span className='w-10 h-10   flex items-center justify-center rounded-full' style={{ backgroundColor: iconBg }}><Icon  style={{ color: iconColor }} />
                </span>
             </div>
         </div>

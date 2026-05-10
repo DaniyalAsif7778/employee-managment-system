@@ -1,5 +1,5 @@
 import React from "react";
-import { StatCard, RecentTasks, RecentHiers } from "../../import.js";
+import { StatCard, RecentTasks, RecentHiers,DashBordHeader } from "../../import.js";
 import { Link } from "react-router";
 import {
    Users,
@@ -69,10 +69,10 @@ const AdminDashboard = () => {
       },
    ];
    return (
-      <div className="w-full   p-2 ">
+      <div className="w-full   p-4 ">
          <section className="w-full  ">
-            <h1 className="text-text-primary font-bold text-3xl">Dashboard</h1>
-            <p className="text-text-disabled">
+            <h1 className="text-text-primary font-bold text-3xl  mb-0.5 ">Dashboard</h1>
+            <p className="text-text-disabled  ml-1 mb-2 ">
                Welcome back! Here's what's happening today.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -88,7 +88,7 @@ const AdminDashboard = () => {
                ))}
             </div>
          </section>
-         <section className="w-full flex flex-col sm:flex-row  gap-4">
+         <section className="w-full flex flex-col md:flex-row  gap-4">
             <RecentTasks />
               <RecentHiers />
          </section>
@@ -118,6 +118,7 @@ const AdminDashboard = () => {
                </Link>
             </div>
          </section>
+         <DashBordHeader/>
       </div>
    );
 };
