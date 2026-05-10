@@ -1,215 +1,356 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
 @keyframes progress {
   0%   { width: 0%; }
   100% { width: 100%; }
 }
 
 @theme {
-  /* 🌑 Base Backgrounds */
-  --color-bg: #000000;             /* Primary Background – main page background */
-  --color-surface: #121212;        /* Surface Background – cards, panels, modals */
-  --color-navbar: #1F1F1F;         /* Navbar / Sidebar – slightly lifted surface */
-
-  /* 📏 Borders */
-  --color-border: #333333;         /* Default Border / Divider – tables, cards, etc. */
-  --color-border-secondary: #444444; /* Secondary Border – used for emphasis or layering */
-
-  /* 📝 Text Colors */
-  --color-text-primary: #E0E0E0;   /* Primary Text – headings, main body text */
-  --color-text-secondary: #9CA3AF; /* Secondary Text – muted text, descriptions */
-  --color-text-disabled: #6B7280;  /* Disabled Text – inputs, buttons, tooltips */
-
-  /* 💠 Accent Colors */
-  --color-primary:#009F8E;        /* Primary Accent – buttons, icons, links */
-  --color-primary-hover: #12C4D3;  /* Accent Hover – hover state for buttons/links */
-  --color-primary-pressed: #0E939E;/* Accent Pressed – active tab, click feedback */
-  --color-primary-light: #67E6F1;  /* Light Accent – gradients, soft backgrounds */
-  --color-primary-xlight: #9CEFF6; /* Extra Light Accent – badges, very soft emphasis */
-
-  /* ✅ Status / Alerts */
-  --color-success: #00BF6B;        /* Success – completed actions, confirmation messages */
-  --color-warning: #FFC107;        /* Warning – caution messages or icons */
-  --color-error: #EF4444;          /* Error – validation messages, critical alerts */
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     📐 SPACING SCALE
+     🌑  BACKGROUNDS
+     From Figma: --background, --card, --sidebar-bg
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-bg:          #000000;   /* Main page background            */
+  --color-surface:     #121212;   /* Cards, panels, modals           */
+  --color-navbar:      #1F1F1F;   /* Navbar, sidebar, inputs         */
+  --color-popover:     #121212;   /* Dropdowns, popovers             */
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     📏  BORDERS
+     From Figma: --border
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-border:           #333333;   /* Default border, dividers        */
+  --color-border-secondary: #444444;   /* Emphasis / layered borders      */
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     📝  TEXT
+     From Figma: --text-primary, --text-secondary, --text-tertiary
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-text-primary:   #E0E0E0;   /* Headings, main body text        */
+  --color-text-secondary: #9CA3AF;   /* Muted text, descriptions        */
+  --color-text-disabled:  #6B7280;   /* Disabled inputs, tooltips       */
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     💠  ACCENT / PRIMARY
+     From Figma: --primary, --primary-hover
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-primary:         #009F8E;   /* Buttons, icons, links           */
+  --color-primary-hover:   #12C4D3;   /* Hover state                     */
+  --color-primary-pressed: #0E939E;   /* Active / click feedback         */
+  --color-primary-light:   #67E6F1;   /* Soft backgrounds, gradients     */
+  --color-primary-xlight:  #9CEFF6;   /* Badges, very soft emphasis      */
+  --color-primary-fg:      #FFFFFF;   /* Text on primary bg              */
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     🎨  SECONDARY / MUTED / ACCENT (Figma system tokens)
+     Mapped so shadcn/ui and Tailwind both resolve correctly
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-secondary:    #1F1F1F;   /* Secondary surface               */
+  --color-secondary-fg: #E0E0E0;   /* Text on secondary               */
+  --color-muted:        #1F1F1F;   /* Muted surface                   */
+  --color-muted-fg:     #9CA3AF;   /* Muted text                      */
+  --color-accent:       #1F1F1F;   /* Accent surface                  */
+  --color-accent-fg:    #E0E0E0;   /* Text on accent                  */
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ✅  STATUS / ALERTS
+     From Figma: --success, --warning, --error, --info
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-success:         #00BF6B;   /* Completed, confirmed            */
+  --color-warning:         #FFC107;   /* Caution messages                */
+  --color-error:           #EF4444;   /* Validation, critical alerts     */
+  --color-info:            #3B82F6;   /* Informational messages          */
+  --color-destructive:     #EF4444;   /* Alias — delete, danger actions  */
+  --color-destructive-fg:  #FFFFFF;   /* Text on destructive bg          */
+  --color-ring:            #009F8E;   /* Focus ring                      */
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     🔲  SIDEBAR
+     From Figma: --sidebar, --sidebar-primary, etc.
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-sidebar:         #1F1F1F;
+  --color-sidebar-fg:      #E0E0E0;
+  --color-sidebar-primary: #009F8E;
+  --color-sidebar-primary-fg: #FFFFFF;
+  --color-sidebar-accent:  #121212;
+  --color-sidebar-accent-fg: #E0E0E0;
+  --color-sidebar-border:  #333333;
+  --color-sidebar-ring:    #009F8E;
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     📊  CHARTS
+     From Figma: --chart-1 → --chart-5
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --color-chart-1: #009F8E;
+  --color-chart-2: #12C4D3;
+  --color-chart-3: #00BF6B;
+  --color-chart-4: #FFC107;
+  --color-chart-5: #3B82F6;
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     📐  SPACING SCALE
      Usage: padding, margin, gap, inset
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --spacing-0:   0px;
-  --spacing-1:   4px;    /* Micro – icon padding, tight gaps */
-  --spacing-2:   8px;    /* XS – inline spacing, badge padding */
-  --spacing-3:   12px;   /* SM – input padding, compact elements */
-  --spacing-4:   16px;   /* MD – default padding, card inner spacing */
-  --spacing-5:   20px;   /* LG – section inner padding */
-  --spacing-6:   24px;   /* XL – card padding, form sections */
-  --spacing-8:   32px;   /* 2XL – section gaps, large card padding */
-  --spacing-10:  40px;   /* 3XL – between major sections */
-  --spacing-12:  48px;   /* 4XL – page-level vertical rhythm */
-  --spacing-16:  64px;   /* 5XL – hero sections, large gaps */
-  --spacing-20:  80px;   /* 6XL – page top/bottom padding */
-  --spacing-24:  96px;   /* 7XL – landing hero, full-bleed sections */
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --spacing-0:  0px;
+  --spacing-1:  4px;    /* Micro – icon padding, tight gaps        */
+  --spacing-2:  8px;    /* XS – inline spacing, badge padding      */
+  --spacing-3:  12px;   /* SM – input padding, compact elements    */
+  --spacing-4:  16px;   /* MD – default padding, card inner        */
+  --spacing-5:  20px;   /* LG – section inner padding              */
+  --spacing-6:  24px;   /* XL – card padding, form sections        */
+  --spacing-8:  32px;   /* 2XL – section gaps, large cards         */
+  --spacing-10: 40px;   /* 3XL – between major sections            */
+  --spacing-12: 48px;   /* 4XL – page-level vertical rhythm        */
+  --spacing-16: 64px;   /* 5XL – hero sections, large gaps         */
+  --spacing-20: 80px;   /* 6XL – page top/bottom padding           */
+  --spacing-24: 96px;   /* 7XL – landing hero, full-bleed          */
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     📦 LAYOUT / SIZING
-     Usage: max-width containers, sidebar widths, icon sizes
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --size-icon-sm:     16px;   /* Small icon */
-  --size-icon-md:     20px;   /* Default icon */
-  --size-icon-lg:     24px;   /* Large icon */
-  --size-icon-xl:     32px;   /* Avatar / feature icon */
+     📦  SIZING
+     Usage: icon sizes, avatar sizes, layout widths
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --size-icon-sm:  16px;
+  --size-icon-md:  20px;
+  --size-icon-lg:  24px;
+  --size-icon-xl:  32px;
 
-  --size-avatar-sm:   28px;
-  --size-avatar-md:   36px;
-  --size-avatar-lg:   48px;
+  --size-avatar-sm: 28px;
+  --size-avatar-md: 36px;
+  --size-avatar-lg: 48px;
 
-  --size-sidebar:     240px;        /* Default sidebar width */
-  --size-sidebar-collapsed: 60px;   /* Collapsed sidebar */
-  --size-navbar-height: 56px;       /* Top navbar height */
+  --size-sidebar:           240px;
+  --size-sidebar-collapsed:  60px;
+  --size-navbar-height:      56px;
 
-  --size-container-sm:  640px;   /* Narrow content (forms, modals) */
-  --size-container-md:  768px;   /* Mid-width content */
-  --size-container-lg:  1024px;  /* Standard page content */
-  --size-container-xl:  1280px;  /* Wide layout */
-  --size-container-2xl: 1536px;  /* Full-width dashboard */
-
-  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     🔤 TYPOGRAPHY SCALE
-     Usage: font-size, line-height, font-weight, letter-spacing
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --text-xs:    11px;   /* Micro label, badge text, timestamps */
-  --text-sm:    13px;   /* Small UI text, captions, helper text */
-  --text-base:  15px;   /* Default body text */
-  --text-md:    16px;   /* Slightly elevated body / inputs */
-  --text-lg:    18px;   /* Subheadings, card titles */
-  --text-xl:    20px;   /* Section headings */
-  --text-2xl:   24px;   /* Page titles */
-  --text-3xl:   30px;   /* Hero subheadings */
-  --text-4xl:   36px;   /* Hero headings */
-  --text-5xl:   48px;   /* Display headings */
-
-  --leading-tight:   1.25;   /* Headings */
-  --leading-snug:    1.375;  /* Subheadings */
-  --leading-normal:  1.5;    /* Body text */
-  --leading-relaxed: 1.625;  /* Long-form / readable prose */
-
-  --tracking-tight:  -0.03em;  /* Large display headings */
-  --tracking-snug:   -0.015em; /* Subheadings */
-  --tracking-normal:  0em;     /* Body text */
-  --tracking-wide:    0.05em;  /* All-caps labels */
-  --tracking-wider:   0.1em;   /* Spaced uppercase tags */
-
-  --font-weight-regular:   400;
-  --font-weight-medium:    500;
-  --font-weight-semibold:  600;
-  --font-weight-bold:      700;
+  --size-sm:   240px;   /* Sidebar width, narrow modals, small forms */
+  --size-md:   640px;   /* Small containers, centered forms          */
+  --size-lg:   768px;   /* Mid-width content, tablet breakpoint      */
+  --size-xl:   1024px;  /* Standard page content, desktop            */
+  --size-2xl:  1280px;  /* Wide layout, large dashboards             */
+  --size-3xl:  1536px;  /* Full-width dashboard, max content width   */
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     🔘 BORDER RADIUS
-     Usage: rounded corners on cards, buttons, inputs, badges
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --radius-none:   0px;
-  --radius-xs:     2px;    /* Subtle – tags, checkboxes */
-  --radius-sm:     4px;    /* Inputs, small buttons */
-  --radius-md:     8px;    /* Default – cards, buttons */
-  --radius-lg:     12px;   /* Elevated cards, modals */
-  --radius-xl:     16px;   /* Large modals, feature cards */
-  --radius-2xl:    24px;   /* Hero cards, pill panels */
-  --radius-full:   9999px; /* Pills, avatars, toggle switches */
+     🔤  TYPOGRAPHY SCALE
+     From Figma: --text-xs → --text-4xl, font weights
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --text-xs:   11px;   /* Badge text, timestamps                  */
+  --text-sm:   13px;   /* Captions, helper text                   */
+  --text-base: 15px;   /* Default body text                       */
+  --text-md:   16px;   /* Inputs, slightly elevated body          */
+  --text-lg:   18px;   /* Subheadings, card titles                */
+  --text-xl:   20px;   /* Section headings                        */
+  --text-2xl:  24px;   /* Page titles                             */
+  --text-3xl:  30px;   /* Hero subheadings                        */
+  --text-4xl:  36px;   /* Hero headings                           */
+  --text-5xl:  48px;   /* Display headings                        */
+
+  --leading-tight:   1.25;
+  --leading-snug:    1.375;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.625;
+
+  --tracking-tight:  -0.03em;
+  --tracking-snug:   -0.015em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.05em;
+  --tracking-wider:   0.1em;
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     🌫 SHADOWS
-     Usage: elevation levels for cards, dropdowns, modals
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --shadow-xs:     0 1px 2px rgba(0, 0, 0, 0.4);               /* Subtle lift */
-  --shadow-sm:     0 2px 6px rgba(0, 0, 0, 0.45);              /* Cards at rest */
-  --shadow-md:     0 4px 12px rgba(0, 0, 0, 0.5);              /* Hovered cards */
-  --shadow-lg:     0 8px 24px rgba(0, 0, 0, 0.55);             /* Dropdowns, popups */
-  --shadow-xl:     0 16px 40px rgba(0, 0, 0, 0.6);             /* Modals, dialogs */
-  --shadow-accent: 0 0 0 3px rgba(0, 159, 142, 0.3);           /* Focus ring (primary) */
-  --shadow-accent-hover: 0 0 12px rgba(18, 196, 211, 0.25);    /* Glow on hover */
+     🔘  BORDER RADIUS
+     From Figma: --radius-sm → --radius-xl, --radius
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --radius-none: 0px;
+  --radius-xs:   2px;      /* Tags, checkboxes                    */
+  --radius-sm:   4px;      /* Inputs, small buttons               */
+  --radius-md:   8px;      /* Cards, default buttons              */
+  --radius-lg:   12px;     /* Elevated cards, modals  (= --radius)*/
+  --radius-xl:   16px;     /* Large modals, feature cards         */
+  --radius-2xl:  24px;     /* Hero cards, pill panels             */
+  --radius-full: 9999px;   /* Pills, avatars, toggles             */
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     ⏱ TRANSITIONS & EASING
-     Usage: hover states, open/close animations, skeleton loading
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --duration-instant:  50ms;
-  --duration-fast:     100ms;  /* Hover feedback */
-  --duration-normal:   200ms;  /* Default transitions */
-  --duration-slow:     350ms;  /* Modals, panels sliding in */
-  --duration-slower:   500ms;  /* Page transitions */
+     🌫  SHADOWS
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --shadow-xs:           0 1px 2px rgba(0,0,0,0.40);
+  --shadow-sm:           0 2px 6px rgba(0,0,0,0.45);
+  --shadow-md:           0 4px 12px rgba(0,0,0,0.50);
+  --shadow-lg:           0 8px 24px rgba(0,0,0,0.55);
+  --shadow-xl:           0 16px 40px rgba(0,0,0,0.60);
+  --shadow-accent:       0 0 0 3px rgba(0,159,142,0.30);
+  --shadow-accent-hover: 0 0 12px rgba(18,196,211,0.25);
 
-  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);    /* Material standard */
-  --ease-in:      cubic-bezier(0.4, 0, 1, 1);       /* Elements leaving */
-  --ease-out:     cubic-bezier(0, 0, 0.2, 1);       /* Elements entering */
-  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);/* Bouncy / playful */
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ⏱  TRANSITIONS & EASING
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --duration-instant: 50ms;
+  --duration-fast:    100ms;
+  --duration-normal:  200ms;
+  --duration-slow:    350ms;
+  --duration-slower:  500ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
 
   --transition-default: all var(--duration-normal) var(--ease-default);
-  --transition-fast:    all var(--duration-fast) var(--ease-default);
-  --transition-slow:    all var(--duration-slow) var(--ease-out);
+  --transition-fast:    all var(--duration-fast)   var(--ease-default);
+  --transition-slow:    all var(--duration-slow)   var(--ease-out);
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     🔢 Z-INDEX LAYERS
-     Usage: stacking context for overlays, modals, tooltips
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --z-below:    -1;    /* Behind base layer */
-  --z-base:      0;    /* Default flow */
-  --z-raised:    10;   /* Slightly elevated (sticky headers) */
-  --z-dropdown:  100;  /* Dropdowns, popovers */
-  --z-sticky:    200;  /* Sticky navbars */
-  --z-overlay:   300;  /* Backdrop overlays */
-  --z-modal:     400;  /* Modals, drawers */
-  --z-toast:     500;  /* Toasts, notifications */
-  --z-tooltip:   600;  /* Tooltips (always on top) */
+     🔢  Z-INDEX LAYERS
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --z-below:    -1;
+  --z-base:      0;
+  --z-raised:    10;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-toast:     500;
+  --z-tooltip:   600;
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     🖊 BORDER WIDTH
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --border-width-thin:   1px;
-  --border-width-base:   1.5px;
-  --border-width-thick:  2px;
-  --border-width-heavy:  3px;
+     🖊  BORDER WIDTHS
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --border-width-thin:  1px;
+  --border-width-base:  1.5px;
+  --border-width-thick: 2px;
+  --border-width-heavy: 3px;
 
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     🌊 OPACITY
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-  --opacity-disabled:  0.4;
-  --opacity-muted:     0.6;
-  --opacity-soft:      0.8;
-  --opacity-full:      1;
+     🌊  OPACITY
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+  --opacity-disabled: 0.4;
+  --opacity-muted:    0.6;
+  --opacity-soft:     0.8;
+  --opacity-full:     1;
 }
 
-/* 🌍 Optional global background and text setup */
-:root {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
-}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BASE LAYER
+   Global resets, typography, scrollbar, form elements
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@layer base {
+  * {
+    @apply border-[var(--color-border)] outline-[var(--color-ring)]/50;
+    box-sizing: border-box;
+  }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
-}
+  html {
+    font-size: var(--text-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-.Tasks::-webkit-scrollbar {
-  display: none;
-  /* Hide scrollbar for a cleaner look */
-}
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--leading-normal);
+  }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  box-shadow: 0 0 0 1000px var(--color-navbar) inset;
-  -webkit-box-shadow: 0 0 0 1000px var(--color-navbar) inset;
-  -webkit-text-fill-color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-  transition: background-color 5000s ease-in-out 0s;
-}
+  /* ── Typography ── */
+  h1 {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-text-primary);
+  }
 
-input,
-textarea,
-select {
-  background-color: var(--color-navbar);
-  color: var(--color-text-primary);
-}
+  h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-snug);
+    color: var(--color-text-primary);
+  }
 
- 
+  h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--leading-snug);
+    color: var(--color-text-primary);
+  }
+
+  h4 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-normal);
+    color: var(--color-text-primary);
+  }
+
+  p {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+  }
+
+  label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-normal);
+    color: var(--color-text-secondary);
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--leading-normal);
+    cursor: pointer;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--leading-normal);
+    background-color: var(--color-navbar);
+    color: var(--color-text-primary);
+    border: var(--border-width-thin) solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-accent);
+  }
+
+  /* ── Autofill override ── */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-navbar) inset;
+    box-shadow:         0 0 0 1000px var(--color-navbar) inset;
+    -webkit-text-fill-color: var(--color-text-primary);
+    border: var(--border-width-thin) solid var(--color-border);
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar        { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { background: var(--color-bg); }
+  ::-webkit-scrollbar-thumb  { background: var(--color-border); border-radius: var(--radius-full); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-border-secondary); }
+
+  /* ── Hide scrollbar utility ── */
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
+  .scrollbar-hidden { -ms-overflow-style: none; scrollbar-width: none; }
+}

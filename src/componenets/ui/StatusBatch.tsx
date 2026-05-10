@@ -1,6 +1,8 @@
 import React from 'react'
-
-const  StatusBatch=({task={status:"done"}})=> {
+interface BatchProps {
+  task:{status:"done"}
+}
+const  StatusBatch=({task={status:"done"}}:BatchProps)=> {
     const bg = {
         overDue:`bg-red-400 h-4 w-4`,
         inProgress:`bg-yellow-400 h-4 w-4`,

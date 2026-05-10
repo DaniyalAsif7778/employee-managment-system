@@ -75,7 +75,7 @@ const employeeLinks = [
                     ? 'text-[#009F8E] sm:bg-[#009F8E]/10 border-[#009F8E]'
                     : 'text-[#888] border-transparent hover:text-white hover:bg-white/5'
                   }`
-                } ><link.icon /><h3>{link.label}</h3></NavLink></li>
+                } ><link.icon /><h6>{link.label}</h6></NavLink></li>
 
               )
             })   }
