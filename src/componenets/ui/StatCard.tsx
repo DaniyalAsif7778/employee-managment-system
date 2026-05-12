@@ -14,13 +14,13 @@ const StatCard = ({ title='Total Employees',
         trend= { value: '+12% from last month', isPositive: true }}: StatCardProps) => {
 
     return (
-        <div className="bg-surface flex flex-row  justify-between duration-normal rounded-md p-2   border  ">
-            <div>
-                <h3 className='text-text-disabled text-sm'> {title}</h3>
+        <div className=" h-42  bg-surface flex flex-row  items-center justify-between duration-normal rounded-md  p-4  border  ">
+            <div className=" h-full flex flex-col items-start justify-evenly">
+                <h1 className='text-text-disabled text-xl'> {title}</h1>
                 <Number number={value} className={'text-xl'} />
                 <CompletionRates className={'text-primary text-sm' }   rate={22} time={'from last month'}  />
             </div>
-            <div className='flex justify-end  p-2 '   >
+            <div className=' h-full flex justify-end  p-2 '   >
 
                <span className='w-10 h-10   flex items-center justify-center rounded-full' style={{ backgroundColor: iconBg }}><Icon  style={{ color: iconColor }} />
                </span>

@@ -71,8 +71,8 @@ const AdminDashboard = () => {
    return (
       <div className="w-full   p-4 ">
          <section className="w-full  ">
-            <h1 className="text-text-primary font-bold text-3xl  mb-0.5 ">Dashboard</h1>
-            <p className="text-text-disabled  ml-1 mb-2 ">
+            <h1 className="text-text-primary font-bold text-4xl  mb-1 ">Dashboard</h1>
+            <p className="text-text-disabled text-base  ml-1 mb-4 ">
                Welcome back! Here's what's happening today.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
