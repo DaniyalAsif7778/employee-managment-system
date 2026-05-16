@@ -32,7 +32,7 @@ import HeaderDrawer from './HeaderDrawer.js';
  const adminLinks = [
   { path: '/Dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { path: '/Dashboard/Employees', icon: Users, label: 'Employees' },
-  { path: '/Dashboard/Departments', icon: Building2, label: 'Departments' },
+  { path: '/Dashboard/Department', icon: Building2, label: 'Department' },
   { path: '/Dashboard/Tasks', icon: CheckSquare, label: 'Tasks' },
   { path: '/Dashboard/Reports', icon: FileText, label: 'Reports' },
   { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
@@ -68,7 +68,7 @@ const employeeLinks = [
           <ul className=' w-full  flex flex-row justify-evenly sm:flex-col   ' >
             {    adminLinks.map((link,id) => {
               return (
-                <li className='mb-2' key={ id}> <NavLink to={link.path}     className={({ isActive }) =>
+                <li className='mb-2' key={ id}> <NavLink to={link.path} end     className={({ isActive }) =>
                   `flex   sm:flex-row  sm:justify-start  gap-1 p-2  sm:px-3  sm:py-2 rounded-md text-xs sm:text-sm
                 sm:transition-all sm:duration-150 sm:border-l-2 flex-col   justify-center items-center
                 ${isActive

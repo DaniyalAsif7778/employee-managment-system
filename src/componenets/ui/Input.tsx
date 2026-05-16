@@ -2,8 +2,8 @@ import React, { forwardRef,type ComponentPropsWithRef ,type ReactNode} from 'rea
 
 interface InputProps {
 
- type:string ;labelClassName?:string; value:string;   prefix?:ReactNode;
-    suffix?:ReactNode;placeholder?:string; error?:string; className?:string; onchange:(e:React.ChangeEvent<HTMLInputElement>)=> void   ;label:string ; name:string ; required?:boolean ; checked?:boolean;  
+ type:string ;labelClassName?:string; value?:string;   prefix?:ReactNode;
+    suffix?:ReactNode;placeholder?:string; error?:string; className?:string; onchange?:(e:React.ChangeEvent<HTMLInputElement>)=> void   ;label?:string ; name?:string ; required?:boolean ; checked?:boolean;  
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(( {type="text" ,labelClassName="", value="",   prefix="",

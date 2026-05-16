@@ -2,7 +2,7 @@ const Number = ({
     number,
     className,
 }: {
-    number: number
+    number?: number | undefined 
     className: string
 }) => {
     return <h1 className={className}> {number}</h1>

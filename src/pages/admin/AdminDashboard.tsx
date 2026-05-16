@@ -84,6 +84,9 @@ const AdminDashboard = () => {
                      icon={stat.icon}
                      iconBg={stat.iconBg}
                      iconColor={stat.iconColor}
+                     iconDisplay={true}
+                     trendDisplay={true}
+                     height={"42"}
                   />
                ))}
             </div>

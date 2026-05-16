@@ -1,5 +1,7 @@
 import Button from "./Button.js";
 import StatusBatch from "./StatusBatch.js";
+import { EllipsisVertical } from 'lucide-react';
+
 const RecentTasks = () => {
   return (
     <div className=" border   rounded-md flex flex-col gap-3  outline-none bg-[#121212]">
@@ -7,7 +9,7 @@ const RecentTasks = () => {
         <div className=" ">
           <h2 className="font-semibold text-text-primary">Recent Tasks</h2>
           <p className="text-sm">Track ongoing project tasks</p>
-        </div>{" "}
+        </div>
         <div>
           <Button
             text="+ Add Task"
@@ -36,7 +38,8 @@ const RecentTasks = () => {
                 <StatusBatch task={{ status: "done" }} />
               </td>
               <td className=" truncate  py-4 px-6 " > 30 March</td>
-              <td className="  truncate py-4 px-6 ">:</td>
+              <td className="  truncate py-4 px-6 ">    <EllipsisVertical size={17}/>
+</td>
             </tr>
                        
           </tbody>
