@@ -2,14 +2,14 @@ import React from "react";
 import { StatCard, RecentTasks, RecentHiers,DashBordHeader } from "../../import.js";
 import { Link } from "react-router";
 import {
-   Users,
-   CheckSquare,
-   TrendingUp,
-   Building2,
-   MoreVertical,
-   Plus,
-   MessageSquare,
-} from "lucide-react";
+  IconUsers as Users,
+  IconSquareCheck as CheckSquare,  
+  IconTrendingUp as TrendingUp,
+  IconBuildingSkyscraper as Building2, 
+  IconDotsVertical as MoreVertical,  
+  IconPlus as Plus,
+  IconMessage as MessageSquare, 
+} from "@tabler/icons-react";     
 
 const AdminDashboard = () => {
    const stats = [

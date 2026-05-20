@@ -1,7 +1,6 @@
 import React from "react";
 import ProgressBar from "./ProgressBar.js";
-import { EllipsisVertical } from 'lucide-react';
-
+import { IconDotsVertical as EllipsisVertical } from "@tabler/icons-react";   
 interface DepartmentCardProps {
 	themeColor: string;
 	title: string;

@@ -1,7 +1,6 @@
 import Button from "./Button.js";
 import StatusBatch from "./StatusBatch.js";
-import { EllipsisVertical } from 'lucide-react';
-
+import { IconDotsVertical as EllipsisVertical } from "@tabler/icons-react";   
 const RecentTasks = () => {
   return (
     <div className=" border   rounded-md flex flex-col gap-3  outline-none bg-[#121212]">
