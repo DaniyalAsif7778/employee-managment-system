@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Input } from "../../import.js";
+import { Button, Input ,DepartmentCard} from "../../import.js";
 import StatCard from "../../componenets/ui/StatCard.js";
 const AdminDepartment = () => {
   const [search, setSearch] = useState("");
@@ -18,8 +18,11 @@ const AdminDepartment = () => {
       value: 0,
     },
   ];
+  const handleCardClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  console.log('Card clicked!', event.currentTarget);
+};
   return (
-    <div className="p-4 text-text-primary">
+    <div className="   w-full p-4 text-text-primary">
       <section className="w-full">
         <div className="w-full    flex flex-row justify-between items-center p-3  ">
           <div className=" ">
@@ -40,18 +43,18 @@ const AdminDepartment = () => {
           </div>
         </div>
       </section>
-      <section className="w-full flex  flex-col gap-5 lg:flex-row  justify-evenly">
+      <section className="w-full  flex  flex-col gap-5 lg:flex-row  ">
         {/*// Type '{}' is missing the following properties from type 'InputProps': type, value, onchange, label, name (typescript[2739])*/}
-        <div className="w-full">
+        <div className="w-full lg:w-[30%]">
         <Input
           type="text"
           placeholder="
 Search departments...
 "
-          className={"w-full h-10 p-2 rounded-md"}
+          className={"w-full    h-10 p-2 rounded-md"}
         />
          </div>
-         <div className="flex  flex-col md:flex-row justify-center gap-5">
+         <div className="w-full lg:w-[70%] flex  flex-col md:flex-row  gap-2">
            {stats.map((stat, idx) => {
             return (
               <StatCard
@@ -61,10 +64,21 @@ Search departments...
                 iconDisplay={false}
                 trendDisplay={false}
                 height="40"
+                className={"w-full"}
                />
             );
           })}
            </div>
+       </section>
+
+       <section className="departmentSection mt-10">
+         <DepartmentCard themeColor="#00FFFF"
+      title="Engineering"
+      leadName="Jane Doe"
+      employeesNo={50}
+      budget={100000}
+      performance={95}
+     />
        </section>
     </div>
   );

@@ -6,20 +6,19 @@ import { useSelector } from 'react-redux';
 import type { RootState } from '../../store/store.js';
 import { useLogout } from '../../hooks/hooks.js';
 import { 
-  LayoutDashboard, 
-  Users, 
-  CheckSquare, 
-  FileText, 
-  Calendar, 
-  Briefcase,
-  Building2,
-  Megaphone,
-  Settings,
-  UserCircle,
-  MessageSquare,
-  Bell,
-  LogOut
-} from 'lucide-react';
+  IconLayoutDashboard as LayoutDashboard, 
+  IconUsers as Users, 
+  IconChecklist as CheckSquare, 
+  IconFileText as FileText, 
+  IconCalendar as Calendar, 
+  IconBriefcase as Briefcase,
+  IconBuilding as Building2,
+  IconSettings as Settings,
+  IconUserCircle as UserCircle,
+  IconMessageCircle as MessageSquare,
+  IconBell as Bell,
+  IconLogout as LogOut
+} from '@tabler/icons-react';   
  
 import HeaderDrawer from './HeaderDrawer.js';
   const DashBordHeader = () => {
@@ -36,7 +35,7 @@ import HeaderDrawer from './HeaderDrawer.js';
   { path: '/Dashboard/Tasks', icon: CheckSquare, label: 'Tasks' },
   { path: '/Dashboard/Reports', icon: FileText, label: 'Reports' },
   { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
-  { path: '/Dashboard/Announcements', icon: Megaphone, label: 'Announcements' },
+  { path: '/Dashboard/Announcements',icon:"",  label: 'Announcements' },
   { path: '/Dashboard/Notifications', icon: Bell, label: 'Notifications' },
   { path: '/Dashboard/Settings', icon: Settings, label: 'Settings' },
 ];
@@ -48,7 +47,7 @@ const employeeLinks = [
   { path: '/Dashboard/Leave', icon: Calendar, label: 'Leave' },
   { path: '/Dashboard/Colleagues', icon: Users, label: 'Colleagues' },
   { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
-  { path: '/Dashboard/Announcements', icon: Megaphone, label: 'Announcements' },
+  { path: '/Dashboard/Announcements', icon:  "", label: 'Announcements' },
   { path: '/Dashboard/Notifications', icon: Bell, label: 'Notifications' },
   { path: '/Dashboard/Profile', icon: UserCircle, label: 'Profile' },
 ];

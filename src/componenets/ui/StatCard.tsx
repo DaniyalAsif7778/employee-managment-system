@@ -12,6 +12,7 @@ interface StatCardProps {
     titleClass?:string;
     valueClass?:string;
     trendClass?:string;
+    className?:string;
  }
 
 const StatCard = ({
@@ -24,20 +25,21 @@ const StatCard = ({
     iconDisplay = true,
     trendDisplay = true,
     height = "42",
-      titleClass= "",
+    titleClass= "",
     valueClass= "",
     trendClass= "",
+    className,
  }: StatCardProps) => {
     return (
         <div
-            className={` h-${height}    bg-surface flex flex-row  items-center justify-between duration-normal rounded-md  p-4  border  `}
+            className={` h-${height} ${className}    bg-surface flex flex-row  items-center justify-between duration-normal rounded-lg  p-4  border  `}
         >
             <div className=" h-full flex flex-col items-start justify-evenly">
-                <h1 className="text-text-disabled text-base font-light"> {title}</h1>
-                <Number number={value} className={"text-xl"} />
+                <h1 className={`${titleClass }text-text-disabled text-base font-light`}> {title}</h1>
+                <Number number={value} className={`${valueClass}text-xl`} />
                 {trendDisplay && (
                     <CompletionRates
-                        className={"text-primary text-sm"}
+                        className={` ${trendClass}text-primary text-sm`}
                         rate={22}
                         time={"from last month"}
                     />
