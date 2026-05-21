@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import "./index.css";
 import "./App.css";
 import Layout from "./Layout";
-import { ProtectedRoutes, AdminRoutes, EmployeeRoutes } from "./ProtectedRoutes.jsx";
 import {
   OverView,
   EmpolyDashboard,
@@ -31,7 +30,6 @@ import {
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Routes,
   Route,
   RouterProvider,
 } from "react-router";
@@ -42,35 +40,25 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
-      <Route element={<ProtectedRoutes />}>
+      <Route path="overview" element={<OverView />} />
 
-        <Route path="DashBoard" element={<DashBoard />} >
+      <Route path="dashboard" element={<DashBoard />}>
+        <Route path="admin" element={<AdminDashboard />} />
+        <Route path="admin/department" element={<AdminDepartment />} />
+        <Route path="admin/employees" element={<AdminEmployees />} />
+        <Route path="admin/profile" element={<AdminProfile />} />
+        <Route path="admin/reports" element={<AdminReports />} />
+        <Route path="admin/tasks" element={<AdminTasks />} />
 
-          <Route index element={<OverView />} />
+        <Route path="employee" element={<EmpolyDashboard />} />
+        <Route path="employee/announcements" element={<Annoucments />} />
+        <Route path="employee/colleagues" element={<Colleagues />} />
+        <Route path="employee/leave" element={<Leave />} />
+        <Route path="employee/schedule" element={<Schedule />} />
+        <Route path="employee/tasks" element={<Tasks />} />
 
-          <Route element={<AdminRoutes />}>
-            <Route path="Dashbord" element={<AdminDashboard />} />
-            <Route path="Department" element={<AdminDepartment />} />
-            <Route path="Employees" element={<AdminEmployees />} />
-            <Route path="Profile" element={<AdminProfile />} />
-            <Route path="Reports" element={<AdminReports />} />
-            <Route path="Tasks" element={<AdminTasks />} />
-          </Route>
-          <Route element={<EmployeeRoutes />}>
-
-            <Route path="Dashbord" element={<EmpolyDashboard />} />
-
-            <Route path="Annoucments" element={<Annoucments />} />
-            <Route path="Colleagues" element={<Colleagues />} />
-            <Route path="EmployeeLeave" element={<Leave />} />
-            <Route path="EmployeeSchedule" element={<Schedule />} />
-            <Route path="EmployeeTasks" element={<Tasks />} />
-          </Route>
-          <Route path="settings" element={<Settings />} />
-
-        </Route>
+        <Route path="settings" element={<Settings />} />
       </Route>
-
 
       <Route path="singup" element={<Singup />} />
 

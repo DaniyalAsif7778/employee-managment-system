@@ -1,7 +1,14 @@
 import { Toaster } from "react-hot-toast";
+<<<<<<< HEAD
 import { Header, Footer } from "./import.js";
 import { Outlet } from "react-router";
 import "./index.css";
+=======
+import { Header,Footer } from "./import.js";
+  import { Outlet } from "react-router";
+  import  './index.css'
+  
+>>>>>>> 68f6da2 (chore:add ui of employ Dashboard)
 function Layout() {
   return (
     <div className="w-full">

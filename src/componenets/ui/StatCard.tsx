@@ -45,13 +45,10 @@ const StatCard = ({
                     />
                 )}
             </div>
-            <div className=" h-full flex justify-end  p-2 ">
-                <span
-                    className="w-10 h-10   flex items-center justify-center rounded-full"
-                    style={{ backgroundColor: iconBg }}
-                >
-                    {/*{iconDisplay && <Icon style={{ color: iconColor }} />}*/}
-                </span>
+            <div className='flex justify-end' >
+
+               <span className='w-10 h-10 flex items-center justify-center rounded-full' style={{ backgroundColor: iconBg }}><Icon  style={{ color: iconColor }} />
+               </span>
             </div>
         </div>
     );

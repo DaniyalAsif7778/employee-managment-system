@@ -11,6 +11,7 @@ import HeaderDrawer from "./ui/HeaderDrawer.js";
 import Input from "./ui/Input.js";
 import ProgressBar from "./ui/ProgressBar.js";
 import StatusBatch from "./ui/StatusBatch.js";
+import TaskCard from "./ui/TaskCard.js"
  
 import StatCard from "./ui/StatCard.js";
 import Number from "./ui/Number.js";
@@ -52,5 +53,11 @@ export {
   StatCard,
   RecentTasks,
   RecentHiers,
+<<<<<<< HEAD
   DepartmentCard
+=======
+  TaskCard,
+  
+
+>>>>>>> 68f6da2 (chore:add ui of employ Dashboard)
 };

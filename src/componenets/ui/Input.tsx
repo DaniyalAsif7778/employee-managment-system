@@ -1,3 +1,4 @@
+import { Search } from 'lucide-react';
 import React, { forwardRef,type ComponentPropsWithRef ,type ReactNode} from 'react'
 
 interface InputProps {
@@ -11,8 +12,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(( {type="text" ,labelClas
     return (
        < >
          {label &&   <label className={type == "radio" ? `text-sm text-text-primary ${labelClassName}`:`text-sm text-text-secondary ${labelClassName}`} htmlFor={name}>{label}</label> }
+         
         <input type={type}  onChange={onchange} ref={ref}  value={value}     className={className} name={name} placeholder={placeholder} required={required} checked={checked} /> 
+         
         { error && (
+              
               <p className="text-xs text-error">{ error }</p>
             )}
        </>
