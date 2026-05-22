@@ -21,6 +21,7 @@ import {
 } from '@tabler/icons-react';   
  
 import HeaderDrawer from './HeaderDrawer.js';
+import { Megaphone } from 'lucide-react';
   const DashBordHeader = () => {
   const navigate = useNavigate();
   const isOpened = useSelector((state: RootState) => state.menue.dashBoardDrawer)
@@ -46,7 +47,9 @@ const employeeLinks = [
   { path: '/dashboard/employee/schedule', icon: Briefcase, label: 'Schedule' },
   { path: '/dashboard/employee/leave', icon: Calendar, label: 'Leave' },
   { path: '/dashboard/employee/colleagues', icon: Users, label: 'Colleagues' },
+  { path: '/dashboard/employee/Messages', icon: MessageSquare, label: 'Messages' },
   { path: '/dashboard/employee/announcements', icon: Megaphone, label: 'Announcements' },
+  { path: '/Dashboard/employee/Notifications', icon: Bell, label: 'Notifications' },
   { path: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ];
 

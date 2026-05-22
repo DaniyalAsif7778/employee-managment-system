@@ -1,8 +1,9 @@
+
 import { Number, CompletionRates } from "../../import.js";
 interface StatCardProps {
     title: string;
     value?: number;
-    // icon?: " React.ComponentType";
+    icon?: " React.ComponentType";
     iconColor?: string;
     iconBg?: string;
     trend?: { value: string; isPositive: boolean };
@@ -14,11 +15,10 @@ interface StatCardProps {
     trendClass?:string;
     className?:string;
  }
-
 const StatCard = ({
     title = "Total Employees",
     value,
-    // icon: Icon,
+    icon: Icon,
     iconColor = "",
     iconBg = "",
     trend = {},

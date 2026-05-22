@@ -1,7 +1,7 @@
 import React from "react";
 import { DashBordHeader, Input, TaskCard } from "../../import.js";
 import { StatCard, RecentTasks, RecentHiers } from "../../import.js";
-import { Users, CheckSquare, TrendingUp, Calendar, Clock } from "lucide-react";
+import {Users, CheckSquare, TrendingUp, Calendar, Clock}  from "lucide-react";
 import { Button } from "../../import.js";
 
 const EmpolyDashboard = () => {
@@ -117,8 +117,8 @@ const EmpolyDashboard = () => {
             <div className="border"></div>
 
             <div className="flex justify-between rounded-md  py-4 px-15 mx-9 my-6 hover:bg-white/10 md:w-fit md:gap-2">
-              <div className="w-12 h-12 rounded-xl bg-[#12C4D31A]  ">
-                <Calendar className="w-5 h-5 text-[#12C4D3] ml-3 mt-3 max-w-full" />
+              <div className="w-12 h-12 rounded-xl bg-[#12C4D31A] flex items-center justify-center shrink-0  ">
+                <Calendar className="w-5 h-5 text-[#12C4D3] " />
               </div>
 
               <div className="">
@@ -127,8 +127,8 @@ const EmpolyDashboard = () => {
               </div>
             </div>
             <div className="flex justify-between rounded-md  py-4 px-15 mx-9 my-6 hover:bg-white/10  md:w-fit md:gap-2">
-              <div className="w-12 h-12 rounded-xl bg-[#12C4D31A]  ">
-                <Calendar className="w-5 h-5 text-[#12C4D3] ml-3 mt-3 max-w-full" />
+              <div className="w-12 h-12 rounded-xl bg-[#12C4D31A] flex items-center justify-center shrink-0 ">
+                <Calendar className="w-5 h-5 text-[#12C4D3] " />
               </div>
 
               <div className="">

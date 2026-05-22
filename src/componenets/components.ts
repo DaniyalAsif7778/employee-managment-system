@@ -12,6 +12,8 @@ import Input from "./ui/Input.js";
 import ProgressBar from "./ui/ProgressBar.js";
 import StatusBatch from "./ui/StatusBatch.js";
 import TaskCard from "./ui/TaskCard.js"
+import AssignTask from "./ui/AssignTask.js";
+import ColleagueInfo from "./ui/ColleagueInfo.js";
  
 import StatCard from "./ui/StatCard.js";
 import Number from "./ui/Number.js";
@@ -27,6 +29,7 @@ import Footer from "./Footer.js";
 // Dashboard Components
 import OverView from "./DashBoard/OverView.js";
 import DashBoard from "./DashBoard/DashBoard.js";
+
 
 export {
   
@@ -53,11 +56,9 @@ export {
   StatCard,
   RecentTasks,
   RecentHiers,
-<<<<<<< HEAD
-  DepartmentCard
-=======
+  DepartmentCard,
   TaskCard,
-  
+  AssignTask,
+  ColleagueInfo,
 
->>>>>>> 68f6da2 (chore:add ui of employ Dashboard)
 };
