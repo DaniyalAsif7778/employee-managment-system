@@ -21,6 +21,7 @@ import {
 } from '@tabler/icons-react';   
  
 import HeaderDrawer from './HeaderDrawer.js';
+import { Megaphone } from 'lucide-react';
   const DashBordHeader = () => {
   const navigate = useNavigate();
   const isOpened = useSelector((state: RootState) => state.menue.dashBoardDrawer)
@@ -41,15 +42,15 @@ import HeaderDrawer from './HeaderDrawer.js';
 ];
 
 const employeeLinks = [
-  { path: '/Dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { path: '/Dashboard/Tasks', icon: CheckSquare, label: 'My Tasks' },
-  { path: '/Dashboard/Schedule', icon: Briefcase, label: 'Schedule' },
-  { path: '/Dashboard/Leave', icon: Calendar, label: 'Leave' },
-  { path: '/Dashboard/Colleagues', icon: Users, label: 'Colleagues' },
-  { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
-  { path: '/Dashboard/Announcements', icon:  "", label: 'Announcements' },
-  { path: '/Dashboard/Notifications', icon: Bell, label: 'Notifications' },
-  { path: '/Dashboard/Profile', icon: UserCircle, label: 'Profile' },
+  { path: '/dashboard/employee', icon: LayoutDashboard, label: 'Dashboard' },
+  { path: '/dashboard/employee/tasks', icon: CheckSquare, label: 'My Tasks' },
+  { path: '/dashboard/employee/schedule', icon: Briefcase, label: 'Schedule' },
+  { path: '/dashboard/employee/leave', icon: Calendar, label: 'Leave' },
+  { path: '/dashboard/employee/colleagues', icon: Users, label: 'Colleagues' },
+  { path: '/dashboard/employee/Messages', icon: MessageSquare, label: 'Messages' },
+  { path: '/dashboard/employee/announcements', icon: Megaphone, label: 'Announcements' },
+  { path: '/Dashboard/employee/Notifications', icon: Bell, label: 'Notifications' },
+  { path: '/dashboard/settings', icon: Settings, label: 'Settings' },
 ];
 
 
@@ -64,35 +65,28 @@ const employeeLinks = [
         </div>
         <div className=' w-full h-full sm:h-3/5  sm:flex  sm:items-start sm:px-1 sm:py-4'>
 
-          <ul className=' w-full  flex flex-row justify-evenly sm:flex-col   ' >
-            {    adminLinks.map((link,id) => {
+          <ul className=' w-full  flex flex-row justify-evenly sm:flex-col' >
+            {employeeLinks.map((link, id) => {
+              const Icon = link.icon;
               return (
-                <li className='mb-2' key={ id}> <NavLink to={link.path} end     className={({ isActive }) =>
-                  `flex   sm:flex-row  sm:justify-start  gap-1 p-2  sm:px-3  sm:py-2 rounded-md text-xs sm:text-sm
-                sm:transition-all sm:duration-150 sm:border-l-2 flex-col   justify-center items-center
-                ${isActive
-                    ? 'text-[#009F8E] sm:bg-[#009F8E]/10 border-[#009F8E]'
-                    : 'text-[#888] border-transparent hover:text-white hover:bg-white/5'
-                  }`
-                } ><link.icon /><h6>{link.label}</h6></NavLink></li>
-
-              )
-            })   }
-             {/* { employeeLinks.map((link) => {
-              return (
-                <li className='mb-2' key={link.id}> <NavLink to={link.link}  end={link.end} className={({ isActive }) =>
-                  `flex   sm:flex-row  sm:justify-start  gap-1 p-2  sm:px-3  sm:py-2 rounded-md text-xs sm:text-sm
-                sm:transition-all sm:duration-150 sm:border-l-2 flex-col   justify-center items-center
-                ${isActive
-                    ? 'text-[#009F8E] sm:bg-[#009F8E]/10 border-[#009F8E]'
-                    : 'text-[#888] border-transparent hover:text-white hover:bg-white/5'
-                  }`
-                } ><span>{link.icon}</span><h3>{link.text}</h3></NavLink></li>
-
-              )
-            
-              })}
-             */}
+                <li className='mb-2' key={id}>
+                  <NavLink
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `flex sm:flex-row sm:justify-start gap-1 p-2 sm:px-3 sm:py-2 rounded-md text-xs sm:text-sm
+                      sm:transition-all sm:duration-150 sm:border-l-2 flex-col justify-center items-center
+                      ${isActive
+                        ? 'text-[#009F8E] sm:bg-[#009F8E]/10 border-[#009F8E]'
+                        : 'text-[#888] border-transparent hover:text-white hover:bg-white/5'
+                      }`
+                    }
+                  >
+                    <Icon className='w-5 h-5' />
+                    <h6>{link.label}</h6>
+                  </NavLink>
+                </li>
+              );
+            })}
             
           </ul>
         </div>

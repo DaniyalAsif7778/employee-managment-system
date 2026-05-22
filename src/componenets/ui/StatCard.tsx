@@ -1,8 +1,9 @@
+
 import { Number, CompletionRates } from "../../import.js";
 interface StatCardProps {
     title: string;
     value?: number;
-    // icon?: " React.ComponentType";
+    icon?: " React.ComponentType";
     iconColor?: string;
     iconBg?: string;
     trend?: { value: string; isPositive: boolean };
@@ -14,11 +15,10 @@ interface StatCardProps {
     trendClass?:string;
     className?:string;
  }
-
 const StatCard = ({
     title = "Total Employees",
     value,
-    // icon: Icon,
+    icon: Icon,
     iconColor = "",
     iconBg = "",
     trend = {},
@@ -45,13 +45,10 @@ const StatCard = ({
                     />
                 )}
             </div>
-            <div className=" h-full flex justify-end  p-2 ">
-                <span
-                    className="w-10 h-10   flex items-center justify-center rounded-full"
-                    style={{ backgroundColor: iconBg }}
-                >
-                    {/*{iconDisplay && <Icon style={{ color: iconColor }} />}*/}
-                </span>
+            <div className='flex justify-end' >
+
+               <span className='w-10 h-10 flex items-center justify-center rounded-full' style={{ backgroundColor: iconBg }}><Icon  style={{ color: iconColor }} />
+               </span>
             </div>
         </div>
     );
