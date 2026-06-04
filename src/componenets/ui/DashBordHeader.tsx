@@ -13,6 +13,7 @@ import {
   IconCalendar as Calendar, 
   IconBriefcase as Briefcase,
   IconBuilding as Building2,
+  IconPhone as Megaphone,
   IconSettings as Settings,
   IconUserCircle as UserCircle,
   IconMessageCircle as MessageSquare,
@@ -35,7 +36,7 @@ import HeaderDrawer from './HeaderDrawer.js';
   { path: '/Dashboard/Tasks', icon: CheckSquare, label: 'Tasks' },
   { path: '/Dashboard/Reports', icon: FileText, label: 'Reports' },
   { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
-  { path: '/Dashboard/Announcements',icon:"",  label: 'Announcements' },
+  { path: '/Dashboard/Announcements', icon: Megaphone, label: 'Announcements' },
   { path: '/Dashboard/Notifications', icon: Bell, label: 'Notifications' },
   { path: '/Dashboard/Settings', icon: Settings, label: 'Settings' },
 ];
@@ -47,7 +48,7 @@ const employeeLinks = [
   { path: '/Dashboard/Leave', icon: Calendar, label: 'Leave' },
   { path: '/Dashboard/Colleagues', icon: Users, label: 'Colleagues' },
   { path: '/Dashboard/Messages', icon: MessageSquare, label: 'Messages' },
-  { path: '/Dashboard/Announcements', icon:  "", label: 'Announcements' },
+  { path: '/Dashboard/Announcements', icon: Megaphone, label: 'Announcements' },
   { path: '/Dashboard/Notifications', icon: Bell, label: 'Notifications' },
   { path: '/Dashboard/Profile', icon: UserCircle, label: 'Profile' },
 ];

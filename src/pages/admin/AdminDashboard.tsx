@@ -6,8 +6,7 @@ import {
   IconSquareCheck as CheckSquare,  
   IconTrendingUp as TrendingUp,
   IconBuildingSkyscraper as Building2, 
-  IconDotsVertical as MoreVertical,  
-  IconPlus as Plus,
+   IconPlus as Plus,
   IconMessage as MessageSquare, 
 } from "@tabler/icons-react";     
 

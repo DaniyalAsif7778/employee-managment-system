@@ -72,7 +72,7 @@ Search departments...
        </section>
 
        <section className="departmentSection mt-10">
-         <DepartmentCard themeColor="#00FFFF"
+         <DepartmentCard themeColor="blue"
       title="Engineering"
       leadName="Jane Doe"
       employeesNo={50}
