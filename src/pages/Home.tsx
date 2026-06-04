@@ -71,7 +71,7 @@ import Avatar from "../componenets/ui/Avatar.js";
           Start Now
         </button>
       </section>
-          <section className="w-full h-full"><ProgressBar label={"Speed "} value={70} max={100} className='' />
+          <section className="w-full h-full"><ProgressBar label={"Speed "} value={70} max={100} className='' themeColor="red" />
           
           </section>
       {/* Footer */}

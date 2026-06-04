@@ -44,29 +44,12 @@ const AdminDashboard = () => {
          iconBg: "#FFC1071A",
       },
    ];
-   const recentHires = [
-      {
-         id: 1,
-         name: "Alex Martinez",
-         role: "Software Engineer",
-         department: "Engineering",
-         date: "Mar 28, 2026",
-      },
-      {
-         id: 2,
-         name: "Jessica Wong",
-         role: "Product Designer",
-         department: "Design",
-         date: "Mar 25, 2026",
-      },
-      {
-         id: 3,
-         name: "Ryan Cooper",
-         role: "Data Analyst",
-         department: "Analytics",
-         date: "Mar 22, 2026",
-      },
-   ];
+   const recentTasks = [
+      { id: 1, title: 'Update employee handbook', assignee: 'Sarah Johnson', status: 'in-progress' as const, dueDate: 'Mar 30' },
+      { id: 2, title: 'Q1 Performance reviews', assignee: 'Michael Chen', status: 'pending' as const, dueDate: 'Mar 31' },
+      { id: 3, title: 'Onboard new hires', assignee: 'Emily Davis', status: 'done' as const, dueDate: 'Mar 28' },
+      { id: 4, title: 'Department budget planning', assignee: 'David Wilson', status: 'in-progress' as const, dueDate: 'Apr 05' },
+    ];
    return (
       <div className="w-full   p-4 ">
          <section className="w-full  ">
@@ -80,8 +63,7 @@ const AdminDashboard = () => {
                      key={index}
                      title={stat.title}
                      value={stat.value}
-                     icon={stat.icon}
-                     iconBg={stat.iconBg}
+                      iconBg={stat.iconBg}
                      iconColor={stat.iconColor}
                      iconDisplay={true}
                      trendDisplay={true}

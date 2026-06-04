@@ -8,6 +8,8 @@ interface DepartmentCardProps {
 	employeesNo: number;
 	budget: number;
 	performance: number;
+	link?: string;
+	
 	onclick?: (event: React.MouseEvent<HTMLButtonElement>) => {};
 }
 
@@ -18,6 +20,8 @@ const DepartmentCard = ({
 	employeesNo = 15,
 	budget = 50000,
 	performance = 85,
+	link,
+
 	onclick,
 }: DepartmentCardProps) => {
 	return (

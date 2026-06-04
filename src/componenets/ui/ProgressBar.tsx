@@ -10,10 +10,10 @@ interface Progress {
 
 const ProgressBar = ({
   label = "Speed:",
-  value = 70,
+  value = 100,
   max = 100,
   className = "",
-  themeColor
+  themeColor='red'
 }: Progress) => {
   return (
     <>
@@ -30,13 +30,7 @@ const ProgressBar = ({
           [&::-webkit-progress-bar]:rounded-full
           [&::-webkit-progress-bar]:bg-${themeColor}-500
           
-          [&::-webkit-progress-value]:rounded-full
-          [&::-webkit-progress-value]:bg-gradient-to-r
-          [&::-webkit-progress-value]:from-primary-pressed
-          [&::-webkit-progress-value]:to-primary-light
           
-          [&::-moz-progress-bar]:rounded-full
-          [&::-moz-progress-bar]:bg-primary-pressed
         `}
         id="file"
         value={value}
