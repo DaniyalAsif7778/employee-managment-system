@@ -92,7 +92,7 @@ import { IconDotsVertical as EllipsisVertical } from "@tabler/icons-react";
                 </th>
               </tr>
           </thead>
-          <tbody>
+          <tbody className=" ">
            <tr  className="border-t hover:bg-[#1F1F1F] transition-colors border-text-disabled">
               <td   className="  truncate py-4 px-6 ">Update employee handbook</td>
               <td className="truncate  py-4 px-6 ">Sarah Johnson</td>
