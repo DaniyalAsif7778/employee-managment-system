@@ -1,57 +1,31 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const organizationSchema = new mongoose.Schema({
-    fullName: {
-        type: String,
-        lowercase: true,
-        required: true,
-        trim: true,
+const organizationSchema = new mongoose.Schema(
+  {
+    organizationName: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+      index: true,
     },
-    email: {
-        type: String,
-        required: true,
-        lowercase: true,
-        trim: true,
-        unique: true,
-        index: true,
-    },
-    phoneNumber: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
+
+    organizationSlug: {
+      type: String,
     },
     address: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
     },
-    password: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-    },
-    organizationName: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-        index: true,
-    },
-    organizationSlug: {
-        type: String,
-    },
-
     companySize: {
-        type: Number,
-        required: true,
-        trim: true,
+      type: Number,
+      required: true,
+      trim: true,
     },
+  },
+  { timestamps: true }
+);
 
-}, { timestamps: true })
-
-
-
-export const organization = mongoose.model("organization", organizationSchema)
+export const organization = mongoose.model('organization', organizationSchema);

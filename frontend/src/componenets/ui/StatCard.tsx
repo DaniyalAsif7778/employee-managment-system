@@ -13,6 +13,7 @@ interface StatCardProps {
     valueClass?:string;
     trendClass?:string;
     className?:string;
+    icon?:  React.ReactNode;
  }
 
 const StatCard = ({
@@ -29,6 +30,7 @@ const StatCard = ({
     valueClass= "",
     trendClass= "",
     className,
+    icon ,
  }: StatCardProps) => {
     return (
         <div
@@ -50,7 +52,7 @@ const StatCard = ({
                     className="w-10 h-10   flex items-center justify-center rounded-full"
                     style={{ backgroundColor: iconBg }}
                 >
-                    {/*{iconDisplay && <Icon style={{ color: iconColor }} />}*/}
+                    {iconDisplay &&   icon}
                 </span>
             </div>
         </div>
