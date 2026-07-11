@@ -1,34 +1,32 @@
-import React, { useState, useRef } from "react";
-import { Navigate } from "react-router";
-import { NavLink } from "react-router";
-import { Button, Input } from "../../import.js";
-import { IconFilter } from "@tabler/icons-react";
-import StatusBatch from "../../componenets/ui/StatusBatch.js";
-import { IconDotsVertical as EllipsisVertical } from "@tabler/icons-react";
+import React, { useState, useRef } from 'react'
+import { Navigate } from 'react-router'
+import { NavLink } from 'react-router'
+import { Button, Input } from '../../import.js'
+import { IconFilter } from '@tabler/icons-react'
+import StatusBatch from '../../componenets/ui/StatusBatch.js'
+import { IconDotsVertical as EllipsisVertical } from '@tabler/icons-react'
 const AdminEmployees = () => {
-  const [dropdown, setDropdown] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("All Departments");
-  const searchRef = useRef<HTMLInputElement>(null);
-  const [search, setSearch] = useState<string>("");
+  const [dropdown, setDropdown] = useState(false)
+  const [selectedOption, setSelectedOption] = useState('All Departments')
+  const searchRef = useRef<HTMLInputElement>(null)
+  const [search, setSearch] = useState<string>('')
   const options = [
-    "All Departments",
-    "Engineering",
-    "Marketing",
-    "Sales",
-    "HR",
-    "Finance",
-    "IT",
-    "Legal",
-    "Customer Support",
-  ];
+    'All Departments',
+    'Engineering',
+    'Marketing',
+    'Sales',
+    'HR',
+    'Finance',
+    'IT',
+    'Legal',
+    'Customer Support',
+  ]
   return (
     <div className="h-screen p-4 text-text-primary ">
       <section className="w-full">
         <div className="w-full    flex flex-row justify-between items-center p-3  ">
           <div className=" ">
-            <h1 className="text-text-primary font-bold text-4xl  mb-1 ">
-              Employees
-            </h1>
+            <h1 className="text-text-primary font-bold text-4xl  mb-1 ">Employees</h1>
             <p className="text-text-disabled text-base  ml-1 mb-4 ">
               Manage your workforce and team members
             </p>
@@ -36,8 +34,8 @@ const AdminEmployees = () => {
           <div>
             <Button
               text="+ Add Employee"
-              className={"bg-primary px-3 py-1.5 rounded-md"}
-              type={"button"}
+              className={'bg-primary px-3 py-1.5 rounded-md'}
+              type={'button'}
               disabled={false}
             />
           </div>
@@ -51,7 +49,7 @@ const AdminEmployees = () => {
             ref={searchRef}
             onchange={(e) => setSearch(e.target.value)}
             value={search}
-            className={"w-full   h-10 p-2 rounded-md"}
+            className={'w-full   h-10 p-2 rounded-md'}
           />
         </div>
         <div className="relative w-[9.50%] bg-navbar rounded-lg">
@@ -59,7 +57,7 @@ const AdminEmployees = () => {
             className="rounded-lg p-2 flex flex-row items-center  justify-left gap-2 cursor-pointer"
             onClick={() => setDropdown(!dropdown)}
           >
-            <IconFilter size={18} />{" "}
+            <IconFilter size={18} />{' '}
             <span className="text-text-primary text-base  whitespace-nowrap">{`${selectedOption}`}</span>
           </div>
 
@@ -71,8 +69,8 @@ const AdminEmployees = () => {
                     key={option}
                     className="text-text-primary text-base  whitespace-nowrap cursor-pointer p-2 text-left hover:bg-primary-fg/10 "
                     onClick={() => {
-                      setSelectedOption(option);
-                      setDropdown(false);
+                      setSelectedOption(option)
+                      setDropdown(false)
                     }}
                   >
                     {option}
@@ -108,16 +106,14 @@ const AdminEmployees = () => {
               </thead>
               <tbody className=" ">
                 <tr className="border-t hover:bg-[#1F1F1F] transition-colors border-text-disabled">
-                  <td className="  truncate py-4 px-6 ">
-                    Update employee handbook
-                  </td>
+                  <td className="  truncate py-4 px-6 ">Update employee handbook</td>
                   <td className="truncate  py-4 px-6 ">Sarah Johnson</td>
                   <td className=" truncate  py-4 px-6 ">
-                    <StatusBatch task={{ status: "done" }} />
+                    <StatusBatch task={{ status: 'done' }} />
                   </td>
                   <td className=" truncate  py-4 px-6 "> 30 March</td>
                   <td className="  truncate py-4 px-6 ">
-                    {" "}
+                    {' '}
                     <EllipsisVertical size={17} />
                   </td>
                 </tr>
@@ -127,6 +123,6 @@ const AdminEmployees = () => {
         </div>
       </section>
     </div>
-  );
-};
-export default AdminEmployees;
+  )
+}
+export default AdminEmployees

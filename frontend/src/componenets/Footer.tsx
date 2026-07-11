@@ -1,11 +1,10 @@
-import React from 'react';
-import { NavLink } from 'react-router'; // Use 'react-router-dom' if you're routing
+import React from 'react'
+import { NavLink } from 'react-router' // Use 'react-router-dom' if you're routing
 
- const  Footer= ()=> {
+const Footer = () => {
   return (
     <footer className="w-full bg-navbar text-text-secondary px-6 py-8 mt-10 border-t border-border">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8">
-
         {/* Logo & About */}
         <div className="flex flex-col gap-3">
           <h2 className="text-2xl font-bold text-text-primary">EmpoManager</h2>
@@ -18,10 +17,26 @@ import { NavLink } from 'react-router'; // Use 'react-router-dom' if you're rout
         <div>
           <h3 className="text-lg font-semibold text-text-primary mb-3">Quick Links</h3>
           <ul className="flex flex-col gap-2 text-sm">
-            <li><NavLink to="/" className="hover:text-primary ">Home</NavLink></li>
-            <li><NavLink to="/about" className="hover:text-primary ">About</NavLink></li>
-            <li><NavLink to="/login" className="hover:text-primary ">Login</NavLink></li>
-            <li><NavLink to="/admindashboard" className="hover:text-primary ">Dashboard</NavLink></li>
+            <li>
+              <NavLink to="/" className="hover:text-primary ">
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about" className="hover:text-primary ">
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/login" className="hover:text-primary ">
+                Login
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/admindashboard" className="hover:text-primary ">
+                Dashboard
+              </NavLink>
+            </li>
           </ul>
         </div>
 
@@ -41,7 +56,7 @@ import { NavLink } from 'react-router'; // Use 'react-router-dom' if you're rout
         © {new Date().getFullYear()} EmpoManager. All rights reserved.
       </div>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

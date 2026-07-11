@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const About = () => {
   return (
@@ -9,7 +9,8 @@ const About = () => {
           About <span className="text-primary ">EMPLOMANAGE</span>
         </h1>
         <p className="text-lg md:text-xl text-text-secondary  max-w-2xl">
-          A powerful and intuitive employee management interface, built for modern teams and smart productivity.
+          A powerful and intuitive employee management interface, built for modern teams and smart
+          productivity.
         </p>
       </section>
 
@@ -19,8 +20,8 @@ const About = () => {
           <h2 className="text-3xl font-semibold mb-4">Our Mission</h2>
           <p className="text-text-secondary text-lg leading-relaxed">
             At EMPLOMANAGE, our goal is to eliminate the hassle of workforce management. We provide
-            easy-to-use tools for task tracking, employee monitoring, and performance analytics — all
-            in a beautifully simple UI.
+            easy-to-use tools for task tracking, employee monitoring, and performance analytics —
+            all in a beautifully simple UI.
           </p>
         </div>
       </section>
@@ -30,18 +31,10 @@ const About = () => {
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl font-semibold mb-8">Built With</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-text-secondary text-lg">
-            <div className="bg-navbar  p-4 rounded-xl border border-border ">
-              React.js
-            </div>
-            <div className="bg-navbar  p-4 rounded-xl border border-border ">
-              Tailwind CSS
-            </div>
-            <div className="bg-navbar p-4 rounded-xl border border-border ">
-              Responsive Design
-            </div>
-            <div className="bg-navbar  p-4 rounded-xl border border-border ">
-              Dark UI Theme
-            </div>
+            <div className="bg-navbar  p-4 rounded-xl border border-border ">React.js</div>
+            <div className="bg-navbar  p-4 rounded-xl border border-border ">Tailwind CSS</div>
+            <div className="bg-navbar p-4 rounded-xl border border-border ">Responsive Design</div>
+            <div className="bg-navbar  p-4 rounded-xl border border-border ">Dark UI Theme</div>
           </div>
         </div>
       </section>
@@ -65,7 +58,7 @@ const About = () => {
         © {new Date().getFullYear()} EMPLOMANAGE. All rights reserved.
       </footer>
     </main>
-  );
-};
+  )
+}
 
-export default About;
+export default About

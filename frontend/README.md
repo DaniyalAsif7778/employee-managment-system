@@ -42,31 +42,32 @@ A full-featured employee management platform with role-based dashboards, secure 
 
 EmpoManager is a **React + TypeScript** frontend for managing employees, tasks, departments, and leave — built with low-level design principles, secure authentication, and a clean component architecture.
 
-| Role | Access |
-|------|--------|
-| **Admin** | Full dashboard · Manage employees · Assign tasks · View reports · Manage departments |
-| **Employee** | Personal dashboard · View own tasks · Apply for leave · View schedule & colleagues |
+| Role         | Access                                                                               |
+| ------------ | ------------------------------------------------------------------------------------ |
+| **Admin**    | Full dashboard · Manage employees · Assign tasks · View reports · Manage departments |
+| **Employee** | Personal dashboard · View own tasks · Apply for leave · View schedule & colleagues   |
 
 ---
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| Framework | React 18 + TypeScript |
-| Routing | React Router v6 |
-| State | Redux Toolkit |
-| Styling | Tailwind CSS |
-| Build tool | Vite |
-| HTTP | Axios (or fetch) |
-| Notifications | React Hot Toast |
-| SEO | React Helmet |
+| Category      | Technology            |
+| ------------- | --------------------- |
+| Framework     | React 18 + TypeScript |
+| Routing       | React Router v6       |
+| State         | Redux Toolkit         |
+| Styling       | Tailwind CSS          |
+| Build tool    | Vite                  |
+| HTTP          | Axios (or fetch)      |
+| Notifications | React Hot Toast       |
+| SEO           | React Helmet          |
 
 ---
 
 ## Features
 
 ### 🔐 Secure Authentication
+
 - Redux Toolkit stores all auth state — user info, role, login status, token
 - Email and password validated with regex before any form submission
 - Auth token stored in `localStorage` — **never plain passwords**
@@ -74,12 +75,14 @@ EmpoManager is a **React + TypeScript** frontend for managing employees, tasks, 
 - `GuestRoute` prevents logged-in users from revisiting login or signup
 
 ### 🗂 Redux Toolkit State
+
 - **`authSlice`** — `user`, `loginStatus`, `role`, `token`
 - **`employeeSlice`** — employee list, selected employee, loading, error states
 - Async thunks simulate real API calls for all CRUD operations
 - Selectors provide clean access to state without prop drilling
 
 ### 👨‍💼 Admin Dashboard
+
 - Stat overview — employee count, active tasks, completion rate, departments
 - Employee table — search, department filter, add / edit / delete with confirm dialog
 - Task management — create, assign to employee, filter by status, mark done, delete
@@ -87,6 +90,7 @@ EmpoManager is a **React + TypeScript** frontend for managing employees, tasks, 
 - Department management — workload cards, add / edit departments
 
 ### 👤 Employee Dashboard
+
 - Personal stats — my tasks, completed count, leave balance, next meeting time
 - Task list scoped to logged-in employee only — mark in-progress or done
 - Leave management — balance cards (annual/sick/casual), apply form, history table
@@ -95,6 +99,7 @@ EmpoManager is a **React + TypeScript** frontend for managing employees, tasks, 
 - Announcements — company-wide notices filtered by type
 
 ### 🎨 UI/UX Standards
+
 - Fully responsive — mobile, tablet, and desktop layouts
 - Reusable component library: `Button`, `Input`, `Modal`, `Table`, `Badge`, `EmptyState`, `Loader`
 - Inline form validation errors, success toasts, and loading indicators
@@ -102,6 +107,7 @@ EmpoManager is a **React + TypeScript** frontend for managing employees, tasks, 
 - Debounced inputs — validation doesn't fire on every keystroke
 
 ### ⚡ SEO & Performance
+
 - Unique `<title>` and `<meta description>` per page via React Helmet
 - Semantic HTML — `<header>`, `<main>`, `<section>`, `<nav>` used correctly
 - All pages lazy-loaded with `React.lazy` + `Suspense`
@@ -150,8 +156,6 @@ src/
 
 ---
 
- 
- 
 ## Routing Architecture
 
 ```
@@ -185,35 +189,31 @@ src/
 
 ### Route Guards
 
-| Guard | Behaviour |
-|-------|-----------|
-| `ProtectedRoute` | Redirects to `/login` if not logged in |
-| `GuestRoute` | Redirects to `/DashBoard` if already logged in |
-| `AdminRoute` | Redirects employee → `/DashBoard/employeedashboard` |
-| `EmployeeRoute` | Redirects admin → `/DashBoard/AdminDashbord` |
-| `RoleRedirect` | Reads role and sends user to the correct index page |
-
- 
-
- 
+| Guard            | Behaviour                                           |
+| ---------------- | --------------------------------------------------- |
+| `ProtectedRoute` | Redirects to `/login` if not logged in              |
+| `GuestRoute`     | Redirects to `/DashBoard` if already logged in      |
+| `AdminRoute`     | Redirects employee → `/DashBoard/employeedashboard` |
+| `EmployeeRoute`  | Redirects admin → `/DashBoard/AdminDashbord`        |
+| `RoleRedirect`   | Reads role and sends user to the correct index page |
 
 ## Build Steps
 
 Follow these steps in order for the cleanest development experience:
 
-| # | Step | What to build |
-|---|------|---------------|
-| 1 | **Setup & Base Layout** | Init Vite + TypeScript, configure React Router, create outer shell (navbar + sidebar + main), make responsive from day one |
-| 2 | **Design System** | Tailwind config with color variables, typography scale, CSS design tokens in `index.css` |
-| 3 | **Authentication UI** | Login + Signup pages, regex validation, password toggle, role selection, disable submit on invalid |
-| 4 | **Route Guards** | `ProtectedRoute`, `GuestRoute`, `AdminRoute`, `EmployeeRoute`, `RoleRedirect`, 404 fallback |
-| 5 | **Redux Setup** | `authSlice`, `employeeSlice`, async thunks, selectors, connect `Provider` in `main.jsx` |
-| 6 | **Admin Pages** | `AdminDashbord`, `AdminEmployees`, `AdminTasks`, `AdminReports`, `AdminDepartment` |
-| 7 | **Employee Pages** | `EmpolyDashBoard`, `EmployeeTasks`, `EmployeeLeave`, `EmployeeSchedule`, `Colleagues`, `Annoucments` |
-| 8 | **Data States** | `Loader`, `EmptyState`, error banners, disable-during-fetch patterns |
-| 9 | **TypeScript Strict** | Interfaces for all data shapes, typed props, typed Redux state, remove all `any` |
-| 10 | **Responsiveness** | Mobile bottom nav, single-column stacking, test at 375px / 768px / 1280px |
-| 11 | **SEO & Performance** | React Helmet per page, `React.lazy` all pages, SVG icons, `.env` config |
+| #   | Step                    | What to build                                                                                                              |
+| --- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Setup & Base Layout** | Init Vite + TypeScript, configure React Router, create outer shell (navbar + sidebar + main), make responsive from day one |
+| 2   | **Design System**       | Tailwind config with color variables, typography scale, CSS design tokens in `index.css`                                   |
+| 3   | **Authentication UI**   | Login + Signup pages, regex validation, password toggle, role selection, disable submit on invalid                         |
+| 4   | **Route Guards**        | `ProtectedRoute`, `GuestRoute`, `AdminRoute`, `EmployeeRoute`, `RoleRedirect`, 404 fallback                                |
+| 5   | **Redux Setup**         | `authSlice`, `employeeSlice`, async thunks, selectors, connect `Provider` in `main.jsx`                                    |
+| 6   | **Admin Pages**         | `AdminDashbord`, `AdminEmployees`, `AdminTasks`, `AdminReports`, `AdminDepartment`                                         |
+| 7   | **Employee Pages**      | `EmpolyDashBoard`, `EmployeeTasks`, `EmployeeLeave`, `EmployeeSchedule`, `Colleagues`, `Annoucments`                       |
+| 8   | **Data States**         | `Loader`, `EmptyState`, error banners, disable-during-fetch patterns                                                       |
+| 9   | **TypeScript Strict**   | Interfaces for all data shapes, typed props, typed Redux state, remove all `any`                                           |
+| 10  | **Responsiveness**      | Mobile bottom nav, single-column stacking, test at 375px / 768px / 1280px                                                  |
+| 11  | **SEO & Performance**   | React Helmet per page, `React.lazy` all pages, SVG icons, `.env` config                                                    |
 
 ---
 
@@ -237,11 +237,9 @@ User opens app
                                       │
                               Redirect to /  (Home)
 
-                              
- 
- ```
- 
- 
+
+
+```
 
 <div align="center">
 

@@ -1,7 +1,7 @@
-import { Toaster } from "react-hot-toast";
-import { Header, Footer } from "./import.js";
-import { Outlet } from "react-router";
-import "./index.css";
+import { Toaster } from 'react-hot-toast'
+import { Header, Footer } from './import.js'
+import { Outlet } from 'react-router'
+import './index.css'
 function Layout() {
   return (
     <div className="w-full">
@@ -24,21 +24,21 @@ function Layout() {
       hover:scale-[1.015]
     `,
           success: {
-            icon: "✅",
+            icon: '✅',
             className: `
         border-l-4 border-[var(--color-success)]
         bg-surface
       `,
           },
           error: {
-            icon: "❌",
+            icon: '❌',
             className: `
         border-l-4 border-[var(--color-error)]
         bg-surface
       `,
           },
           loading: {
-            icon: "⏳",
+            icon: '⏳',
             className: `
         border-l-4 border-[var(--color-primary)]
         bg-surface
@@ -47,7 +47,7 @@ function Layout() {
         }}
       />
     </div>
-  );
+  )
 }
 
-export default Layout;
+export default Layout

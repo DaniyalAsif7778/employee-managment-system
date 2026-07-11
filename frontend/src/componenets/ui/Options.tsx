@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react'
 
-export default Options = () => {
-	return <></>;
-};
+export default (Options = () => {
+  return <></>
+})

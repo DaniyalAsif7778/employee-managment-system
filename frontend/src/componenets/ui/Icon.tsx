@@ -1,14 +1,15 @@
-
-
 interface IconPrope {
-    className: string,
-    Icon:  React.ComponentType, 
-     
+  className: string
+  Icon: React.ComponentType
 }
 
-const Icon = ({ className, Icon  }: IconPrope) => {
-    return <div className={className} > <Icon /> </div>;
-
+const Icon = ({ className, Icon }: IconPrope) => {
+  return (
+    <div className={className}>
+      {' '}
+      <Icon />{' '}
+    </div>
+  )
 }
 
 export default Icon

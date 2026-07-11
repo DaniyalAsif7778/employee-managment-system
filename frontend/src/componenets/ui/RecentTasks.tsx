@@ -1,6 +1,6 @@
-import Button from "./Button.js";
-import StatusBatch from "./StatusBatch.js";
-import { IconDotsVertical as EllipsisVertical } from "@tabler/icons-react";   
+import Button from './Button.js'
+import StatusBatch from './StatusBatch.js'
+import { IconDotsVertical as EllipsisVertical } from '@tabler/icons-react'
 const RecentTasks = () => {
   return (
     <div className=" border   rounded-md flex flex-col gap-3  outline-none bg-[#121212]">
@@ -12,8 +12,8 @@ const RecentTasks = () => {
         <div>
           <Button
             text="+ Add Task"
-            className={"bg-primary px-3 py-1.5 rounded-md"}
-            type={"button"}
+            className={'bg-primary px-3 py-1.5 rounded-md'}
+            type={'button'}
             disabled={false}
           />
         </div>
@@ -30,22 +30,23 @@ const RecentTasks = () => {
             </tr>
           </thead>
           <tbody>
-           <tr  className="border-t hover:bg-[#1F1F1F] transition-colors border-text-disabled">
-              <td   className="  truncate py-4 px-6 ">Update employee handbook</td>
+            <tr className="border-t hover:bg-[#1F1F1F] transition-colors border-text-disabled">
+              <td className="  truncate py-4 px-6 ">Update employee handbook</td>
               <td className="truncate  py-4 px-6 ">Sarah Johnson</td>
               <td className=" truncate  py-4 px-6 ">
-                <StatusBatch task={{ status: "done" }} />
+                <StatusBatch task={{ status: 'done' }} />
               </td>
-              <td className=" truncate  py-4 px-6 " > 30 March</td>
-              <td className="  truncate py-4 px-6 ">    <EllipsisVertical size={17}/>
-</td>
+              <td className=" truncate  py-4 px-6 "> 30 March</td>
+              <td className="  truncate py-4 px-6 ">
+                {' '}
+                <EllipsisVertical size={17} />
+              </td>
             </tr>
-                       
           </tbody>
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RecentTasks;
+export default RecentTasks

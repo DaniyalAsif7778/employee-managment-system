@@ -1,15 +1,14 @@
- 
 .Tasks {
-    overflow-y: scroll;          /* enable scrolling */
-    -ms-overflow-style: none;    /* IE and Edge */
-    scrollbar-width: none;       /* Firefox */
-  }
-  
-  .Tasks::-webkit-scrollbar {
-    display: none;               /* Chrome, Safari, Opera */
-  }
+  overflow-y: scroll; /* enable scrolling */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
-  .Tasks .Task{
-    margin-top:10px;
-    overflow: hidden;
-   }
+.Tasks::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.Tasks .Task {
+  margin-top: 10px;
+  overflow: hidden;
+}

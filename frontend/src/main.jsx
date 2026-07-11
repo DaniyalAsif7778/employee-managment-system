@@ -1,12 +1,12 @@
-import { StrictMode } from "react";
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { store } from "./store/store.js";
-import { Provider } from "react-redux";
-import "./index.css";
-import "./App.css";
-import Layout from "./Layout";
-import { ProtectedRoutes, AdminRoutes, EmployeeRoutes } from "./ProtectedRoutes.jsx";
+import { StrictMode } from 'react'
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { store } from './store/store.js'
+import { Provider } from 'react-redux'
+import './index.css'
+import './App.css'
+import Layout from './Layout'
+import { ProtectedRoutes, AdminRoutes, EmployeeRoutes } from './ProtectedRoutes.jsx'
 import {
   OverView,
   EmpolyDashboard,
@@ -26,16 +26,15 @@ import {
   Leave,
   Schedule,
   Tasks,
-  Singup
-} from "./import.js";
+  Singup,
+} from './import.js'
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Routes,
   Route,
   RouterProvider,
-} from "react-router";
- 
+} from 'react-router'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,9 +42,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
       <Route element={<ProtectedRoutes />}>
-
-        <Route path="DashBoard" element={<DashBoard />} >
-
+        <Route path="DashBoard" element={<DashBoard />}>
           <Route index element={<OverView />} />
 
           <Route element={<AdminRoutes />}>
@@ -57,7 +54,6 @@ const router = createBrowserRouter(
             <Route path="Tasks" element={<AdminTasks />} />
           </Route>
           <Route element={<EmployeeRoutes />}>
-
             <Route path="Dashbord" element={<EmpolyDashboard />} />
 
             <Route path="Annoucments" element={<Annoucments />} />
@@ -67,24 +63,19 @@ const router = createBrowserRouter(
             <Route path="EmployeeTasks" element={<Tasks />} />
           </Route>
           <Route path="settings" element={<Settings />} />
-
         </Route>
       </Route>
-
 
       <Route path="singup" element={<Singup />} />
 
       <Route path="login" element={<Login />} />
-
     </Route>
   )
-);
-createRoot(document.getElementById("root")).render(
+)
+createRoot(document.getElementById('root')).render(
   <StrictMode>
-     
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
-);
+)

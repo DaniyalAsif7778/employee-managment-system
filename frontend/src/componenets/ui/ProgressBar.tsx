@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react'
 
 interface Progress {
-  label?: string;
-  value?: number;
-  max?: number;
-  className?: string;
-  themeColor:string;
+  label?: string
+  value?: number
+  max?: number
+  className?: string
+  themeColor: string
 }
 
 const ProgressBar = ({
-  label = "Speed:",
+  label = 'Speed:',
   value = 100,
   max = 100,
-  className = "",
-  themeColor='red'
+  className = '',
+  themeColor = 'red',
 }: Progress) => {
   return (
     <>
@@ -39,7 +39,7 @@ const ProgressBar = ({
         32%
       </progress>
     </>
-  );
-};
+  )
+}
 
-export default ProgressBar;
+export default ProgressBar

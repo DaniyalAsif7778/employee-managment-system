@@ -3,10 +3,7 @@
 // import StatusBatch from "../componenets/ui/StatusBatch.js";
 // import Avatar from "../componenets/ui/Avatar.js";
 //  const Home = () => {
- 
-   
-   
- 
+
 //   return (
 //     <main className="bg-bg  text-text-primary font-sans">
 //       {/* Hero Section */}
@@ -72,91 +69,90 @@
 //         </button>
 //       </section>
 //           <section className="w-full h-full"><ProgressBar label={"Speed "} value={70} max={100} className='' themeColor="red" />
-          
+
 //           </section>
 //       {/* Footer */}
 //       <footer className="bg-navbar py-6 text-center text-text-secondary text-sm">
 //         © {new Date().getFullYear()} EMPLOMANAGE — Built with 💻 & 🧠
 //       </footer>
-      
+
 //     </main>
 //   );
 // };
 
 // export default Home;
 
-
-import React from "react";
+import React from 'react'
 
 const completedModules = [
-  "Authentication",
-  "Organization Registration",
-  "Employee Management",
-  "Dashboard UI",
-  "Responsive Design",
-];
+  'Authentication',
+  'Organization Registration',
+  'Employee Management',
+  'Dashboard UI',
+  'Responsive Design',
+]
 
 const inProgressModules = [
-  "Attendance Module",
-  "Leave Management",
-  "Reports & Analytics",
-  "Notifications",
-  "Payroll",
-];
+  'Attendance Module',
+  'Leave Management',
+  'Reports & Analytics',
+  'Notifications',
+  'Payroll',
+]
 
 const plannedFeatures = [
   {
-    title: "Multi Organization",
-    icon: "🏢",
+    title: 'Multi Organization',
+    icon: '🏢',
   },
   {
-    title: "Employee Management",
-    icon: "👥",
+    title: 'Employee Management',
+    icon: '👥',
   },
   {
-    title: "Attendance",
-    icon: "📅",
+    title: 'Attendance',
+    icon: '📅',
   },
   {
-    title: "Task Management",
-    icon: "✅",
+    title: 'Task Management',
+    icon: '✅',
   },
   {
-    title: "Role Permissions",
-    icon: "🔐",
+    title: 'Role Permissions',
+    icon: '🔐',
   },
   {
-    title: "Analytics",
-    icon: "📊",
+    title: 'Analytics',
+    icon: '📊',
   },
   {
-    title: "Reports",
-    icon: "📄",
+    title: 'Reports',
+    icon: '📄',
   },
   {
-    title: "Notifications",
-    icon: "🔔",
+    title: 'Notifications',
+    icon: '🔔',
   },
-];
+]
 
 const stats = [
   {
-    title: "Frontend",
+    title: 'Frontend',
     value: 85,
   },
   {
-    title: "Backend",
+    title: 'Backend',
     value: 55,
   },
   {
-    title: "Database",
+    title: 'Database',
     value: 70,
   },
   {
-    title: "Security",
+    title: 'Security',
     value: 45,
   },
-];
+]
 
 const Home: React.FC = () => {
   return (
@@ -174,14 +170,11 @@ const Home: React.FC = () => {
             🚧 Project in Progress
           </div>
 
-          <h1 className="mt-8 text-5xl font-extrabold md:text-6xl">
-            Employee Management System
-          </h1>
+          <h1 className="mt-8 text-5xl font-extrabold md:text-6xl">Employee Management System</h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg text-slate-400">
-            A modern platform for managing organizations, employees, attendance,
-            tasks, and business operations. The project is actively being built
-            with scalability and security in mind.
+            A modern platform for managing organizations, employees, attendance, tasks, and business
+            operations. The project is actively being built with scalability and security in mind.
           </p>
 
           <div className="mx-auto mt-12 max-w-xl">
@@ -199,16 +192,11 @@ const Home: React.FC = () => {
         {/* Status */}
         <div className="mt-24 grid gap-8 lg:grid-cols-2">
           <div className="rounded-2xl border border-slate-800 bg-slate-900 p-8">
-            <h2 className="mb-6 text-2xl font-bold text-green-400">
-              Completed Modules
-            </h2>
+            <h2 className="mb-6 text-2xl font-bold text-green-400">Completed Modules</h2>
 
             <div className="space-y-4">
               {completedModules.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-lg bg-slate-800 p-4"
-                >
+                <div key={item} className="flex items-center gap-3 rounded-lg bg-slate-800 p-4">
                   <span className="text-green-400">✔</span>
                   <span>{item}</span>
                 </div>
@@ -217,16 +205,11 @@ const Home: React.FC = () => {
           </div>
 
           <div className="rounded-2xl border border-slate-800 bg-slate-900 p-8">
-            <h2 className="mb-6 text-2xl font-bold text-yellow-400">
-              Currently Building
-            </h2>
+            <h2 className="mb-6 text-2xl font-bold text-yellow-400">Currently Building</h2>
 
             <div className="space-y-4">
               {inProgressModules.map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-lg bg-slate-800 p-4"
-                >
+                <div key={item} className="flex items-center gap-3 rounded-lg bg-slate-800 p-4">
                   <span className="animate-spin">⚙️</span>
                   <span>{item}</span>
                 </div>
@@ -239,9 +222,7 @@ const Home: React.FC = () => {
         <section className="mt-24">
           <div className="text-center">
             <h2 className="text-4xl font-bold">Planned Features</h2>
-            <p className="mt-4 text-slate-400">
-              The roadmap for future development.
-            </p>
+            <p className="mt-4 text-slate-400">The roadmap for future development.</p>
           </div>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -252,9 +233,7 @@ const Home: React.FC = () => {
               >
                 <div className="text-4xl">{feature.icon}</div>
 
-                <h3 className="mt-5 text-xl font-semibold">
-                  {feature.title}
-                </h3>
+                <h3 className="mt-5 text-xl font-semibold">{feature.title}</h3>
               </div>
             ))}
           </div>
@@ -262,9 +241,7 @@ const Home: React.FC = () => {
 
         {/* Development Stats */}
         <section className="mt-24">
-          <h2 className="mb-10 text-center text-4xl font-bold">
-            Development Status
-          </h2>
+          <h2 className="mb-10 text-center text-4xl font-bold">Development Status</h2>
 
           <div className="grid gap-8 md:grid-cols-2">
             {stats.map((item) => (
@@ -291,8 +268,8 @@ const Home: React.FC = () => {
         {/* Footer */}
         <footer className="mt-24 border-t border-slate-800 pt-10 text-center text-slate-400">
           <p className="text-lg">
-            Building secure software takes time, testing, and a healthy distrust
-            of bugs that swear they're "fixed."
+            Building secure software takes time, testing, and a healthy distrust of bugs that swear
+            they're "fixed."
           </p>
 
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
@@ -305,13 +282,11 @@ const Home: React.FC = () => {
             <span>MongoDB</span>
           </div>
 
-          <p className="mt-8 text-sm">
-            Version 0.1.0 • © 2026 Employee Management System
-          </p>
+          <p className="mt-8 text-sm">Version 0.1.0 • © 2026 Employee Management System</p>
         </footer>
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

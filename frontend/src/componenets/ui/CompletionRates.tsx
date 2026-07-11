@@ -1,17 +1,16 @@
 interface CompletionRatesProps {
-    className: string;
-    Icon?: React.ComponentType<any>;
-    rate: number;
-    time: string;
+  className: string
+  Icon?: React.ComponentType<any>
+  rate: number
+  time: string
 }
 
- const  CompletionRates =({
-    className,
-    Icon,
-    rate,
-    time,
-}: CompletionRatesProps) =>{
-    return <p className={className}><span>  </span> +{rate}% {time}</p>
+const CompletionRates = ({ className, Icon, rate, time }: CompletionRatesProps) => {
+  return (
+    <p className={className}>
+      <span> </span> +{rate}% {time}
+    </p>
+  )
 }
 
-export default CompletionRates;
+export default CompletionRates

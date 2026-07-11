@@ -1,110 +1,143 @@
-import React from "react";
-import { StatCard, RecentTasks, RecentHiers,DashBordHeader } from "../../import.js";
-import { Link } from "react-router";
+import React from 'react'
+import { StatCard, RecentTasks, RecentHiers, DashBordHeader } from '../../import.js'
+import { Link } from 'react-router'
 import {
   IconUsers as Users,
-  IconSquareCheck as CheckSquare,  
+  IconSquareCheck as CheckSquare,
   IconTrendingUp as TrendingUp,
-  IconBuildingSkyscraper as Building2, 
-   IconPlus as Plus,
-  IconMessage as MessageSquare, 
-} from "@tabler/icons-react";     
+  IconBuildingSkyscraper as Building2,
+  IconPlus as Plus,
+  IconMessage as MessageSquare,
+} from '@tabler/icons-react'
 
 const AdminDashboard = () => {
-   const stats = [
-      {
-         title: "Total Employees",
-         value: 247,
-         icon: Users,
-         iconColor: "#009F8E",
-         iconBg: "#009F8E1A",
-         trend: { value: "+12% from last month", isPositive: true },
-      },
-      {
-         title: "Active Tasks",
-         value: 38,
-         icon: CheckSquare,
-         iconColor: "#12C4D3",
-         iconBg: "#12C4D31A",
-         trend: { value: "+5% from last week", isPositive: true },
-      },
-      {
-         title: "Completion Rate",
-         value: 94,
-         icon: TrendingUp,
-         iconColor: "#00BF6B",
-         iconBg: "#00BF6B1A",
-         trend: { value: "+2% from last month", isPositive: true },
-      },
-      {
-         title: "Departments",
-         value: 8,
-         icon: Building2,
-         iconColor: "#FFC107",
-         iconBg: "#FFC1071A",
-      },
-   ];
-   const recentTasks = [
-      { id: 1, title: 'Update employee handbook', assignee: 'Sarah Johnson', status: 'in-progress' as const, dueDate: 'Mar 30' },
-      { id: 2, title: 'Q1 Performance reviews', assignee: 'Michael Chen', status: 'pending' as const, dueDate: 'Mar 31' },
-      { id: 3, title: 'Onboard new hires', assignee: 'Emily Davis', status: 'done' as const, dueDate: 'Mar 28' },
-      { id: 4, title: 'Department budget planning', assignee: 'David Wilson', status: 'in-progress' as const, dueDate: 'Apr 05' },
-    ];
-   return (
-      <div className="w-full   p-4 ">
-         <section className="w-full  ">
-            <h1 className="text-text-primary font-bold text-4xl  mb-1 ">Dashboard</h1>
-            <p className="text-text-disabled text-base  ml-1 mb-4 ">
-               Welcome back! Here's what's happening today.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-               {stats.map((stat, index) => (
-                  <StatCard
-                     key={index}
-                     title={stat.title}
-                     value={stat.value}
-                      iconBg={stat.iconBg}
-                     iconColor={stat.iconColor}
-                     iconDisplay={true}
-                     trendDisplay={true}
-                     height={"42"}
-                  />
-               ))}
-            </div>
-         </section>
-         <section className="w-full flex flex-col md:flex-row  gap-4">
-            <RecentTasks />
-              <RecentHiers />
-         </section>
-       
-         <section>
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-               <Link to="/admin/employees" className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#009F8E] transition-all duration-200 text-left group">
-                  <div className="w-12 h-12 rounded-xl bg-[#009F8E1A] flex items-center justify-center mb-4 group-hover:bg-[#009F8E] transition-colors">
-                     <Plus className="w-5 h-5 text-[#009F8E] group-hover:text-white transition-colors" />
-                  </div>
-                  <h3 className="text-[16px] font-semibold text-[#E0E0E0] mb-1">Add Employee</h3>
-                  <p className="text-[14px] text-[#9CA3AF]">Onboard new team members</p>
-               </Link>
-               <Link to="/admin/messages" className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#12C4D3] transition-all duration-200 text-left group">
-                  <div className="w-12 h-12 rounded-xl bg-[#12C4D31A] flex items-center justify-center mb-4 group-hover:bg-[#12C4D3] transition-colors">
-                     <MessageSquare className="w-5 h-5 text-[#12C4D3] group-hover:text-white transition-colors" />
-                  </div>
-                  <h3 className="text-[16px] font-semibold text-[#E0E0E0] mb-1">View Messages</h3>
-                  <p className="text-[14px] text-[#9CA3AF]">Check team communications</p>
-               </Link>
-               <Link to="/admin/reports" className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#FFC107] transition-all duration-200 text-left group">
-                  <div className="w-12 h-12 rounded-xl bg-[#FFC1071A] flex items-center justify-center mb-4 group-hover:bg-[#FFC107] transition-colors">
-                     <Building2 className="w-5 h-5 text-[#FFC107] group-hover:text-white transition-colors" />
-                  </div>
-                  <h3 className="text-[16px] font-semibold text-[#E0E0E0] mb-1">View Reports</h3>
-                  <p className="text-[14px] text-[#9CA3AF]">Analyze department performance</p>
-               </Link>
-            </div>
-         </section>
-         <DashBordHeader/>
-      </div>
-   );
-};
+  const stats = [
+    {
+      title: 'Total Employees',
+      value: 247,
+      icon: Users,
+      iconColor: '#009F8E',
+      iconBg: '#009F8E1A',
+      trend: { value: '+12% from last month', isPositive: true },
+    },
+    {
+      title: 'Active Tasks',
+      value: 38,
+      icon: CheckSquare,
+      iconColor: '#12C4D3',
+      iconBg: '#12C4D31A',
+      trend: { value: '+5% from last week', isPositive: true },
+    },
+    {
+      title: 'Completion Rate',
+      value: 94,
+      icon: TrendingUp,
+      iconColor: '#00BF6B',
+      iconBg: '#00BF6B1A',
+      trend: { value: '+2% from last month', isPositive: true },
+    },
+    {
+      title: 'Departments',
+      value: 8,
+      icon: Building2,
+      iconColor: '#FFC107',
+      iconBg: '#FFC1071A',
+    },
+  ]
+  const recentTasks = [
+    {
+      id: 1,
+      title: 'Update employee handbook',
+      assignee: 'Sarah Johnson',
+      status: 'in-progress' as const,
+      dueDate: 'Mar 30',
+    },
+    {
+      id: 2,
+      title: 'Q1 Performance reviews',
+      assignee: 'Michael Chen',
+      status: 'pending' as const,
+      dueDate: 'Mar 31',
+    },
+    {
+      id: 3,
+      title: 'Onboard new hires',
+      assignee: 'Emily Davis',
+      status: 'done' as const,
+      dueDate: 'Mar 28',
+    },
+    {
+      id: 4,
+      title: 'Department budget planning',
+      assignee: 'David Wilson',
+      status: 'in-progress' as const,
+      dueDate: 'Apr 05',
+    },
+  ]
+  return (
+    <div className="w-full   p-4 ">
+      <section className="w-full  ">
+        <h1 className="text-text-primary font-bold text-4xl  mb-1 ">Dashboard</h1>
+        <p className="text-text-disabled text-base  ml-1 mb-4 ">
+          Welcome back! Here's what's happening today.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {stats.map((stat, index) => (
+            <StatCard
+              key={index}
+              title={stat.title}
+              value={stat.value}
+              iconBg={stat.iconBg}
+              iconColor={stat.iconColor}
+              iconDisplay={true}
+              trendDisplay={true}
+              height={'42'}
+            />
+          ))}
+        </div>
+      </section>
+      <section className="w-full flex flex-col md:flex-row  gap-4">
+        <RecentTasks />
+        <RecentHiers />
+      </section>
 
-export default AdminDashboard;
+      <section>
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Link
+            to="/admin/employees"
+            className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#009F8E] transition-all duration-200 text-left group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#009F8E1A] flex items-center justify-center mb-4 group-hover:bg-[#009F8E] transition-colors">
+              <Plus className="w-5 h-5 text-[#009F8E] group-hover:text-white transition-colors" />
+            </div>
+            <h3 className="text-[16px] font-semibold text-[#E0E0E0] mb-1">Add Employee</h3>
+            <p className="text-[14px] text-[#9CA3AF]">Onboard new team members</p>
+          </Link>
+          <Link
+            to="/admin/messages"
+            className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#12C4D3] transition-all duration-200 text-left group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#12C4D31A] flex items-center justify-center mb-4 group-hover:bg-[#12C4D3] transition-colors">
+              <MessageSquare className="w-5 h-5 text-[#12C4D3] group-hover:text-white transition-colors" />
+            </div>
+            <h3 className="text-[16px] font-semibold text-[#E0E0E0] mb-1">View Messages</h3>
+            <p className="text-[14px] text-[#9CA3AF]">Check team communications</p>
+          </Link>
+          <Link
+            to="/admin/reports"
+            className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#FFC107] transition-all duration-200 text-left group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-[#FFC1071A] flex items-center justify-center mb-4 group-hover:bg-[#FFC107] transition-colors">
+              <Building2 className="w-5 h-5 text-[#FFC107] group-hover:text-white transition-colors" />
+            </div>
+            <h3 className="text-[16px] font-semibold text-[#E0E0E0] mb-1">View Reports</h3>
+            <p className="text-[14px] text-[#9CA3AF]">Analyze department performance</p>
+          </Link>
+        </div>
+      </section>
+      <DashBordHeader />
+    </div>
+  )
+}
+
+export default AdminDashboard
