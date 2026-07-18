@@ -79,7 +79,7 @@ const AdminTasks = () => {
         <div className="w-full md:w-2/4  p-2 flex flex-row justify-between items-center ">
           <Input type="text" placeholder="Search" className={'w-full   h-10 p-2 rounded-md'} />
         </div>
-        <div className=" w-full md:w-2/4 flex flex-row  gap-2 w-2/4">
+        <div className=" w-full md:w-2/4 flex flex-row  gap-2 ">
           <div className=" w-full md:w-2/4 relative  bg-navbar rounded-lg">
             <div
               className="rounded-lg p-2 flex flex-row items-center  justify-left gap-2 cursor-pointer"
@@ -313,7 +313,19 @@ const AdminTasks = () => {
         </div>
       </div>
       {/* Navigation Section */}
-      <section></section>
+      <section className="tasks-navigation-sec  w-full flex flex-row justify-between mt-5">
+         <div>
+          <p>{`Showing 8 of 8 tasks`}</p>
+         </div>
+         <div className='w-2/4 flex flex-row justify-end  gap-4'>
+          <div><button>Previous</button></div>
+          <div>
+            <span>
+            </span>
+          </div>
+          <div><button>Next</button></div>
+         </div>
+      </section>
     </div>
   )
 }

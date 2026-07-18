@@ -18,6 +18,8 @@ import Icon from './ui/Icon.js'
 import RecentTasks from './ui/RecentTasks.js'
 import RecentHiers from './ui/RecentHiers.js'
 import DepartmentCard from './ui/DepartmentCard.js'
+import AnnoucmentStatCard from './ui/AnnoucmentStatCard.js'
+import AnnoucmentCard from './ui/AnnoucmentCard.js'
 // Main Components
 import Header from './Header.js'
 import Footer from './Footer.js'
@@ -48,4 +50,6 @@ export {
   RecentTasks,
   RecentHiers,
   DepartmentCard,
+  AnnoucmentStatCard,
+  AnnoucmentCard
 }

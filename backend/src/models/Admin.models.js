@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { organization } from "./ organization.models";
 const AdminSchema = new mongoose.Schema({
     fullName: {
         type: String,
@@ -36,7 +36,10 @@ const AdminSchema = new mongoose.Schema({
         trim: true,
         unique: true,
     },
-  
+  organization:{
+       type:mongoose.Schema.Types.objectId,
+       ref:"organization"
+  }
 
 }, { timestamps: true })
 

@@ -11,6 +11,7 @@ import AdminEmployees from './admin/AdminEmployees.jsx'
 import AdminProfile from './admin/AdminProfile.jsx'
 import AdminReports from './admin/AdminReports.jsx'
 import AdminTasks from './admin/AdminTasks.js'
+import AdminAnnocment from './admin/AdminAnnocment.js'
 
 import Annoucments from './employee/Annoucments.js'
 import Colleagues from './employee/Colleagues.js'
@@ -32,6 +33,7 @@ export {
   AdminProfile,
   AdminReports,
   AdminTasks,
+  AdminAnnocment,
   Annoucments,
   Colleagues,
   EmpolyDashboard,

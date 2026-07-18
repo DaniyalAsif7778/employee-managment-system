@@ -21,6 +21,7 @@ import {
   AdminProfile,
   AdminReports,
   AdminTasks,
+  AdminAnnocment,
   Annoucments,
   Colleagues,
   Leave,
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
             <Route path="Profile" element={<AdminProfile />} />
             <Route path="Reports" element={<AdminReports />} />
             <Route path="Tasks" element={<AdminTasks />} />
+            <Route path='Announcements' element={<AdminAnnocment/>}></Route>
           </Route>
           <Route element={<EmployeeRoutes />}>
             <Route path="Dashbord" element={<EmpolyDashboard />} />

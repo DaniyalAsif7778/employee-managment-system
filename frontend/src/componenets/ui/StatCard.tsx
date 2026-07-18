@@ -22,7 +22,7 @@ const StatCard = ({
   // icon: Icon,
   iconColor = '',
   iconBg = '',
-  trend = {},
+  trend  ,
   iconDisplay = true,
   trendDisplay = true,
   height = '42',
