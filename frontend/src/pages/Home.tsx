@@ -84,21 +84,14 @@
 
 import React from 'react'
 
-const completedModules = [
+const inProgressModules = [
   'Authentication',
   'Organization Registration',
   'Employee Management',
   'Dashboard UI',
   'Responsive Design',
 ]
-
-const inProgressModules = [
-  'Attendance Module',
-  'Leave Management',
-  'Reports & Analytics',
-  'Notifications',
-  'Payroll',
-]
+ 
 
 const plannedFeatures = [
   {
@@ -138,19 +131,19 @@ const plannedFeatures = [
 const stats = [
   {
     title: 'Frontend',
-    value: 85,
+    value: 25,
   },
   {
     title: 'Backend',
-    value: 55,
+    value: 10,
   },
   {
     title: 'Database',
-    value: 70,
+    value: 20,
   },
   {
     title: 'Security',
-    value: 45,
+    value: 20,
   },
 ]
 
@@ -180,29 +173,18 @@ const Home: React.FC = () => {
           <div className="mx-auto mt-12 max-w-xl">
             <div className="mb-2 flex justify-between text-sm">
               <span>Overall Progress</span>
-              <span>62%</span>
+              <span>20%</span>
             </div>
 
             <div className="h-4 overflow-hidden rounded-full bg-slate-800">
-              <div className="h-full w-[62%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-1000" />
+              <div className="h-full w-[20%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-1000" />
             </div>
           </div>
         </div>
 
         {/* Status */}
-        <div className="mt-24 grid gap-8 lg:grid-cols-2">
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-8">
-            <h2 className="mb-6 text-2xl font-bold text-green-400">Completed Modules</h2>
-
-            <div className="space-y-4">
-              {completedModules.map((item) => (
-                <div key={item} className="flex items-center gap-3 rounded-lg bg-slate-800 p-4">
-                  <span className="text-green-400">✔</span>
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="mt-24 grid gap-8  grid-center">
+         
 
           <div className="rounded-2xl border border-slate-800 bg-slate-900 p-8">
             <h2 className="mb-6 text-2xl font-bold text-yellow-400">Currently Building</h2>
