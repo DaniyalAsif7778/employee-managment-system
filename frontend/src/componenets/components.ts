@@ -8,6 +8,7 @@ import Error from './ui/error.js'
 
 import HeaderDrawer from './ui/HeaderDrawer.js'
 import Input from './ui/Input.js'
+import Select from './ui/Select.js'
 import ProgressBar from './ui/ProgressBar.js'
 import StatusBatch from './ui/StatusBatch.js'
 
@@ -20,6 +21,7 @@ import RecentHiers from './ui/RecentHiers.js'
 import DepartmentCard from './ui/DepartmentCard.js'
 import AnnoucmentStatCard from './ui/AnnoucmentStatCard.js'
 import AnnoucmentCard from './ui/AnnoucmentCard.js'
+import Stepper from './ui/Stepper.js'
 // Main Components
 import Header from './Header.js'
 import Footer from './Footer.js'
@@ -37,6 +39,7 @@ export {
   Error,
   HeaderDrawer,
   Input,
+  Select,
   ProgressBar,
   StatusBatch,
   Header,
@@ -51,5 +54,6 @@ export {
   RecentHiers,
   DepartmentCard,
   AnnoucmentStatCard,
-  AnnoucmentCard
+  AnnoucmentCard,
+  Stepper
 }
