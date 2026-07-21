@@ -1,20 +1,16 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { setDashBoardStatus } from '../../features/menueSlice.js'
+import useMenue from '../../hooks/useMenue.js'
 
-interface HeaderDrawerProps {
-  status1: boolean
-}
+const HeaderDrawer = () => {
+  const { toggleDashBoardDrawer } = useMenue()
 
-const HeaderDrawer = ({ status1 }: HeaderDrawerProps) => {
-  const dispatch = useDispatch()
   return (
     <div className="hidden sm:flex">
       <button
-        onClick={() => {
-          dispatch(setDashBoardStatus(status1))
-        }}
+        type="button"
+        onClick={toggleDashBoardDrawer}
         className="text-text-primary focus:outline-none"
+        aria-label="Toggle dashboard navigation"
       >
         <svg
           className="w-6 h-6"

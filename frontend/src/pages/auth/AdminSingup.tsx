@@ -9,7 +9,10 @@ import {
   IconEyeOff,
   IconArrowLeft,
 } from '@tabler/icons-react'
-
+import { useStepper } from '../../context/stepperContext.js'
+import { useFormData } from '../../context/formContext.js'
+import { validateAdminSignup } from '../../utils/validator.js'
+import { type AdminSingup } from '../../utils/validator.js'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 
@@ -23,6 +26,8 @@ const primaryBtnClass =
   'rounded-md py-2.5 text-base font-medium bg-primary text-primary-fg hover:bg-primary-hover active:bg-primary-pressed active:scale-[0.98] transition'
 
 export default function AdminSingup() {
+  const { setStepCount } = useStepper()
+  const { updateFormData } = useFormData()
   const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
   const [personal, setPersonal] = useState({
@@ -32,7 +37,6 @@ export default function AdminSingup() {
     password: '',
     confirmPassword: '',
   })
-
   const passwordToggle = (visible: boolean, toggle: () => void, label: string) => (
     <button
       type="button"
@@ -46,7 +50,7 @@ export default function AdminSingup() {
   )
 
   return (
-    <div className="w-full max-w-[420px]">
+    <div className="w-full ">
       <h1 className="text-2xl font-semibold text-text-primary mb-1">Personal information</h1>
       <p className="text-sm text-text-secondary mb-6">
         Tell us who&apos;ll be managing this organization.
@@ -54,7 +58,7 @@ export default function AdminSingup() {
 
       <div className="mb-4">
         <Input
-        type='text'
+          type="text"
           label="Full name"
           name="fullName"
           placeholder="Jordan Malik"
@@ -80,10 +84,10 @@ export default function AdminSingup() {
 
       <div className="mb-4">
         <Input
-        type='tel'
+          type="tel"
           label="Phone number"
           name="phone"
-          placeholder="+1 (555) 000-0000"
+          placeholder="(555) 000-0000"
           value={personal.phone}
           onchange={(e) => setPersonal({ ...personal, phone: e.target.value })}
           className={fieldClass}
@@ -96,7 +100,7 @@ export default function AdminSingup() {
           label="Password"
           type={showPw ? 'text' : 'password'}
           name="password"
-          placeholder="At least 8 characters"
+          placeholder="Enter your password"
           value={personal.password}
           onchange={(e) => setPersonal({ ...personal, password: e.target.value })}
           className={fieldWithSuffixClass}
@@ -132,6 +136,10 @@ export default function AdminSingup() {
           disabled={false}
           text="Continue"
           className={`flex-1 ${primaryBtnClass}`}
+          onclick={() => {
+            // error when calling method formData it ask for missing Value in type in formContext 
+            setStepCount(2)
+          }}
         />
       </div>
     </div>

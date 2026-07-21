@@ -1,21 +1,23 @@
 import React from 'react'
 import { IconCheck } from '@tabler/icons-react'
+import { useStepper } from '../../context/stepperContext.js'
 interface StepperProps {
   labels: string[]
   steps: number
 }
 
-function Stepper({ labels = [], steps }: StepperProps) {
+function Stepper({ labels = [] }: StepperProps) {
+  const { stepperCount } = useStepper()
   return (
     <div className="flex w-full items-center mb-8">
       {labels.map((label, index) => {
         const n = index + 1
 
-        const done = steps > n
-        const active = steps === n
+        const done = stepperCount > n
+        const active = stepperCount === n
         return (
           <React.Fragment key={label}>
-            <div className="flex  items-center">
+            <div className="flex  items-center ">
               <div className="    flex flex-col items-center justify-center gap-2  m-1.5">
                 <div
                   className={`  h-10 w-10 rounded-full flex items-center  justify-center ${done ? 'bg-primary ' : active ? 'border-2 border-primary bg-navbar text-primary' : 'bg-navbar'}`}
@@ -31,7 +33,7 @@ function Stepper({ labels = [], steps }: StepperProps) {
 
               {index < labels.length - 1 && (
                 <div
-                  className=" w-[400px]    h-[2px] mx-2 mb-4  bg-navbar overflow-hidden"
+                  className=" w-[100px]  lg:w-[400px]    h-[2px] mx-2 mb-4  bg-navbar overflow-hidden"
                  >
                   <div
                     className={`h-full w-[400px]  transition-all duration-300 ${done ? 'w-full h-[2px] bg-primary' : 'w-0 bg-navbar'}`}

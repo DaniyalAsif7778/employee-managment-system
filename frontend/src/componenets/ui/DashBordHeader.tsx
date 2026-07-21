@@ -1,10 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router'
-import { useNavigate } from 'react-router'
-import toast from 'react-hot-toast'
-import { useSelector } from 'react-redux'
-import type { RootState } from '../../store/store.js'
-import { useLogout } from '../../hooks/hooks.js'
+import { useMenue } from '../../hooks/hooks.js'
 import {
   IconLayoutDashboard as LayoutDashboard,
   IconUsers as Users,
@@ -18,16 +14,12 @@ import {
   IconUserCircle as UserCircle,
   IconMessageCircle as MessageSquare,
   IconBell as Bell,
-  IconLogout as LogOut,
 } from '@tabler/icons-react'
 
 import HeaderDrawer from './HeaderDrawer.js'
-const DashBordHeader = () => {
-  const navigate = useNavigate()
-  const isOpened = useSelector((state: RootState) => state.menue.dashBoardDrawer)
-  const currentUser = useSelector((state: RootState) => state.currentUser.user)
 
-  const { logOutHandler } = useLogout()
+const DashBordHeader = () => {
+  const { dashBoardDrawer } = useMenue()
 
   const adminLinks = [
     { path: '/Dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -54,10 +46,10 @@ const DashBordHeader = () => {
   ]
 
   return (
-    isOpened && (
+    dashBoardDrawer && (
       <nav className="  w-full  sm:max-w-fit mr-2 sm:m-0 sm:h-screen fixed sm:absolute z-10 bottom-0 sm:top-0 sm:left-0 flex  flex-col   bg-navbar    border border-border shadow-md text-white rounded-md">
         <div className="  hidden sm:flex       px-5.5 py-4 flex-row items-center border-b border-border   justify-start gap-3">
-          <HeaderDrawer status1={false} />
+          <HeaderDrawer />
           <div className=" flex flex-col items-start justify-start">
             <h1 className=" font-bold text-xl whitespace-nowrap">
               <span className="text-primary ">Emplo</span>

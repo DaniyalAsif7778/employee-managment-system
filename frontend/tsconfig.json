@@ -1,24 +1,19 @@
 {
   "compilerOptions": {
-    // File Layout
-    "rootDir": "./src", // ✅ uncomment this
-    "outDir": "./dist", // ✅ uncomment this
+    "rootDir": "./src",
+    "outDir": "./dist",
 
-    // Environment Settings
     "module": "nodenext",
     "target": "esnext",
-    "types": [],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
 
-    // Other Outputs
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
 
-    // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
-    // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
@@ -26,5 +21,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true
-  }
+  },
+  "include": ["src"]
 }

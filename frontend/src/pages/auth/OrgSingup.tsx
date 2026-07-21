@@ -4,7 +4,8 @@ import { IconBuilding, IconHash, IconMapPin } from '@tabler/icons-react'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 import Select from '../../componenets/ui/Select.js'
-
+import { useStepper } from '../../context/stepperContext.js'
+import { useFormData } from '../../context/formContext.js'
 const fieldClass = `${inputBase} pl-9`
 
 const ghostBtnClass =
@@ -30,12 +31,14 @@ function slugify(value: string) {
 }
 
 export default function OrgSingup() {
+  const { setStepCount } = useStepper()
+  const { updateFormData } = useFormData()
   const [slugTouched, setSlugTouched] = useState(false)
   const [org, setOrg] = useState({
     orgName: '',
     slug: '',
     address: '',
-    companySize: '',
+    companySize:  1,
   })
 
   useEffect(() => {
@@ -45,7 +48,7 @@ export default function OrgSingup() {
   }, [org.orgName, slugTouched])
 
   return (
-    <div className="w-full max-w-[420px]">
+    <div className="w-full S">
       <h1 className="text-2xl font-semibold text-text-primary mb-1">Organization information</h1>
       <p className="text-sm text-text-secondary mb-6">Where and how big is your team?</p>
 
@@ -64,7 +67,7 @@ export default function OrgSingup() {
 
       <div className="mb-4">
         <Input
-        type='file'
+        type='text'
           label="Organization slug"
           name="slug"
           placeholder="acme-inc"
@@ -98,14 +101,18 @@ export default function OrgSingup() {
         label="Company size"
         name="companySize"
         placeholder="Select company size"
-        value={org.companySize}
+        // value={org.companySize}
         options={companySizes}
-        onchange={(e) => setOrg({ ...org, companySize: e.target.value })}
+        // onchange={(e) => setOrg({ ...org, companySize: e.target.value })}
       />
 
       <div className="flex items-center gap-3 mt-6">
-        <Button type="button" disabled={false} text="Previous" className={ghostBtnClass} />
-        <Button type="button" disabled={false} text="Continue" className={`flex-1 ${primaryBtnClass}`} />
+        <Button type="button" disabled={false} text="Previous" className={ghostBtnClass}         onclick={() => setStepCount(1)}
+ />
+        <Button type="button" disabled={false} text="Continue" className={`flex-1 ${primaryBtnClass}`} onclick={() => {
+          updateFormData(org)
+          setStepCount(3)
+        }} />
       </div>
     </div>
   )

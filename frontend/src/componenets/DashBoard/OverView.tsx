@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AdminDashbord from '../../pages/admin/AdminDashboard.js'
 import EmpolyDashBoard from '../../pages/employee/EmpolyDashboard.js'
-import { useSelector } from 'react-redux'
-import type { RootState } from '../../store/store.js'
+import useMenue from '../../hooks/useMenue.js'
+
 const OverView = () => {
-  const currentUser = useSelector((state: RootState) => state.currentUser)
+  const { setDashBoardStatus } = useMenue()
+
+  useEffect(() => {
+    setDashBoardStatus(true)
+  }, [setDashBoardStatus])
 
   return (
     <AdminDashbord />

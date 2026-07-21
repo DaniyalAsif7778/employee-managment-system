@@ -588,7 +588,7 @@ export interface SystemSettings {
   features: FeatureFlags
 }
 
-export interface LeavePolicy {
+export type LeavePolicy = {
   [key in LeaveType]?: {
     daysPerYear: number
     carryForward: boolean

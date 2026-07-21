@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { NavLink } from 'react-router'
-import { useSelector, useDispatch } from 'react-redux'
-import { setHeaderDrawwer } from '../features/menueSlice.js'
+import { useSelector } from 'react-redux'
 
 import { HeaderDrawer } from './components.js'
 import { Button } from './components.js'
-import { useLogout } from '../hooks/hooks.js'
+import { useLogout, useMenue } from '../hooks/hooks.js'
 import type { RootState } from '../store/store.js'
+
 const Header = () => {
-  const isOpened = useSelector((state: RootState) => state.menue.headerDrawer)
+  const { headerDrawer, toggleHeaderDrawer } = useMenue()
   const currentUser = useSelector((state: RootState) => state.currentUser.user)
-  // const isOpened = useSelector((state:RootState)=> state.menue.headerDrawer)
-  const [status, setStatus] = useState(true)
-  const dispatch = useDispatch()
   const { logOutHandler } = useLogout()
+
   useEffect(() => {
-    console.log(currentUser, status, 'admin')
-  }, [currentUser, status])
-  console.log()
+    console.log(currentUser, 'admin')
+  }, [currentUser])
 
   const isLoggedIn = currentUser?.loginStatus
 
@@ -26,7 +23,7 @@ const Header = () => {
       <div className="flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <HeaderDrawer status1={true} />
+          <HeaderDrawer />
 
           <h1 className=" font-bold text-xl whitespace-nowrap">
             <span className="text-primary ">Emplo</span>
@@ -37,11 +34,10 @@ const Header = () => {
         {/* Hamburger Button (Mobile) */}
         <div className="sm:hidden">
           <button
-            onClick={() => {
-              setStatus(!status)
-              dispatch(setHeaderDrawwer(status))
-            }}
+            type="button"
+            onClick={toggleHeaderDrawer}
             className="text-text-primary focus:outline-none"
+            aria-label="Toggle menu"
           >
             <svg
               className="w-6 h-6"
@@ -50,7 +46,7 @@ const Header = () => {
               strokeWidth={2}
               viewBox="0 0 24 24"
             >
-              {isOpened ? (
+              {headerDrawer ? (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               ) : (
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -125,7 +121,7 @@ const Header = () => {
       </div>
 
       {/* Mobile Dropdown Menu */}
-      {isOpened && (
+      {headerDrawer && (
         <div className="sm:hidden mt-4">
           <ul className="flex flex-col gap-4 text-sm font-medium">
             <li>

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Button from '../../componenets/ui/Button.js'
 import Input from '../../componenets/ui/Input.js'
 import { AuthReviewSection, AuthReviewRow, AuthTermsModal } from '../../componenets/ui/AuthReview.js'
-
+import { useStepper } from '../../context/stepperContext.js'
 const ghostBtnClass =
   'rounded-md px-4 py-2.5 text-sm font-medium border-[1.5px] border-border text-text-secondary hover:border-border-secondary hover:text-text-primary transition'
 
@@ -13,9 +13,9 @@ const primaryBtnClass =
 export default function FinalSingup() {
   const [agreed, setAgreed] = useState(false)
   const [showTerms, setShowTerms] = useState(false)
-
+  const { setStepCount } = useStepper()
   return (
-    <div className="w-full max-w-[420px]">
+    <div className="w-full ">
       <h1 className="text-2xl font-semibold text-text-primary mb-1">Review your information</h1>
       <p className="text-sm text-text-secondary mb-6">
         Make sure everything is correct before you create your organization.
@@ -59,12 +59,15 @@ export default function FinalSingup() {
       </label>
 
       <div className="flex items-center gap-3">
-        <Button type="button" disabled={false} text="Previous" className={ghostBtnClass} />
+        <Button type="button" disabled={false} text="Previous" className={ghostBtnClass} 
+        onclick={() => setStepCount(2)}
+        />
         <Button
           type="button"
           disabled={!agreed}
           text="Create organization"
           className={`flex-1 ${primaryBtnClass}`}
+          onclick={() => setStepCount(4)}
         />
       </div>
 

@@ -15,7 +15,7 @@ views:string,
 
 }
 
-function AnnoucmentCard({}:AnnoucmentCardProps) {
+function AnnoucmentCard(_props?: Partial<AnnoucmentCardProps>) {
   return (
     <div className="border  rounded-md bg-surface p-2   flex flex-row gap-4 ">
       <div className="h-full w-10 ">
