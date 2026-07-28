@@ -23,7 +23,7 @@ function Stepper({ labels = [] }: StepperProps) {
                   className={`  h-10 w-10 rounded-full flex items-center  justify-center ${done ? 'bg-primary ' : active ? 'border-2 border-primary bg-navbar text-primary' : 'bg-navbar'}`}
                 >
                   {done ? (
-                    <IconCheck size={10} color="white" />
+                    <IconCheck size={15} color="white" />
                   ) : (
                     <h1 className="text-center text-sm font-medium">{n}</h1>
                   )}

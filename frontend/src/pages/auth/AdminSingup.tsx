@@ -30,10 +30,11 @@ export default function AdminSingup() {
   const { updateFormData } = useFormData()
   const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
+  const [disable ,setDisable] = useState(true)
   const [personal, setPersonal] = useState({
     fullName: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: '',
   })
@@ -49,6 +50,15 @@ export default function AdminSingup() {
     </button>
   )
 
+  const submitForm= (e: React.MouseEvent<HTMLButtonElement>)=>{
+     const {isFullNameValid, isEmailValid, isPhoneNumberValid, isPasswordValid, isConfirmPasswordValid, isValid } = validateAdminSignup(personal)
+    console.log(isValid,isPasswordValid,isConfirmPasswordValid, isFullNameValid, isEmailValid, isPhoneNumberValid,);
+    
+    setDisable(isValid)
+    if (!disable) {
+      setStepCount(2)
+    }
+  }
   return (
     <div className="w-full ">
       <h1 className="text-2xl font-semibold text-text-primary mb-1">Personal information</h1>
@@ -88,8 +98,8 @@ export default function AdminSingup() {
           label="Phone number"
           name="phone"
           placeholder="(555) 000-0000"
-          value={personal.phone}
-          onchange={(e) => setPersonal({ ...personal, phone: e.target.value })}
+          value={personal.phoneNumber}
+          onchange={(e) => setPersonal({ ...personal, phoneNumber: e.target.value })}
           className={fieldClass}
           prefix={<IconPhone size={16} className="text-text-disabled" />}
         />
@@ -136,9 +146,11 @@ export default function AdminSingup() {
           disabled={false}
           text="Continue"
           className={`flex-1 ${primaryBtnClass}`}
-          onclick={() => {
-            // error when calling method formData it ask for missing Value in type in formContext 
-            setStepCount(2)
+          onclick={(e ) => {
+            
+            submitForm(e)// error when calling method formData it ask for missing Value in type in formContext 
+           
+    
           }}
         />
       </div>

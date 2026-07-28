@@ -30,13 +30,10 @@ export function validateAdminSignup(fields: AdminSingup): AdminSingupReturn {
   const isPhoneNumberValid = REGEX.phoneNumber.test(phoneNumber)
   const isPasswordValid = REGEX.password.test(password)
   const isConfirmPasswordValid = password === confirmPassword
-  let isValid = false
+  let isValid = true
 
-  if (isFullNameValid && isEmailValid && isPhoneNumberValid && isPasswordValid && isConfirmPasswordValid && fullName != "" && email != "" && phoneNumber != "" && password != "" && confirmPassword != "") {
-    isValid = true
-  } else {
-    isValid = false
-  }
+  if (isFullNameValid && isEmailValid && isPhoneNumberValid && isPasswordValid && isConfirmPasswordValid && fullName != "" && email != "" && phoneNumber != "" && password != "" && confirmPassword != "") {   isValid = false ;}
+   
   return { isFullNameValid, isEmailValid, isPhoneNumberValid, isPasswordValid, isConfirmPasswordValid, isValid }
 
 }

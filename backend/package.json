@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "    nodemon -r  dotenv/config --experimental-json-modules ./src/index.js "
   },
   "author": "DaniyalAsif",
   "license": "ISC",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "dotenv": "^17.4.2",
     "eslint": "^10.4.1",
     "globals": "^17.6.0",
     "jiti": "^2.7.0",
