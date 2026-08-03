@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bycrypt from "bcrypt"
 
 const organizationSchema = new mongoose.Schema(
   {
@@ -13,6 +14,10 @@ const organizationSchema = new mongoose.Schema(
     organizationSlug: {
       type: String,
     },
+    organizationEmail: {
+      type: String,
+      required: true,
+    },
     address: {
       type: String,
       required: true,
@@ -25,7 +30,19 @@ const organizationSchema = new mongoose.Schema(
       trim: true,
     },
   },
-  { timestamps: true }
+  {  timestamps: true }
 );
 
-export const organization = mongoose.model('organization', organizationSchema);
+
+organizationSchema.pre('save',  async function(){
+           if (!this.isModified("orgnaizationEmail")) return;
+
+           return    this.orgnaizationEmail = await bycrypt.hash(this.orgnaizationEmail,10)
+})
+organizationSchema.methods.isOrgEmailCorrect = async function(orgEmail){
+const confirmOrgEmail =  await bycrypt.compare(orgEmail,this.orgnaizationEmail) 
+return confirmOrgEmail;
+}
+
+
+export const Organization = mongoose.model('organization', organizationSchema);
