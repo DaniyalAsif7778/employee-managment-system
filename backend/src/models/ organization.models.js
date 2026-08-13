@@ -18,6 +18,14 @@ const organizationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    org_avatar:{
+      type:String,
+      required:true,
+    },
+    org_coverImage:{
+      type:String,
+      required:true
+    },
     address: {
       type: String,
       required: true,
