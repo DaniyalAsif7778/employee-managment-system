@@ -4,19 +4,14 @@ import { useSelector } from 'react-redux'
 
 import { HeaderDrawer } from './components.js'
 import { Button } from './components.js'
-import { useLogout, useMenue } from '../hooks/hooks.js'
+import {       useMenue } from '../hooks/hooks.js'
 import type { RootState } from '../store/store.js'
 
 const Header = () => {
   const { headerDrawer, toggleHeaderDrawer } = useMenue()
-  const currentUser = useSelector((state: RootState) => state.currentUser.user)
-  const { logOutHandler } = useLogout()
-
-  useEffect(() => {
-    console.log(currentUser, 'admin')
-  }, [currentUser])
-
-  const isLoggedIn = currentUser?.loginStatus
+  
+  
+  const isLoggedIn =  "admin"
 
   return (
     <header className="w-full bg-navbar text-text-primary border-b border-border px-6 py-4">
@@ -68,14 +63,14 @@ const Header = () => {
                 About
               </NavLink>
             </li>
-            {currentUser?.role == 'admin' && (
+            {isLoggedIn == 'admin' && (
               <li>
                 <NavLink to="/DashBoard" className="hover:text-primary-hover transition">
                   Dashboard
                 </NavLink>
               </li>
             )}
-            {currentUser?.role == 'employee' && (
+            { true || "employee" == 'employee' && (
               <li>
                 <NavLink to="/DashBoard" className="hover:text-primary-hover transition">
                   Dashboard
@@ -106,8 +101,7 @@ const Header = () => {
             {isLoggedIn && (
               <Button
                 onclick={() => {
-                  logOutHandler()
-                }}
+                 }}
                 text="Logout"
                 className={`  py-2.5 rounded-md font-medium transition
               bg-primary text-white
@@ -134,14 +128,14 @@ const Header = () => {
                 About
               </NavLink>
             </li>
-            {currentUser?.role == 'admin' && (
+            {isLoggedIn == 'admin' && (
               <li>
                 <NavLink to="/DashBoard" className="hover:text-primary-hover transition">
                   Dashboard
                 </NavLink>
               </li>
             )}
-            {currentUser?.role == 'employee' && (
+            { false || "employee" == 'employee' && (
               <li>
                 <NavLink to="/DashBoard" className="hover:text-primary-hover transition">
                   Dashboard

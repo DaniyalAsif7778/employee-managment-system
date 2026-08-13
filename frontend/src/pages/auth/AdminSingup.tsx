@@ -15,7 +15,7 @@ import { validateAdminSignup } from '../../utils/validator.js'
 import { type AdminSingup } from '../../utils/validator.js'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
-
+import {ProfilePicturePicker} from "../../import.js"
 const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
@@ -30,7 +30,7 @@ export default function AdminSingup() {
   const { updateFormData } = useFormData()
   const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
-  const [disable ,setDisable] = useState(true)
+  const [disable, setDisable] = useState(true)
   const [personal, setPersonal] = useState({
     fullName: '',
     email: '',
@@ -50,10 +50,24 @@ export default function AdminSingup() {
     </button>
   )
 
-  const submitForm= (e: React.MouseEvent<HTMLButtonElement>)=>{
-     const {isFullNameValid, isEmailValid, isPhoneNumberValid, isPasswordValid, isConfirmPasswordValid, isValid } = validateAdminSignup(personal)
-    console.log(isValid,isPasswordValid,isConfirmPasswordValid, isFullNameValid, isEmailValid, isPhoneNumberValid,);
-    
+  const submitForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const {
+      isFullNameValid,
+      isEmailValid,
+      isPhoneNumberValid,
+      isPasswordValid,
+      isConfirmPasswordValid,
+      isValid,
+    } = validateAdminSignup(personal)
+    console.log(
+      isValid,
+      isPasswordValid,
+      isConfirmPasswordValid,
+      isFullNameValid,
+      isEmailValid,
+      isPhoneNumberValid
+    )
+
     setDisable(isValid)
     if (!disable) {
       setStepCount(2)
@@ -61,11 +75,17 @@ export default function AdminSingup() {
   }
   return (
     <div className="w-full ">
-      <h1 className="text-2xl font-semibold text-text-primary mb-1">Personal information</h1>
-      <p className="text-sm text-text-secondary mb-6">
-        Tell us who&apos;ll be managing this organization.
-      </p>
-
+      <div className="flex flex-row justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-semibold text-text-primary mb-1">Personal information</h1>
+          <p className="text-sm text-text-secondary mb-6">
+            Tell us who&apos;ll be managing this organization.
+          </p>
+        </div>
+        <div>
+            <ProfilePicturePicker value={null} onChange={()=> null} />
+        </div>
+      </div>
       <div className="mb-4">
         <Input
           type="text"
@@ -115,7 +135,11 @@ export default function AdminSingup() {
           onchange={(e) => setPersonal({ ...personal, password: e.target.value })}
           className={fieldWithSuffixClass}
           prefix={<IconLock size={16} className="text-text-disabled" />}
-          suffix={passwordToggle(showPw, () => setShowPw((s) => !s), showPw ? 'Hide password' : 'Show password')}
+          suffix={passwordToggle(
+            showPw,
+            () => setShowPw((s) => !s),
+            showPw ? 'Hide password' : 'Show password'
+          )}
         />
       </div>
 
@@ -146,11 +170,8 @@ export default function AdminSingup() {
           disabled={false}
           text="Continue"
           className={`flex-1 ${primaryBtnClass}`}
-          onclick={(e ) => {
-            
-            submitForm(e)// error when calling method formData it ask for missing Value in type in formContext 
-           
-    
+          onclick={(e) => {
+            submitForm(e) // error when calling method formData it ask for missing Value in type in formContext
           }}
         />
       </div>

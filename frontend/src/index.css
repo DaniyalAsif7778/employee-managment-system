@@ -377,3 +377,18 @@
     scrollbar-width: none;
   }
 }
+
+/* Target autofilled inputs across Chrome, Edge, Safari, and Firefox */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    /* Changes the text color inside the autofilled input */
+    -webkit-text-fill-color: #ffffff !important;
+    
+    /* Overrides the browser background with your choice (e.g., #222222) */
+    box-shadow: 0 0 0 1000px #222222 inset !important;
+    
+    /* Optional: Matches your theme's transition or prevents a color flash */
+    transition: background-color 5000s ease-in-out 0s;
+}

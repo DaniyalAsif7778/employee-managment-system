@@ -7,7 +7,8 @@ import Select from '../../componenets/ui/Select.js'
 import { useStepper } from '../../context/stepperContext.js'
 import { useFormData } from '../../context/formContext.js'
 const fieldClass = `${inputBase} pl-9`
-
+import {ProfilePicturePicker} from "../../import.js"
+import {CoverImagePicker}from "../../import.js"
 const ghostBtnClass =
   'rounded-md px-4 py-2.5 text-sm font-medium border-[1.5px] border-border text-text-secondary hover:border-border-secondary hover:text-text-primary transition'
 
@@ -38,7 +39,7 @@ export default function OrgSingup() {
     orgName: '',
     slug: '',
     address: '',
-    companySize:  1,
+    companySize: 1,
   })
 
   useEffect(() => {
@@ -49,12 +50,26 @@ export default function OrgSingup() {
 
   return (
     <div className="w-full S">
-      <h1 className="text-2xl font-semibold text-text-primary mb-1">Organization information</h1>
-      <p className="text-sm text-text-secondary mb-6">Where and how big is your team?</p>
+      <div className="flex flex-row justify-between items-center">
+        <div>
+          <div>
+            <h1 className="text-2xl font-semibold text-text-primary mb-1">
+            Organization information
+          </h1>
+          <p className="text-sm text-text-secondary mb-6">Where and how big is your team?</p>
+          </div>
+          <div>
+<CoverImagePicker value={null} onChange={()=>null}/>
+          </div>
+        </div>
+        <div>
+          <ProfilePicturePicker value={null} onChange={() => null} />
+        </div>
+      </div>
 
       <div className="mb-4">
         <Input
-        type='text'
+          type="text"
           label="Organization name"
           name="orgName"
           placeholder="Acme Inc."
@@ -67,7 +82,7 @@ export default function OrgSingup() {
 
       <div className="mb-4">
         <Input
-        type='text'
+          type="text"
           label="Organization slug"
           name="slug"
           placeholder="acme-inc"
@@ -86,7 +101,7 @@ export default function OrgSingup() {
 
       <div className="mb-4">
         <Input
-        type='text'
+          type="text"
           label="Address"
           name="address"
           placeholder="123 Market Street, Austin, TX"
@@ -107,12 +122,23 @@ export default function OrgSingup() {
       />
 
       <div className="flex items-center gap-3 mt-6">
-        <Button type="button" disabled={false} text="Previous" className={ghostBtnClass}         onclick={() => setStepCount(1)}
- />
-        <Button type="button" disabled={false} text="Continue" className={`flex-1 ${primaryBtnClass}`} onclick={() => {
-          updateFormData(org)
-          setStepCount(3)
-        }} />
+        <Button
+          type="button"
+          disabled={false}
+          text="Previous"
+          className={ghostBtnClass}
+          onclick={() => setStepCount(1)}
+        />
+        <Button
+          type="button"
+          disabled={false}
+          text="Continue"
+          className={`flex-1 ${primaryBtnClass}`}
+          onclick={() => {
+            updateFormData(org)
+            setStepCount(3)
+          }}
+        />
       </div>
     </div>
   )

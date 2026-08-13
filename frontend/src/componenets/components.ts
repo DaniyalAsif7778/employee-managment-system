@@ -22,6 +22,8 @@ import DepartmentCard from './ui/DepartmentCard.js'
 import AnnoucmentStatCard from './ui/AnnoucmentStatCard.js'
 import AnnoucmentCard from './ui/AnnoucmentCard.js'
 import Stepper from './ui/Stepper.js'
+import CoverImagePicker from './ui/CoverImagePicker.js'
+import ProfilePicturePicker from './ui/ProfilePicturePicker.js'
 // Main Components
 import Header from './Header.js'
 import Footer from './Footer.js'
@@ -55,5 +57,7 @@ export {
   DepartmentCard,
   AnnoucmentStatCard,
   AnnoucmentCard,
-  Stepper
+  Stepper,
+  CoverImagePicker,
+  ProfilePicturePicker
 }
