@@ -2,7 +2,7 @@
 import mongoose from "mongoose"
 import {DB_NAME} from "../constant.js"
 import {app} from "../app.js"
-
+import process from "process"
 const connectDB = async ()=>{
 
 try {
@@ -14,7 +14,7 @@ try {
         app.on("error",(error)=>{
             console.log("error accour on connecting",error)
         })
-        app.listen(process.env.PORT || 8000,(req,res)=>{
+        app.listen(process.env.PORT || 8000,( )=>{
              console.log("app is listening at " , process.env.PORT)
         })
 } catch (error) {

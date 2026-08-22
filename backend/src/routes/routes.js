@@ -1,5 +1,5 @@
  import express from "express"
-import { registerOrgnaization } from "../controllers/organization.controller";
+import { registerOrgnaization,loginAdmin,sendOTP } from "../controllers/orgnization/organization.controller.js";
  import {upload} from "../middlewares/multer.middleware.js"
  const router = express.Router()
 
@@ -25,4 +25,6 @@ upload.fields([
 ])
    ,registerOrgnaization)
 
+   router.route("/login").post(loginAdmin)
+router.route("/sendEmail").post(sendOTP)
  export  const userRouter = router;

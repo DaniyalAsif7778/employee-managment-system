@@ -1,7 +1,22 @@
-/* eslint-disable no-undef */
+ 
 import mongoose from 'mongoose';
 import bycrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import process from "process"
+const otpSchema = new mongoose.Schema({
+  otp:{
+    type:String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    // Automatically delete document after 300 seconds (5 minutes)
+    expires: 300 
+  }
+});
+export const Otp = mongoose.model("Otp", otpSchema);
+
+
 const UserSchema = new mongoose.Schema(
   {
     fullName: {
@@ -20,8 +35,7 @@ const UserSchema = new mongoose.Schema(
     },
     avatar:{
       type:String,
-      required:true,
-    },
+     },
     email: {
       type: String,
       required: true,
@@ -51,8 +65,12 @@ const UserSchema = new mongoose.Schema(
     },
     organization: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'organization',
+      ref: 'Organization',
     },
+    otp:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'Otp'
+    }
   },
   { timestamps: true }
 );
@@ -69,17 +87,13 @@ UserSchema.methods.isPasswordCorrect = async function (password) {
   return confirmPassword;
 };
 
-UserSchema.methods.isOrgEmailCorrect = async function (orgEmail) {
-  const confirmOrgEmail = await bycrypt.compare(
-    orgEmail,
-    this.orgnaizationEmail
-  );
-  return confirmOrgEmail;
-};
+ 
 UserSchema.methods.generateAccessToken = async function () {
-  return jwt.sign(
+  return   jwt.sign(
     {
       _id: this._id,
+      role:this.role,
+      email:this.email,
     },
      process.env.ACCESS_TOKEN_SECRET,
     {
@@ -89,7 +103,7 @@ UserSchema.methods.generateAccessToken = async function () {
 };
 
 UserSchema.methods.generateRefreshToken = async function () {
-  return jwt.sign(
+  return   jwt.sign(
     {
       _id: this._id,
     },
@@ -101,8 +115,11 @@ UserSchema.methods.generateRefreshToken = async function () {
 };
 UserSchema.methods.generateOtp = async function () {
   const otp = Math.floor(Math.random() * 90000);
-  const encryptedOtp = bycrypt.hash(otp, 10);
-  return encryptedOtp;
+
+ const strOtp = String(otp)
+    console.log(typeof(strOtp));
+  const encryptedOtp = await   bycrypt.hash(strOtp, 10);
+  return {encryptedOtp};
 };
 
 export const User = mongoose.model('Admin', UserSchema);

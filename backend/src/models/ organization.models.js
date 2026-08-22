@@ -20,12 +20,10 @@ const organizationSchema = new mongoose.Schema(
     },
     org_avatar:{
       type:String,
-      required:true,
-    },
+     },
     org_coverImage:{
       type:String,
-      required:true
-    },
+     },
     address: {
       type: String,
       required: true,
@@ -53,4 +51,4 @@ return confirmOrgEmail;
 }
 
 
-export const Organization = mongoose.model('organization', organizationSchema);
+export const Organization = mongoose.model('Organization', organizationSchema);
