@@ -10,12 +10,13 @@ import {
   IconArrowLeft,
 } from '@tabler/icons-react'
 import { useStepper } from '../../context/stepperContext.js'
-import { useFormData } from '../../context/formContext.js'
-import { validateAdminSignup } from '../../utils/validator.js'
-import { type AdminSingup } from '../../utils/validator.js'
-import Input, { inputBase } from '../../componenets/ui/Input.js'
+ import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 import {ProfilePicturePicker} from "../../import.js"
+import { AdminSchema } from '../../schema/Singup_schem.js'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import type { Admin } from '../../types/singupTypes.js'
 const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
@@ -27,17 +28,30 @@ const primaryBtnClass =
 
 export default function AdminSingup() {
   const { setStepCount } = useStepper()
-  const { updateFormData } = useFormData()
-  const [showPw, setShowPw] = useState(false)
+   const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
   const [disable, setDisable] = useState(true)
-  const [personal, setPersonal] = useState({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    password: '',
-    confirmPassword: '',
+ 
+   const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<Admin>({
+    resolver: zodResolver(AdminSchema),
+   defaultValues: {
+      fullName: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
+      confirmPassword: '',
+    },
   })
+  console.log('Live Form Values:', watch())
+
+  const onSubmit = (data: Admin) => {
+    console.log(data)
+  }
   const passwordToggle = (visible: boolean, toggle: () => void, label: string) => (
     <button
       type="button"
@@ -50,30 +64,9 @@ export default function AdminSingup() {
     </button>
   )
 
-  const submitForm = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const {
-      isFullNameValid,
-      isEmailValid,
-      isPhoneNumberValid,
-      isPasswordValid,
-      isConfirmPasswordValid,
-      isValid,
-    } = validateAdminSignup(personal)
-    console.log(
-      isValid,
-      isPasswordValid,
-      isConfirmPasswordValid,
-      isFullNameValid,
-      isEmailValid,
-      isPhoneNumberValid
-    )
-
-    setDisable(isValid)
-    if (!disable) {
-      setStepCount(2)
-    }
-  }
+ 
   return (
+    <form   onSubmit={handleSubmit(onSubmit)} >
     <div className="w-full ">
       <div className="flex flex-row justify-between items-center">
         <div>
@@ -83,17 +76,17 @@ export default function AdminSingup() {
           </p>
         </div>
         <div>
-            <ProfilePicturePicker value={null} onChange={()=> null} />
+            <ProfilePicturePicker   />
         </div>
       </div>
       <div className="mb-4">
         <Input
           type="text"
           label="Full name"
-          name="fullName"
+      
           placeholder="Jordan Malik"
-          value={personal.fullName}
-          onchange={(e) => setPersonal({ ...personal, fullName: e.target.value })}
+        error={errors.fullName?.message}     
+          {...register('fullName')} 
           className={fieldClass}
           prefix={<IconUsers size={16} className="text-text-disabled" />}
         />
@@ -103,10 +96,10 @@ export default function AdminSingup() {
         <Input
           label="Email"
           type="email"
-          name="email"
+          
           placeholder="you@company.com"
-          value={personal.email}
-          onchange={(e) => setPersonal({ ...personal, email: e.target.value })}
+          error={errors.email?.message}         
+          {...register('email')}      
           className={fieldClass}
           prefix={<IconMail size={16} className="text-text-disabled" />}
         />
@@ -116,10 +109,10 @@ export default function AdminSingup() {
         <Input
           type="tel"
           label="Phone number"
-          name="phone"
+           
           placeholder="(555) 000-0000"
-          value={personal.phoneNumber}
-          onchange={(e) => setPersonal({ ...personal, phoneNumber: e.target.value })}
+            error={errors.phoneNumber?.message}    
+          {...register('phoneNumber')}     
           className={fieldClass}
           prefix={<IconPhone size={16} className="text-text-disabled" />}
         />
@@ -129,10 +122,10 @@ export default function AdminSingup() {
         <Input
           label="Password"
           type={showPw ? 'text' : 'password'}
-          name="password"
+          
           placeholder="Enter your password"
-          value={personal.password}
-          onchange={(e) => setPersonal({ ...personal, password: e.target.value })}
+            error={errors.password?.message}       
+          {...register('password')}  
           className={fieldWithSuffixClass}
           prefix={<IconLock size={16} className="text-text-disabled" />}
           suffix={passwordToggle(
@@ -147,10 +140,10 @@ export default function AdminSingup() {
         <Input
           label="Confirm password"
           type={showConfirmPw ? 'text' : 'password'}
-          name="confirmPassword"
+         
           placeholder="Re-enter your password"
-          value={personal.confirmPassword}
-          onchange={(e) => setPersonal({ ...personal, confirmPassword: e.target.value })}
+           error={errors.confirmPassword?.message}  
+          {...register('confirmPassword')}  
           className={fieldWithSuffixClass}
           prefix={<IconLock size={16} className="text-text-disabled" />}
           suffix={passwordToggle(
@@ -166,15 +159,15 @@ export default function AdminSingup() {
           <IconArrowLeft size={15} /> Login
         </NavLink>
         <Button
-          type="button"
+          type="submit"
           disabled={false}
           text="Continue"
           className={`flex-1 ${primaryBtnClass}`}
           onclick={(e) => {
-            submitForm(e) // error when calling method formData it ask for missing Value in type in formContext
-          }}
+           }}
         />
       </div>
     </div>
+    </form>
   )
 }

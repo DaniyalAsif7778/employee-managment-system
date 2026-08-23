@@ -12,8 +12,8 @@ const Signup = () => {
       <Stepper labels={['Admin','Organization','Review']} steps={Number(1)} />
       </div>
       <div className='w-full '>
-      {stepperCount === 2 && <AdminSingup />}
-      {stepperCount === 1 && <OrgSingup />}
+      {stepperCount === 1 && <AdminSingup />}
+      {stepperCount === 2 && <OrgSingup />}
       {stepperCount === 3 && <FinalSingup />}
 
       </div>

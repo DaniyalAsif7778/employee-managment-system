@@ -228,7 +228,7 @@ const sendOTP = asyncHandler(async (req, res) => {
   });
   console.log(verificationOtp);
 
-  const link = `http://localhost:8000/api/vi/ems/verifyotp?token=${verificationOtp.otp}`;
+  const link = `http://localhost:8000/api/vi/ems/verifyotp?id=${user._id}&token=${verificationOtp.otp}`;
 const htmlTemplate = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -336,5 +336,9 @@ const htmlTemplate = `<!DOCTYPE html>
     )
   );
 });
-const verifyOTP = asyncHandler(async () => {});
+const verifyOTP = asyncHandler(async ( ) => {
+
+ 
+
+});
 export { registerOrgnaization, loginAdmin, sendOTP, verifyOTP };

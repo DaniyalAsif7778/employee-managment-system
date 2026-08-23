@@ -23,7 +23,7 @@ export default function Select({
   name = '',
   value = '',
   placeholder = 'Select an option',
-  options,
+  options= [],
   error = '',
   onchange,
 }: SelectProps) {

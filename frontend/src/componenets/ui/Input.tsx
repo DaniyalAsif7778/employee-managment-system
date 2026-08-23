@@ -1,22 +1,19 @@
 import React, { forwardRef, type ReactNode } from 'react'
-
-export const inputBase =
+ export const inputBase =
   'w-full rounded-md text-base px-3 py-2.5 bg-navbar border-[1.5px] border-border text-text-primary placeholder:text-text-disabled transition focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/30'
 
 interface InputProps {
   type: string
   labelClassName?: string
-  value?: string
-  prefix?: ReactNode
+   prefix?: ReactNode
   suffix?: ReactNode
   placeholder?: string
-  error?: string
+  error?: string | undefined
   className?: string
-  onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  label?: string
+   label?: string
   name?: string
-  required?: boolean
-  checked?: boolean
+    
+  
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -24,17 +21,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     {
       type = 'text',
       labelClassName = '',
-      value = '',
+       
       prefix,
       suffix,
       placeholder = '',
       error = '',
       className = '',
-      onchange = () => {},
+       
       label = '',
       name = '',
-      required,
-      checked,
+ 
+     ...props
     },
     ref
   ) => {
@@ -61,14 +58,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             id={name || undefined}
-            onChange={onchange}
+             
             ref={ref}
-            value={value}
+           
             className={className || inputBase}
             name={name}
             placeholder={placeholder}
-            required={required}
-            checked={checked}
+            {...props}
+            
           />
           {suffix && (
             <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">{suffix}</span>
