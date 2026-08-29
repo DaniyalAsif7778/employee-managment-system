@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { NavLink } from 'react-router'
 import {
   IconUsers,
@@ -17,7 +17,11 @@ import { AdminSchema } from '../../schema/Singup_schem.js'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Admin } from '../../types/singupTypes.js'
-const fieldClass = `${inputBase} pl-9`
+import { useAdminSlice } from '../../store/AdminSlice.js';
+import {setAdminFormData} from "../../store/AdminSlice.js"
+import {  usestepperSlice } from '../../store/stepperSlice.js';
+
+ const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
 const ghostBtnClass =
@@ -27,6 +31,7 @@ const primaryBtnClass =
   'rounded-md py-2.5 text-base font-medium bg-primary text-primary-fg hover:bg-primary-hover active:bg-primary-pressed active:scale-[0.98] transition'
 
 export default function AdminSingup() {
+  const setStepUp  = usestepperSlice(state => state.setStepper)
   const { setStepCount } = useStepper()
    const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
@@ -47,11 +52,17 @@ export default function AdminSingup() {
       confirmPassword: '',
     },
   })
-  console.log('Live Form Values:', watch())
+ const state= useAdminSlice((state)=> state)
 
+ 
   const onSubmit = (data: Admin) => {
-    console.log(data)
-  }
+      setAdminFormData(data)
+      console.log({...state},"state");
+                   setStepUp()
+console.log(setStepUp)
+
+      
+   }
   const passwordToggle = (visible: boolean, toggle: () => void, label: string) => (
     <button
       type="button"

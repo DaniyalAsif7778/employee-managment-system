@@ -13,8 +13,7 @@ const primaryBtnClass =
 
 export default function LoginAuth() {
   const [showPw, setShowPw] = useState(false)
-  const [form, setForm] = useState({ email: '', password: '', remember: false })
-
+ 
   return (
     <div className="w-full max-w-[380px]">
       <h1 className="text-[26px] font-semibold text-text-primary mb-1.5">Welcome back</h1>
@@ -27,8 +26,7 @@ export default function LoginAuth() {
             type="email"
             name="email"
             placeholder="you@company.com"
-            value={form.email}
-            onchange={(e) => setForm({ ...form, email: e.target.value })}
+             
             className={fieldClass}
             prefix={<IconMail size={16} className="text-text-disabled" />}
           />
@@ -40,8 +38,7 @@ export default function LoginAuth() {
             type={showPw ? 'text' : 'password'}
             name="password"
             placeholder="••••••••"
-            value={form.password}
-            onchange={(e) => setForm({ ...form, password: e.target.value })}
+            
             className={fieldWithSuffixClass}
             prefix={<IconLock size={16} className="text-text-disabled" />}
             suffix={
@@ -63,9 +60,7 @@ export default function LoginAuth() {
             <Input
               type="checkbox"
               name="remember"
-              checked={form.remember}
-              onchange={(e) => setForm({ ...form, remember: e.target.checked })}
-              className="w-3.5 h-3.5 rounded accent-primary"
+               
             />
             Remember me
           </label>

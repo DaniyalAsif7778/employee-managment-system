@@ -1,20 +1,20 @@
 import React from 'react'
 import { IconCheck } from '@tabler/icons-react'
-import { useStepper } from '../../context/stepperContext.js'
+import {  usestepperSlice } from '../../store/stepperSlice.js';
 interface StepperProps {
   labels: string[]
   steps: number
 }
 
 function Stepper({ labels = [] }: StepperProps) {
-  const { stepperCount } = useStepper()
+  const step = usestepperSlice(state => state.step)
   return (
     <div className="flex w-full items-center mb-8">
       {labels.map((label, index) => {
         const n = index + 1
 
-        const done = stepperCount > n
-        const active = stepperCount === n
+        const done = step > n
+        const active = step === n
         return (
           <React.Fragment key={label}>
             <div className="flex  items-center ">

@@ -4,22 +4,24 @@ import { IconBuilding, IconHash, IconMapPin } from '@tabler/icons-react'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 import Select from '../../componenets/ui/Select.js'
-import { useStepper } from '../../context/stepperContext.js'
-const fieldClass = `${inputBase} pl-9`
+ const fieldClass = `${inputBase} pl-9`
 import { ProfilePicturePicker } from '../../import.js'
 import { CoverImagePicker } from '../../import.js'
 import { OrganizationSchema } from '../../schema/Singup_schem.js'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Organization } from '../../types/singupTypes.js'
-const ghostBtnClass =
+import { setOrgFormData } from '../../store/OrganizationSlice.js';
+import { usestepperSlice } from '../../store/stepperSlice.js';
+
+ const ghostBtnClass =
   'rounded-md px-4 py-2.5 text-sm font-medium border-[1.5px] border-border text-text-secondary hover:border-border-secondary hover:text-text-primary transition'
 
 const primaryBtnClass =
   'rounded-md py-2.5 text-base font-medium bg-primary text-primary-fg hover:bg-primary-hover active:bg-primary-pressed active:scale-[0.98] transition'
 
 export default function OrgSingup() {
-  const { setStepCount } = useStepper()
+ const setStepUp = usestepperSlice(state => state.setStepper)
   const [slugTouched, setSlugTouched] = useState(false)
 
   const {
@@ -33,14 +35,15 @@ export default function OrgSingup() {
       orgName: '',
       slug: '',
       address: '',
-      companySize:1
-     },
+      companySize: 1,
+    },
   })
   console.log('Live Form Values:', watch())
 
   const onSubmit = (data: Organization) => {
-    console.log(data)
-  }
+    setOrgFormData(data)
+setStepUp()
+   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full ">
@@ -113,7 +116,7 @@ export default function OrgSingup() {
             disabled={false}
             text="Previous"
             className={ghostBtnClass}
-            onclick={() => setStepCount(1)}
+            
           />
           <Button
             type="submit"

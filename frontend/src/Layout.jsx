@@ -5,9 +5,9 @@ import './index.css'
 function Layout() {
   return (
     <div className="w-full">
-      {/* <Header /> */}
+      <Header />
       <Outlet />
-      {/* <Footer /> */}
+      <Footer />
 
       <Toaster
         position="top-right"
