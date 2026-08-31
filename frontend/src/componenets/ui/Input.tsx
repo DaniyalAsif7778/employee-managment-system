@@ -1,23 +1,25 @@
-import React, { forwardRef, type ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
  export const inputBase =
   'w-full rounded-md text-base px-3 py-2.5 bg-navbar border-[1.5px] border-border text-text-primary placeholder:text-text-disabled transition focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/30'
 
-interface InputProps {
+// ✅ Extends native attributes to allow form handlers (onChange, onBlur, ref)
+// ✅ Fix: Omit native 'prefix' string type to allow your custom ReactNode prefix
+interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix'> {
   type: string
   labelClassName?: string
-   prefix?: ReactNode
+  prefix?: ReactNode // ✅ Now accepts icons, strings, elements safely
   suffix?: ReactNode
   placeholder?: string
   error?: string | undefined
   className?: string
-   label?: string
+  label?: string
   name?: string
-    
-  
+  onclick?: () => void
+  disabled?: boolean
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
+
+const Input = (
     {
       type = 'text',
       labelClassName = '',
@@ -30,10 +32,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
        
       label = '',
       name = '',
- 
+      disabled,
+ onclick ,
      ...props
-    },
-    ref
+    }: InputProps
   ) => {
     const hasAffixes = Boolean(prefix || suffix)
 
@@ -59,11 +61,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             type={type}
             id={name || undefined}
              
-            ref={ref}
-           
+           disabled={disabled}
             className={className || inputBase}
             name={name}
             placeholder={placeholder}
+            onClick={onclick}
             {...props}
             
           />
@@ -75,6 +77,5 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       </>
     )
   }
-)
 
 export default Input

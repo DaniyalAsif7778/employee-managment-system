@@ -12,16 +12,7 @@ interface AuthReviewSectionProps {
 export function AuthReviewSection({ title, onEdit, children }: AuthReviewSectionProps) {
   return (
     <div className="bg-surface border border-border rounded-lg p-4 mb-4">
-      <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-semibold text-text-secondary tracking-wide uppercase">{title}</h4>
-        <button
-          type="button"
-          onClick={onEdit}
-          className="text-primary hover:text-primary-hover text-xs font-medium inline-flex items-center gap-1"
-        >
-          <IconPencil size={12} /> Edit
-        </button>
-      </div>
+   
       <div className="flex flex-col gap-2.5">{children}</div>
     </div>
   )

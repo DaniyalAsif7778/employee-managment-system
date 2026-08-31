@@ -22,6 +22,8 @@ const primaryBtnClass =
 
 export default function OrgSingup() {
  const setStepUp = usestepperSlice(state => state.setStepper)
+  const setStepDown = usestepperSlice(state => state.setStepperDown)
+
   const [slugTouched, setSlugTouched] = useState(false)
 
   const {
@@ -73,7 +75,7 @@ setStepUp()
             {...register('orgName')}
             className={fieldClass}
             prefix={<IconBuilding size={16} className="text-text-disabled" />}
-          />
+           />
         </div>
 
         <div className="mb-4">
@@ -113,6 +115,9 @@ setStepUp()
         <div className="flex items-center gap-3 mt-6">
           <Button
             type="button"
+            onclick={()=>{
+              setStepDown()
+            }}
             disabled={false}
             text="Previous"
             className={ghostBtnClass}

@@ -9,8 +9,7 @@ import {
   IconEyeOff,
   IconArrowLeft,
 } from '@tabler/icons-react'
-import { useStepper } from '../../context/stepperContext.js'
- import Input, { inputBase } from '../../componenets/ui/Input.js'
+  import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 import {ProfilePicturePicker} from "../../import.js"
 import { AdminSchema } from '../../schema/Singup_schem.js'
@@ -20,7 +19,7 @@ import type { Admin } from '../../types/singupTypes.js'
 import { useAdminSlice } from '../../store/AdminSlice.js';
 import {setAdminFormData} from "../../store/AdminSlice.js"
 import {  usestepperSlice } from '../../store/stepperSlice.js';
-
+ 
  const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
@@ -32,8 +31,7 @@ const primaryBtnClass =
 
 export default function AdminSingup() {
   const setStepUp  = usestepperSlice(state => state.setStepper)
-  const { setStepCount } = useStepper()
-   const [showPw, setShowPw] = useState(false)
+    const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
   const [disable, setDisable] = useState(true)
  

@@ -5,7 +5,7 @@ import { IconMail, IconLock, IconEye, IconEyeOff } from '@tabler/icons-react'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 
-const fieldClass = `${inputBase} pl-9`
+ const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
 const primaryBtnClass =
@@ -13,7 +13,8 @@ const primaryBtnClass =
 
 export default function LoginAuth() {
   const [showPw, setShowPw] = useState(false)
- 
+
+
   return (
     <div className="w-full max-w-[380px]">
       <h1 className="text-[26px] font-semibold text-text-primary mb-1.5">Welcome back</h1>
