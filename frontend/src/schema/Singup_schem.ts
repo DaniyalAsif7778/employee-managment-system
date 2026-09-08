@@ -11,19 +11,31 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024
 
 const imageValidation = (requiredMessage: string) =>
   z
-    .instanceof(FileList)
+    .union([
+      z.instanceof(typeof window !== 'undefined' ? FileList : Object),
+      z.null(),
+    ])
     .refine(
-      (files) => files.length > 0,
+      (files) => files !== null && (files as any).length > 0,
       requiredMessage
     )
     .refine(
-      (files) => (files[0]?.size || 0) <= MAX_FILE_SIZE,
+      (files) => {
+        if (files === null) return true;
+        const fileList = files as FileList;
+        return (fileList[0]?.size || 0) <= MAX_FILE_SIZE;
+      },
       'Choose an image smaller than 5 MB.'
     )
     .refine(
-      (files) => ACCEPTED_TYPES.includes(files[0]?.type || ''),
+      (files) => {
+        if (files === null) return true;
+        const fileList = files as FileList;
+        return ACCEPTED_TYPES.includes(fileList[0]?.type || '');
+      },
       'Choose a PNG, JPEG, WebP, or GIF image.'
-    )
+    );
+
 
 const AdminSchema = z
   .object({

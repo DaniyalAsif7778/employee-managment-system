@@ -8,8 +8,8 @@ export const useOrganizationSlice = create<Organization  >((set) => ({
   slug: '',
   address: '',
   companySize: 1,
-  org_avatar:  ,
-  org_coverImage:
+  org_avatar: null, 
+  org_coverImage:null,
 }))
 
 export const   setOrgFormData = (data:Organization) => useOrganizationSlice.setState((state) => ({ ...state, ...data }))

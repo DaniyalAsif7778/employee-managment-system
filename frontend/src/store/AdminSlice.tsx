@@ -12,7 +12,7 @@ fullName: '',
   phoneNumber: '',
   password: '',
   confirmPassword: '',
-  avatar: ''
+  avatar: null,
 }))
   
 export const setAdminFormData = (data:Admin) => useAdminSlice.setState((state) => ({ ...state, ...data }))
