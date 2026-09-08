@@ -58,11 +58,16 @@ setStepUp()
               <p className="text-sm text-text-secondary mb-6">Where and how big is your team?</p>
             </div>
             <div>
-              <CoverImagePicker />
+              <CoverImagePicker 
+               label="Organization Cover Image"
+  register={register('org_coverImage')}
+  error={errors.org_coverImage?.message} />
             </div>
           </div>
           <div>
-            <ProfilePicturePicker />
+            <ProfilePicturePicker  label="Organization Avatar"
+  register={register('org_avatar')}
+  error={errors.org_avatar?.message} />
           </div>
         </div>
 

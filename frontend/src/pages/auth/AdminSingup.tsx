@@ -85,7 +85,8 @@ console.log(setStepUp)
           </p>
         </div>
         <div>
-            <ProfilePicturePicker   />
+            <ProfilePicturePicker   label="Profile picture"
+  register={register('avatar')} error={errors.avatar?.message} />
         </div>
       </div>
       <div className="mb-4">

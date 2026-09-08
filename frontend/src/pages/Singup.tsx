@@ -10,7 +10,7 @@ import {  usestepperSlice } from '../store/stepperSlice.js';
     <div className="min-h-screen w-full bg-bg flex flex-col  items-center  justify-center px-5 sm:px-10 py-10">
     <section className='flex flex-col items-center justify-center'>
       <div>
-      <Stepper labels={['Admin','Organization','Review']} steps={Number(1)} />
+      <Stepper labels={['Admin','Organization','Review']} steps={Number(step)} />
       </div>
       <div className='w-full '>
       {step === 1 && <AdminSingup />}

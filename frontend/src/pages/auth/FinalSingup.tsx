@@ -27,6 +27,7 @@ const checkBoxCondition = useTermsConditionSlice((state=> state.checkBox))
 const setCheckBoxCondition = useTermsConditionSlice((state)=> state.setTermsCheckBox)
    const Admin = useAdminSlice((state) => state)
   const Organization = useOrganizationSlice((state) => state)
+console.log(Organization, Admin);
 
   const data = [
     {
@@ -36,7 +37,7 @@ const setCheckBoxCondition = useTermsConditionSlice((state)=> state.setTermsChec
       ...Organization,
     },
   ]
-  console.log(data[0]);
+  console.log(data);
   function onSubmit(){
     mutate({...Admin , ...Organization})
   }
