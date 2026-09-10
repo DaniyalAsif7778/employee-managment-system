@@ -20,6 +20,17 @@ const registerOrgnaization = asyncHandler(async (req, res) => {
     companySize,
     organizationEmail,
   } = req.body;
+console.log( fullName,
+    username,
+    email,
+    phoneNumber,
+    password,
+    confirmPassword,
+    orgName,
+    orgSlug,
+    address,
+    companySize,
+    organizationEmail);
 
   // admin registeration
 

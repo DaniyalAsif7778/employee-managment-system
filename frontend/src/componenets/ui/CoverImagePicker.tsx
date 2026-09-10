@@ -88,6 +88,7 @@ export default function CoverImagePicker({
     event: ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0]
+console.log(file,'coverimage');
 
     if (!file) {
       return

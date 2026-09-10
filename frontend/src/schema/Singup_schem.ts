@@ -11,27 +11,31 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024
 
 const imageValidation = (requiredMessage: string) =>
   z
+    // 1. Accept a raw File object, or null
     .union([
-      z.instanceof(typeof window !== 'undefined' ? FileList : Object),
+      z.instanceof(typeof window !== 'undefined' ? window.File : Object),
       z.null(),
     ])
+    // 2. Ensure a file was actually provided
     .refine(
-      (files) => files !== null && (files as any).length > 0,
+      (file) => file !== null, 
       requiredMessage
     )
+    // 3. Validate size directly on the isolated File object
     .refine(
-      (files) => {
-        if (files === null) return true;
-        const fileList = files as FileList;
-        return (fileList[0]?.size || 0) <= MAX_FILE_SIZE;
+      (file) => {
+        if (!file) return true;
+        const rawFile = file as File;
+        return rawFile.size <= MAX_FILE_SIZE;
       },
       'Choose an image smaller than 5 MB.'
     )
+    // 4. Validate file type directly on the isolated File object
     .refine(
-      (files) => {
-        if (files === null) return true;
-        const fileList = files as FileList;
-        return ACCEPTED_TYPES.includes(fileList[0]?.type || '');
+      (file) => {
+        if (!file) return true;
+        const rawFile = file as File;
+        return ACCEPTED_TYPES.includes(rawFile.type);
       },
       'Choose a PNG, JPEG, WebP, or GIF image.'
     );
