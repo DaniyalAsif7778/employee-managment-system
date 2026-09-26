@@ -14,10 +14,7 @@ const organizationSchema = new mongoose.Schema(
     organizationSlug: {
       type: String,
     },
-    organizationEmail: {
-      type: String,
-      required: true,
-    },
+     
     org_avatar:{
       type:String,
      },

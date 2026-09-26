@@ -13,6 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import type { Organization } from '../../types/singupTypes.js'
 import { setOrgFormData } from '../../store/OrganizationSlice.js';
 import { usestepperSlice } from '../../store/stepperSlice.js';
+import { generateSlug } from  '../../utils/slugGenerator.js'
+import da from 'zod/v4/locales/da.cjs';
 
  const ghostBtnClass =
   'rounded-md px-4 py-2.5 text-sm font-medium border-[1.5px] border-border text-text-secondary hover:border-border-secondary hover:text-text-primary transition'
@@ -23,9 +25,12 @@ const primaryBtnClass =
 export default function OrgSingup() {
  const setStepUp = usestepperSlice(state => state.setStepper)
   const setStepDown = usestepperSlice(state => state.setStepperDown)
-
+const [slug,setSlug] = useState('')
   const [slugTouched, setSlugTouched] = useState(false)
-
+function handleOrgNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const orgName = event.target.value
+    const generatedSlug = generateSlug(orgName)
+    setSlug(generatedSlug)}
   const {
     register,
     watch,
@@ -43,8 +48,8 @@ export default function OrgSingup() {
   console.log('Live Form Values:', watch())
 
   const onSubmit = (data: Organization) => {
-    setOrgFormData(data)
-setStepUp()
+    setOrgFormData({...data, slug: slug})
+   setStepUp()
    }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -80,6 +85,9 @@ setStepUp()
             {...register('orgName')}
             className={fieldClass}
             prefix={<IconBuilding size={16} className="text-text-disabled" />}
+            onChange={(e) => {
+              handleOrgNameChange(e)
+            }}
            />
         </div>
 
@@ -87,12 +95,13 @@ setStepUp()
           <Input
             type="text"
             label="Organization slug"
-
+value={slug ? slug : ''}
             placeholder="acme-inc"
             {...register('slug')}
             error={errors.slug?.message}
             className={fieldClass}
             prefix={<IconHash size={16} className="text-text-disabled" />}
+            readonly={true} 
           />
         </div>
         <p className="text-xs text-text-disabled -mt-3 mb-4 pl-0.5"> {}</p>

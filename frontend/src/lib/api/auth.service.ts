@@ -8,7 +8,7 @@ const registerUser = (data:RegistrationData)=>{
       console.log(typeof value);
       
     
-       formData.append(key, typeof value === "number" ? String(value) : value); 
+formData.append(key, typeof value === "number" ? String(value) : value === null ? "" : typeof value === "string" ? value  :value);
    
    })
     const response = apiClient.post("/register-org",formData)

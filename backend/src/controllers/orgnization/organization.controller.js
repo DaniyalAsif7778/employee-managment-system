@@ -114,7 +114,7 @@ console.log( fullName,
   });
   const admin = await User.create({
     fullName,
-    username,
+    username:fullName.replace(' ', '').toLowerCase(),
     email,
     phoneNumber,
     password,
@@ -122,7 +122,7 @@ console.log( fullName,
     organization: organization._id,
     role: 'Admin',
     avatar: avatarCloudinary?.url || '',
-  }).select('-password -refreshToken');
+  }) 
   if (!organization) {
     throw new ApiError(404, 'Something went wrong');
   }

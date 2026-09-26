@@ -16,6 +16,7 @@ interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, '
   name?: string
   onclick?: () => void
   disabled?: boolean
+  readonly?: boolean
 }
 
 

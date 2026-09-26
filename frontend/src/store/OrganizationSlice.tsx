@@ -8,7 +8,7 @@ export const useOrganizationSlice = create<Organization  >((set) => ({
   slug: '',
   address: '',
   companySize: 1,
-  org_avatar: null, 
+  org_avatar:  null, 
   org_coverImage:null,
 }))
 

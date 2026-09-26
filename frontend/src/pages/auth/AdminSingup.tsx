@@ -119,9 +119,8 @@ console.log(setStepUp)
         <Input
           type="tel"
           label="Phone number"
-           
-          placeholder="(555) 000-0000"
-            error={errors.phoneNumber?.message}    
+           placeholder={"+923001234567"}
+             error={errors.phoneNumber?.message}    
           {...register('phoneNumber')}     
           className={fieldClass}
           prefix={<IconPhone size={16} className="text-text-disabled" />}
