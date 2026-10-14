@@ -25,8 +25,7 @@ import Stepper from './ui/Stepper.js'
 import CoverImagePicker from './ui/CoverImagePicker.js'
 import ProfilePicturePicker from './ui/ProfilePicturePicker.js'
 // Main Components
-import Header from './Header.js'
-import Footer from './Footer.js'
+ 
 
 // Dashboard Components
 import OverView from './DashBoard/OverView.js'
@@ -44,8 +43,7 @@ export {
   Select,
   ProgressBar,
   StatusBatch,
-  Header,
-  Footer,
+   
   OverView,
   DashBoard,
   Number,

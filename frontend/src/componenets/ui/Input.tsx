@@ -1,13 +1,11 @@
 import React, { type ReactNode } from 'react'
- export const inputBase =
-  'w-full rounded-md text-base px-3 py-2.5 bg-navbar border-[1.5px] border-border text-text-primary placeholder:text-text-disabled transition focus:outline-none focus:border-primary focus:ring-[3px] focus:ring-primary/30'
+export const inputBase = 'w-full h-11 pl-10 pr-10 rounded-lg border bg-[#121212] text-[#E0E0E0] placeholder:text-[#4B5563] focus:outline-none focus:ring-2 transition-all text-[15px] autofill:transition-colors autofill:duration-[9999s]';
 
-// ✅ Extends native attributes to allow form handlers (onChange, onBlur, ref)
-// ✅ Fix: Omit native 'prefix' string type to allow your custom ReactNode prefix
+ 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix'> {
   type: string
   labelClassName?: string
-  prefix?: ReactNode // ✅ Now accepts icons, strings, elements safely
+  prefix?: ReactNode 
   suffix?: ReactNode
   placeholder?: string
   error?: string | undefined
@@ -44,10 +42,10 @@ const Input = (
       <>
         {label && (
           <label
-            className={
-              type === 'radio'
+            className={`block text-[14px] font-medium text-[#9CA3AF] mb-1.5 ${type === 'radio'
                 ? `text-sm text-text-primary ${labelClassName}`
-                : `text-sm text-text-secondary ${labelClassName}`
+                : `text-sm text-text-secondary ${labelClassName}`}`
+              
             }
             htmlFor={name}
           >

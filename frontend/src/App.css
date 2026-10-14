@@ -12,3 +12,12 @@
   margin-top: 10px;
   overflow: hidden;
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #121212 inset !important;
+    -webkit-text-fill-color: #E0E0E0 !important;
+    caret-color: #E0E0E0 !important;
+    transition: background-color 9999s ease-in-out 0s;
+}

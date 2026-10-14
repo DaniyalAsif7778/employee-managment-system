@@ -20,9 +20,9 @@ import {
   EmpolyDashboard,
   AdminDashboard,
   DashBoard,
-  Home,
+   
   Login,
-  About,
+  
   Settings,
   AdminDepartment,
   AdminEmployees,
@@ -49,9 +49,8 @@ import { MenueProvider } from './hooks/hooks.js';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Home />} />
-      <Route path="about" element={<About />} />
-      <Route element={<ProtectedRoutes />}>
+      <Route index element={<Login/>} />
+       <Route element={<ProtectedRoutes />}>
         <Route path="DashBoard" element={<DashBoard />}>
           <Route index element={<OverView />} />
 

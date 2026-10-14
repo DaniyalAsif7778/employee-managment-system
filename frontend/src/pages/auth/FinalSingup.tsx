@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import Button from '../../componenets/ui/Button.js'
 import Input from '../../componenets/ui/Input.js'
 import {
@@ -39,7 +38,7 @@ console.log(Organization, Admin);
   ]
   console.log(data);
   function onSubmit(){
-    mutate({...Admin , ...Organization})
+    // mutate({...Admin , ...Organization})
   }
   return (
     <div className="w-full ">

@@ -5,9 +5,9 @@ import type { Organization } from '../types/singupTypes.js'
 
 export const useOrganizationSlice = create<Organization  >((set) => ({
   orgName: '',
-  slug: '',
+   
   address: '',
-  companySize: 1,
+  companySize: '  ',
   org_avatar:  null, 
   org_coverImage:null,
 }))

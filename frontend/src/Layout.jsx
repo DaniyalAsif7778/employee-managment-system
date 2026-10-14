@@ -1,14 +1,12 @@
 import { Toaster } from 'react-hot-toast'
-import { Header, Footer } from './import.js'
-import { Outlet } from 'react-router'
+ import { Outlet } from 'react-router'
 import './index.css'
 function Layout() {
   return (
     <div className="w-full">
-      {/* <Header /> */}
+      
       <Outlet />
-      {/* <Footer /> */}
-
+     
       <Toaster
         position="top-right"
         toastOptions={{

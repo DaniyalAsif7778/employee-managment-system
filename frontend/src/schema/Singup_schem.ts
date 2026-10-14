@@ -60,15 +60,7 @@ const AdminSchema = z
 
     avatar: imageValidation('Avatar is required'),
 
-    phoneNumber: z
-      .string()
-      .min(1, 'Number is required')
-      // 1. Transform/format the value first (e.g., changes '03001234567' to '+923001234567')
-      .transform((val) => formateNumber(val))
-      // 2. Validate the newly transformed international format
-      .refine((val) => /^\+92\d{10}$/.test(val), {
-        message: 'Invalid Pakistani phone number (e.g., +923001234567)',
-      }),
+     
 
     password: z
       .string()
@@ -91,13 +83,8 @@ const OrganizationSchema = z
       .string()
       .min(1, 'Organization name is required')
       .max(100, 'Organization name is too long'),
-
-    slug: z
-      .string()
-      .min(1, 'Slug is required')
-      .regex(/^[a-z0-9-]+$/, 'Slug must only contain lowercase letters, numbers, and hyphens')
-      .max(50, 'Slug is too long'),
-
+ 
+ 
     address: z.string().min(1, 'Address is required').max(255, 'Address is too long'),
 
     org_avatar: imageValidation('Organization avatar is required'),
@@ -105,10 +92,8 @@ const OrganizationSchema = z
     org_coverImage: imageValidation('Organization cover image is required'),
 
     companySize: z
-      .number()
-      .int('Company size must be a whole number')
-      .min(1, 'Company size must be at least 1'),
-  })
+      .string()
+   })
   
 
 export { AdminSchema, OrganizationSchema }

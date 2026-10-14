@@ -5,7 +5,7 @@ import type { Admin,AdminFile} from '../types/singupTypes.js'
  export const useAdminSlice = create<AdminState>(( ) => ({
 fullName: '',
   email: '',
-  phoneNumber: '',
+  
   password: '',
   confirmPassword: '',
   avatar: null,

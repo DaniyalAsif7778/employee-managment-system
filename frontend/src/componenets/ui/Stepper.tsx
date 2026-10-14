@@ -9,7 +9,7 @@ interface StepperProps {
 function Stepper({ labels = [] }: StepperProps) {
   const step = usestepperSlice(state => state.step)
   return (
-    <div className="flex w-full items-center mb-8">
+    <div className="flex   items-center mb-8">
       {labels.map((label, index) => {
         const n = index + 1
 
@@ -33,10 +33,10 @@ function Stepper({ labels = [] }: StepperProps) {
 
               {index < labels.length - 1 && (
                 <div
-                  className=" w-[100px]  lg:w-[400px]    h-[2px] mx-2 mb-4  bg-navbar overflow-hidden"
+                  className="   w-[100px]    h-[2px] mx-2 mb-4  bg-navbar overflow-hidden"
                  >
                   <div
-                    className={`h-full w-[400px]  transition-all duration-300 ${done ? 'w-full h-[2px] bg-primary' : 'w-0 bg-navbar'}`}
+                    className={`h-full    transition-all duration-300 ${done ? 'w-full h-[2px] bg-primary' : 'w-0 bg-navbar'}`}
                   ></div>
                 </div>
               )}

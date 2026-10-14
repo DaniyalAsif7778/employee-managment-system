@@ -1,6 +1,4 @@
-import About from './About.js'
-import Home from './Home.js'
-import Login from './Login.js'
+  import Login from './Login.js'
 import Settings from './Settings.js'
 import Singup from './Singup.js'
 import UpdateProfile from './UpdateProfile.js'
@@ -21,8 +19,7 @@ import Schedule from './employee/Schedule.js'
 import Tasks from './employee/Tasks.js'
 
 export {
-  About,
-  Home,
+   
   Login,
   Settings,
   Singup,
