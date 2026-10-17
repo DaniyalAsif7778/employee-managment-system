@@ -100,7 +100,7 @@ const DashBordHeader = () => {
     <nav
       id="dashboard-sidebar"
       aria-label="Dashboard navigation"
-      className={`fixed inset-y-0 left-0 z-30 flex h-dvh flex-col border-r border-[#333] bg-[#1f1f1f] text-[#e0e0e0] shadow-xl transition-[width,transform] duration-200 ease-out ${
+      className={`fixed bottom-0 left-0 top-10 z-30 flex flex-col border-r border-[#333] bg-[#1f1f1f] text-[#e0e0e0] shadow-xl transition-[width,transform] duration-200 ease-out ${
         dashBoardDrawer
           ? 'w-60 translate-x-0'
           : 'w-60 -translate-x-full sm:w-15 sm:translate-x-0'
