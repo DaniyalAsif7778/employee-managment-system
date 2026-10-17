@@ -24,7 +24,7 @@ type MenueProviderProps = {
 }
 
 export function MenueProvider({ children }: MenueProviderProps): ReactElement {
-  const [dashBoardDrawer, setDashBoardDrawer] = useState(false)
+  const [dashBoardDrawer, setDashBoardDrawer] = useState(true)
   const [headerDrawer, setHeaderDrawer] = useState(false)
 
   const setDashBoardStatus = useCallback((open: boolean) => {

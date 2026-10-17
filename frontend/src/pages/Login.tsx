@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Users, Shield, Briefcase, Heart, User } from 'lucide-react'
+import { Shield, Briefcase, Heart, User } from 'lucide-react'
 import LoginAuth from './auth/LoginAuth.js'
 import { useContentByRoleInLogin } from '../store/useContentByRoleInLogin.js'
 import type {UserRoleOption} from "../types/singupTypes.js"
+import wordmarkLogo from '../assets/logo-dark.svg'
 const roles = [
   {
     value: 'admin',
@@ -74,13 +75,7 @@ export default function Login() {
 
         <div className="relative">
           <div className="flex items-center gap-3 mb-20">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300"
-              style={{ backgroundColor: activeRole?.color }}
-            >
-              <Users className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-[20px] font-semibold text-[#E0E0E0]">EMS</span>
+            <img src={wordmarkLogo} alt="EmpoManager" className="h-13 w-70 max-w-full object-contain object-left" />
           </div>
           <div className="mb-8">
             <div

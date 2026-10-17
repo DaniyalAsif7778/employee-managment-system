@@ -1,14 +1,12 @@
 
 import mongoose from "mongoose"
-import {DB_NAME} from "../constant.js"
+import { DB_NAME } from "../constant.js"
 import {app} from "../app.js"
 import process from "process"
 const connectDB = async ()=>{
 
 try {
-    const response = await mongoose.connect(
-        `${process.env.MONGODB_URI}${DB_NAME}`
-    )
+    const response = await mongoose.connect(process.env.MONGODB_URI, { dbName: DB_NAME })
 
         console.log(`MongoDB connected successfully ${response}`)
         app.on("error",(error)=>{

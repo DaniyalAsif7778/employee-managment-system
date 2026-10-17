@@ -1,5 +1,6 @@
  import express from "express"
-import { registerOrgnaization,loginAdmin,sendOTP } from "../controllers/orgnization/organization.controller.js";
+import { registerOrgnaization,sendOTP } from "../controllers/orgnization/organization.controller.js";
+import { login, getCurrentUser, logout } from "../controllers/auth/auth.controller.js";
  import {upload} from "../middlewares/multer.middleware.js"
  const router = express.Router()
 
@@ -19,12 +20,14 @@ upload.fields([
       maxCount:1,
    },
    {
-      name:"org_coverImage",
+      name:"org_CoverImage",
       maxCount:1,
    }
 ])
    ,registerOrgnaization)
 
-   router.route("/login").post(loginAdmin)
+   router.route("/login").post(login)
+   router.route("/auth/me").get(getCurrentUser)
+   router.route("/logout").post(logout)
 router.route("/sendEmail").post(sendOTP)
  export  const userRouter = router;

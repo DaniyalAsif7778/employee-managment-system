@@ -1,11 +1,12 @@
-import { Organization } from '../../models/ organization.models.js';
-import { User, Otp } from '../../models/user.models.js';
+import { Organization } from '../../models/organization/organization.model.js';
+import { User } from '../../models/auth/user.model.js';
+import { Otp } from '../../models/auth/otp.model.js';
+import { Admin } from '../../models/roles/admin.model.js';
 import { ApiError } from '../../utils/ApiError.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 import { asyncHandler } from '../../utils/asyncHanlder.js';
 import { uploadOnCloudinary } from '../../utils/cloudinary.js';
 import { sendEmail } from '../../utils/sendEmail.js';
-import { generateTokens } from '../../utils/generateTokens.js';
 const registerOrgnaization = asyncHandler(async (req, res) => {
   const {
     fullName,
@@ -17,43 +18,30 @@ const registerOrgnaization = asyncHandler(async (req, res) => {
     orgName,
     orgSlug,
     address,
+    industry,
     companySize,
     organizationEmail,
   } = req.body;
-console.log( fullName,
-    username,
-    email,
-    phoneNumber,
-    password,
-    confirmPassword,
-    orgName,
-    orgSlug,
-    address,
-    companySize,
-    organizationEmail);
 
   // admin registeration
 
   if (
     [
       fullName,
-      username,
       email,
-      phoneNumber,
       password,
       confirmPassword,
       orgName,
-      orgSlug,
       address,
+      industry,
       companySize,
-      organizationEmail,
     ].some((field) => field == '')
   ) {
     throw new ApiError(400, 'fill all fields');
   }
 
   const organizationSearch = await Organization.findOne({
-    $or: [{ orgName }, { organizationEmail }],
+    $or: [{ orgName }, { organizationEmail: organizationEmail || email }],
   });
   console.log(organizationSearch);
 
@@ -61,9 +49,8 @@ console.log( fullName,
     throw new ApiError(400, 'Orgnaization already exists');
   }
 
-  const adminUser = await User.findOne({
-    $or: [{ email }, { username }, { password }],
-  });
+  const usernameFromName = username || fullName.trim().replace(/\s+/g, '').toLowerCase()
+  const adminUser = await User.findOne({ $or: [{ email }, { username: usernameFromName }] })
 
   if (adminUser) {
     throw new ApiError(400, 'admin already exists');
@@ -71,11 +58,11 @@ console.log( fullName,
   console.log(req.files);
   const avatarLocalPath = req.files?.avatar[0]?.path;
   const org_avatarLocalPath = req.files?.org_avatar[0]?.path;
-  let org_coverImageLocalPath;
+  let org_CoverImageLocalPath;
 
-  if (req.files?.org_coverImage.length >= 0) {
-    org_coverImageLocalPath = req.files?.org_coverImage[0].path;
-    console.log(org_coverImageLocalPath);
+  if (req.files?.org_CoverImage?.length) {
+    org_CoverImageLocalPath = req.files.org_CoverImage[0].path;
+    console.log(org_CoverImageLocalPath);
   }
 
   if (!avatarLocalPath) {
@@ -87,7 +74,7 @@ console.log( fullName,
 
   const org_avatarCloudinary = await uploadOnCloudinary(org_avatarLocalPath);
   const org_CoverImageCloudinary = await uploadOnCloudinary(
-    org_coverImageLocalPath
+    org_CoverImageLocalPath
   );
   const avatarCloudinary = await uploadOnCloudinary(avatarLocalPath);
 
@@ -102,27 +89,29 @@ console.log( fullName,
     throw new ApiError(404, 'error on uploding clodinary orgCoverImage');
   }
 
-  Number(companySize);
-  const organization = await Organization.create({
-    organizationName: orgName,
-    organizationSlug: orgSlug,
-    organizationEmail: organizationEmail,
+   const organization = await Organization.create({
+    orgName,
+    orgSlug: orgSlug || orgName.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+    organizationEmail: organizationEmail || email,
     companySize,
+    industry,
     address,
     org_avatar: org_avatarCloudinary?.url || '',
-    org_coverImage: org_CoverImageCloudinary?.url || '',
+    org_CoverImage: org_CoverImageCloudinary?.url || '',
   });
   const admin = await User.create({
     fullName,
-    username:fullName.replace(' ', '').toLowerCase(),
+    firstName: fullName.trim().split(/\s+/)[0] || '',
+    lastName: fullName.trim().split(/\s+/).slice(1).join(' '),
+    username: usernameFromName,
     email,
-    phoneNumber,
+    phone: phoneNumber?.trim() || undefined,
     password,
-    organizationEmail,
     organization: organization._id,
-    role: 'Admin',
+    role: 'admin',
     avatar: avatarCloudinary?.url || '',
   }) 
+  await Admin.create({ user: admin._id, organization: organization._id })
   if (!organization) {
     throw new ApiError(404, 'Something went wrong');
   }
@@ -135,82 +124,24 @@ console.log( fullName,
       200,
       {
         user: {
-          admin,
-          organization,
+          id: admin._id.toString(),
+          fullName: admin.fullName,
+          firstName: admin.firstName,
+          lastName: admin.lastName,
+          username: admin.username,
+          email: admin.email,
+          avatar: admin.avatar,
+          role: admin.role,
+        },
+        organization: {
+          id: organization._id.toString(),
+          orgName: organization.orgName,
+          orgSlug: organization.orgSlug,
         },
       },
       'admin and org created successfully'
     )
   );
-});
-
-const loginAdmin = asyncHandler(async (req, res) => {
-  const { username } = req.body;
-  const newUserName = username.replace(' ', '').toLowerCase();
-
-  if (!username) {
-    throw new ApiError(401, 'user is required');
-  }
-  const user = await User.findOne({ username: newUserName });
-  console.log(user);
-
-  if (!user) {
-    throw new ApiError(401, 'unAthorized Request');
-  }
-
-  let { accessToken, refreshToken } = await generateTokens(user._id);
-
-  const adminAndOrg = await User.aggregate([
-    {
-      $match: {
-        username: newUserName,
-      },
-    },
-
-    {
-      $lookup: {
-        from: 'organizations',
-        localField: 'organization',
-        foreignField: '_id',
-        as: 'organization',
-      },
-    },
-    {
-      $project: {
-        fullName: 1,
-        username: 1,
-        avatar: 1,
-        email: 1,
-        role: 1,
-        refreshToken: 1,
-        accessToken: accessToken,
-        organization: { $first: '$organization' },
-      },
-    },
-  ]);
-
-  if (!adminAndOrg) {
-    throw new ApiError(402, 'nothing found');
-  }
-  console.log(adminAndOrg[0]._id);
-  const options = {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
-  };
-  return res
-    .status(200)
-    .cookie('accessToken', accessToken, options)
-    .cookie('refreshToken', refreshToken, options)
-    .json(
-      new ApiResponse(
-        201,
-        {
-          user: adminAndOrg,
-        },
-        'login successfully'
-      )
-    );
 });
 
 const sendOTP = asyncHandler(async (req, res) => {
@@ -352,4 +283,4 @@ const verifyOTP = asyncHandler(async ( ) => {
  
 
 });
-export { registerOrgnaization, loginAdmin, sendOTP, verifyOTP };
+export { registerOrgnaization, sendOTP, verifyOTP };

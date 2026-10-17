@@ -17,7 +17,9 @@ export interface User {
   updatedAt: string
 }
 
-export type UserRole = 'admin' | 'employee' | 'manager'
+export type UserRole = 'admin' | 'employee' | 'manager' | 'hr'
+
+export type LoginRole = UserRole
 
 export interface AuthUser extends User {
   token: string
@@ -26,6 +28,61 @@ export interface AuthUser extends User {
 
 export interface LoginCredentials {
   email: string
+  password: string
+  role: LoginRole
+  rememberMe: boolean
+}
+
+export interface LoginResponse {
+  statusCode?: number
+  message?: string
+  data?: {
+    user?: Array<{
+      role?: string
+    }>
+  }
+}
+
+export interface EmailRequest {
+  email: string
+}
+
+export interface VerifyOtpRequest extends EmailRequest {
+  otp: string
+}
+
+export interface VerifyOtpResponse {
+  data?: {
+    resetToken?: string
+  }
+}
+
+export interface ResetPasswordRequest extends EmailRequest {
+  resetToken: string
+  password: string
+}
+
+export interface InviteEmployeeRequest {
+  fullName: string
+  email: string
+  role: UserRole
+}
+
+export interface EmployeeInvitation {
+  fullName: string
+  email: string
+  role: UserRole
+  expiresAt?: string
+}
+
+export interface EmployeeInvitationResponse {
+  data?: {
+    invitation?: EmployeeInvitation
+  }
+}
+
+export interface AcceptEmployeeInvitationRequest {
+  token: string
   password: string
 }
 
@@ -71,7 +128,7 @@ export interface Employee {
   updatedAt: string
 }
 
-export type EmployeeRole = 'admin' | 'employee' | 'manager' | 'team-lead'
+export type EmployeeRole = UserRole
 
 export type EmployeeStatus = 'active' | 'inactive' | 'on-leave' | 'terminated'
 

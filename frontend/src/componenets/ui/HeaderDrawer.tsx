@@ -1,28 +1,25 @@
-import React from 'react'
 import useMenue from '../../hooks/useMenue.js'
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 
-const HeaderDrawer = () => {
-  const { toggleDashBoardDrawer } = useMenue()
+type HeaderDrawerProps = {
+  className?: string
+}
+
+const HeaderDrawer = ({ className = '' }: HeaderDrawerProps) => {
+  const { dashBoardDrawer, toggleDashBoardDrawer } = useMenue()
 
   return (
-    <div className="hidden sm:flex">
-      <button
-        type="button"
-        onClick={toggleDashBoardDrawer}
-        className="text-text-primary focus:outline-none"
-        aria-label="Toggle dashboard navigation"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={toggleDashBoardDrawer}
+      className={`grid size-9 shrink-0 place-items-center rounded-lg text-[#b6b9c0] transition-colors hover:bg-[#171717] hover:text-white focus-visible:outline-2 focus-visible:outline-[#009f8e] ${className}`}
+      aria-label={dashBoardDrawer ? 'Collapse dashboard navigation' : 'Expand dashboard navigation'}
+      aria-expanded={dashBoardDrawer}
+      aria-controls="dashboard-sidebar"
+      title={dashBoardDrawer ? 'Collapse navigation' : 'Expand navigation'}
+    >
+      {dashBoardDrawer ? <IconChevronLeft size={20} /> : <IconChevronRight size={20} />}
+    </button>
   )
 }
 

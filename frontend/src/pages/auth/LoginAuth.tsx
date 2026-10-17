@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconMail, IconLock, IconEye, IconEyeOff } from '@tabler/icons-react'
 import { useContentByRoleInLogin } from '../../store/useContentByRoleInLogin.js'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
-import { Link, useNavigate } from 'react-router'
-import { Users, Shield, Briefcase, Heart, User } from 'lucide-react'
+import { Link, useNavigate, useSearchParams } from 'react-router'
+import { Shield, Briefcase, Heart, User } from 'lucide-react'
+import { useLogin } from '../../hooks/useAuth.js'
+import { useLoginSlice } from '../../store/LoginSlice.js'
+import type { LoginCredentials, LoginRole } from '../../types.js'
+import { useForm } from 'react-hook-form'
+import wordmarkLogo from '../../assets/logo-dark.svg'
 
 const roles = [
   {
@@ -13,7 +18,6 @@ const roles = [
     icon: Shield,
     color: '#009F8E',
     bg: '#009F8E1A',
-    path: '/admin',
   },
   {
     value: 'manager',
@@ -22,7 +26,6 @@ const roles = [
     icon: Briefcase,
     color: '#8B5CF6',
     bg: '#8B5CF61A',
-    path: '/manager',
   },
   {
     value: 'hr',
@@ -31,7 +34,6 @@ const roles = [
     icon: Heart,
     color: '#EC4899',
     bg: '#EC48991A',
-    path: '/hr',
   },
   {
     value: 'employee',
@@ -40,56 +42,122 @@ const roles = [
     icon: User,
     color: '#12C4D3',
     bg: '#12C4D31A',
-    path: '/employee',
   },
 ]
+
+const rolePaths: Record<LoginRole, string> = {
+  admin: '/DashBoard/Dashbord',
+  manager: '/DashBoard/ManagerDashboard',
+  hr: '/DashBoard/HRDashboard',
+  employee: '/DashBoard/EmployeeDashboard',
+}
 const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
 const primaryBtnClass =
   'w-full rounded-md py-2.5 text-base font-medium bg-primary text-primary-fg hover:bg-primary-hover active:bg-primary-pressed transition'
 
+const developmentCredentials = import.meta.env.DEV
+  ? {
+      admin: { email: 'ems.admin@ems.local', password: 'emsAdmin123!' },
+      hr: { email: 'ems.hr@ems.local', password: 'emsHr123!' },
+      manager: { email: 'ems.manager@ems.local', password: 'emsManager123!' },
+      employee: { email: 'ems.employee@ems.local', password: 'emsEmployee123!' },
+    }
+  : null
+
 export default function LoginAuth() {
   const setActiveRole = useContentByRoleInLogin((state) => state.setActiveRoleInLogin)
   const [showPw, setShowPw] = useState(false)
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [selectedRole, setSelectedRole] = useState('admin')
-  const [showPassword, setShowPassword] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
+  const [searchParams] = useSearchParams()
+  const { mutate, isPending, isError, error } = useLogin()
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const setAuthenticatedRole = useLoginSlice((state) => state.setAuthenticatedRole)
+  const autoCredentials = useLoginSlice((state) => state.autoCredentials)
+  const invitedRole = roles.find((role) => role.value === searchParams.get('role')?.toLowerCase())
+  const {
+    register,
+    watch,
+    handleSubmit,
+    setValue,
+    formState: { errors: fieldErrors },
+  } = useForm<LoginCredentials>({
+    defaultValues: {
+      email: searchParams.get('email')?.trim().toLowerCase() ?? '',
+      password: '',
+      role: (invitedRole?.value as LoginRole | undefined) ?? 'admin',
+      rememberMe: false,
+    },
+  })
 
+  const selectedRole = watch('role')
   const activeRole = roles.find((r) => r.value === selectedRole)!
+  const suggestedCredentials = autoCredentials
+    ? developmentCredentials?.[selectedRole]
+    : undefined
+  useEffect(() => setActiveRole(selectedRole), [selectedRole, setActiveRole])
+  const emailRegistration = register('email', {
+    required: 'Email is required',
+    pattern: { value: /^\S+@\S+\.\S+$/, message: 'Enter a valid email address' },
+  })
+  const passwordRegistration = register('password', { required: 'Password is required' })
+  const roleRegistration = register('role')
+  const rememberRegistration = register('rememberMe')
 
-  const validate = () => {
-    const e: Record<string, string> = {}
-    if (!email.trim()) e.email = 'Email is required'
-    else if (!/\S+@\S+\.\S+/.test(email)) e.email = 'Enter a valid email address'
-    if (!password) e.password = 'Password is required'
-    setErrors(e)
-    return Object.keys(e).length === 0
+  const fillSuggestedCredentials = () => {
+    if (!suggestedCredentials) return
+    setValue('email', suggestedCredentials.email, { shouldDirty: true, shouldValidate: true })
+    setValue('password', suggestedCredentials.password, {
+      shouldDirty: true,
+      shouldValidate: true,
+    })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (validate()) navigate(activeRole.path)
+  const submitLogin = (credentials: LoginCredentials) => {
+    mutate(credentials, {
+      onSuccess: (response) => {
+        const responseRole = response.data?.user?.[0]?.role?.trim().toLowerCase() as
+          | LoginRole
+          | undefined
+        if (!responseRole) {
+          setErrors({ form: 'The login response did not include a role.' })
+          return
+        }
+        const destination = rolePaths[responseRole]
+
+        if (!destination) {
+          setErrors({ form: 'Your role does not have a configured frontend destination.' })
+          return
+        }
+
+        setAuthenticatedRole(responseRole)
+        navigate(destination)
+      },
+    })
   }
+
+  const requestError = isError
+    ? (error as { response?: { data?: { message?: string } }; message?: string }).response?.data
+        ?.message ?? 'Unable to sign in. Check your credentials and try again.'
+    : ''
 
   return (
     <div className="w-full max-w-115">
       {/* Mobile logo */}
       <div className="flex items-center gap-3 mb-8 lg:hidden">
-        <div className="w-9 h-9 rounded-xl bg-[#009F8E] flex items-center justify-center">
-          <Users className="w-4 h-4 text-white" />
-        </div>
-        <span className="text-[18px] font-semibold text-[#E0E0E0]">EMS</span>
+        <img src={wordmarkLogo} alt="EmpoManager" className="h-13 w-70 max-w-full object-contain object-left" />
       </div>
 
       <h1 className="text-[28px] font-semibold text-[#E0E0E0] mb-2">Sign in to your account</h1>
       <p className="text-[15px] text-[#9CA3AF] mb-8">
         Choose your role and enter your credentials to continue.
       </p>
+      {searchParams.get('invitation') === 'accepted' && (
+        <p role="status" className="mb-5 text-sm text-success">
+          Password created. Sign in to continue to your organization.
+        </p>
+      )}
 
       {/* Role selector */}
       <div className="mb-6">
@@ -102,11 +170,11 @@ export default function LoginAuth() {
               <label key={role.value} className="relative cursor-pointer">
                 <input
                   type="radio"
-                  name="role"
                   value={role.value}
                   checked={isSelected}
-                  onChange={() => {
-                    setSelectedRole(role.value)
+                  {...roleRegistration}
+                  onChange={(event) => {
+                    roleRegistration.onChange(event)
                     setActiveRole(role.value)
                   }}
                   className="sr-only"
@@ -148,13 +216,45 @@ export default function LoginAuth() {
         </div>
       </div>
 
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit(submitLogin)}>
+        {suggestedCredentials && (
+          <div className="rounded-lg border border-[#333333] bg-[#121212] p-3">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-[#9CA3AF]">Development credentials</p>
+                <p className="truncate text-sm text-[#E0E0E0]">{suggestedCredentials.email}</p>
+              </div>
+              <button
+                type="button"
+                onClick={fillSuggestedCredentials}
+                className="shrink-0 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white transition hover:bg-primary-hover"
+              >
+                Fill fields
+              </button>
+            </div>
+            <p className="mt-1 text-xs text-[#9CA3AF]">
+              Password: <span className="text-[#E0E0E0]">{suggestedCredentials.password}</span>
+            </p>
+          </div>
+        )}
+
         <div className="mb-4">
           <Input
             label="Email"
             type="email"
-            name="email"
             placeholder="you@company.com"
+            {...emailRegistration}
+            onChange={(event) => {
+              setValue('email', event.target.value.trimStart().toLowerCase(), { shouldDirty: true })
+            }}
+            onBlur={(event) => {
+              setValue('email', event.target.value.trim().toLowerCase(), {
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+              emailRegistration.onBlur(event)
+            }}
+            error={fieldErrors.email?.message}
 
             className={`w-full h-11 pl-10 pr-4 rounded-lg border bg-[#121212] text-[#E0E0E0] placeholder:text-[#4B5563] focus:outline-none focus:ring-2 transition-all text-[15px]  `}
             prefix={<IconMail size={16} className="text-text-disabled" />}
@@ -165,8 +265,19 @@ export default function LoginAuth() {
           <Input
             label="Password"
             type={showPw ? 'text' : 'password'}
-            name="password"
             placeholder="••••••••"
+            {...passwordRegistration}
+            onChange={(event) => {
+              setValue('password', event.target.value.trimStart(), { shouldDirty: true })
+            }}
+            onBlur={(event) => {
+              setValue('password', event.target.value.trim(), {
+                shouldDirty: true,
+                shouldValidate: true,
+              })
+              passwordRegistration.onBlur(event)
+            }}
+            error={fieldErrors.password?.message}
 
             className={`w-full h-11 pl-10 pr-4 rounded-lg border bg-[#121212] text-[#E0E0E0] placeholder:text-[#4B5563] focus:outline-none focus:ring-2 transition-all text-[15px] 
                     `}
@@ -185,40 +296,32 @@ export default function LoginAuth() {
           />
         </div>
 
-       
+        <div className="-mt-2 text-right">
+          <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+            Forgot password?
+          </Link>
+        </div>
 
         {/* Remember me */}
         <label className="flex items-center gap-3 cursor-pointer">
-          <div
-            onClick={() => setRememberMe((v) => !v)}
-            className="w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-all duration-150"
-            style={{
-              borderColor: rememberMe ? activeRole.color : '#4B5563',
-              backgroundColor: rememberMe ? activeRole.color : 'transparent',
-            }}
-          >
-            {rememberMe && (
-              <svg
-                className="w-3 h-3 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={3}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            )}
-          </div>
+          <input type="checkbox" {...rememberRegistration} className="w-4 h-4 accent-primary" />
           <span className="text-[14px] text-[#9CA3AF]">Remember me for 30 days</span>
         </label>
+
+        {(errors.form || requestError) && (
+          <p role="alert" className="text-sm text-error">
+            {errors.form || requestError}
+          </p>
+        )}
 
         {/* Submit */}
         <button
           type="submit"
+          disabled={isPending}
           className="w-full h-11 rounded-lg text-white font-semibold text-[15px] transition-all duration-200 mt-2 hover:opacity-90"
           style={{ backgroundColor: activeRole.color }}
         >
-          Sign in as {activeRole.label}
+          {isPending ? 'Signing in...' : `Sign in as ${activeRole.label}`}
         </button>
       </form>
 

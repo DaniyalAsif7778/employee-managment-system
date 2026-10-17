@@ -145,12 +145,12 @@ console.log(file,'coverimage');
 
   return (
     <div
-      className={`relative w-full max-w-[640px] ${className}`}
+      className={`relative w-full max-w-160 ${className}`}
     >
       {/* View / Add button */}
       <button
         type="button"
-        className="inline-flex min-h-9 w-[140px] items-center justify-center gap-1.5 rounded-md border-2 border-primary px-2 py-1 text-[12px] font-medium leading-tight transition hover:bg-info/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50"
+        className="inline-flex min-h-9 w-35 items-center justify-center gap-1.5 rounded-md border-2 border-primary px-2 py-1 text-[12px] font-medium leading-tight transition hover:bg-info/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50"
         onClick={
           selectedFile
             ? () => setIsPreviewOpen(true)

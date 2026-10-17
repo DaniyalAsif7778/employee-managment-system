@@ -1,14 +1,12 @@
-import React, { useState, useRef } from 'react'
-import { Navigate } from 'react-router'
-import { NavLink } from 'react-router'
-import { Button, Input } from '../../import.js'
+import React, { useState } from 'react'
+import { Link } from 'react-router'
+import { Input } from '../../import.js'
 import { IconFilter } from '@tabler/icons-react'
 import StatusBatch from '../../componenets/ui/StatusBatch.js'
 import { IconDotsVertical as EllipsisVertical } from '@tabler/icons-react'
 const AdminEmployees = () => {
   const [dropdown, setDropdown] = useState(false)
   const [selectedOption, setSelectedOption] = useState('All Departments')
-  const searchRef = useRef<HTMLInputElement>(null)
   const [search, setSearch] = useState<string>('')
   const options = [
     'All Departments',
@@ -32,12 +30,9 @@ const AdminEmployees = () => {
             </p>
           </div>
           <div>
-            <Button
-              text="+ Add Employee"
-              className={'bg-primary px-3 py-1.5 rounded-md'}
-              type={'button'}
-              disabled={false}
-            />
+            <Link to="/DashBoard/InviteEmployee" className="inline-flex rounded-md bg-primary px-3 py-2 text-primary-fg">
+              + Add Employee
+            </Link>
           </div>
         </div>
       </section>
@@ -46,8 +41,7 @@ const AdminEmployees = () => {
           <Input
             type="text"
             placeholder="Search employees..."
-            ref={searchRef}
-            onchange={(e) => setSearch(e.target.value)}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSearch(event.target.value)}
             value={search}
             className={'w-full   h-10 p-2 rounded-md'}
           />

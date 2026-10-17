@@ -5,6 +5,7 @@ import FinalSingup from './auth/FinalSingup.js'
 import Stepper from '../componenets/ui/Stepper.js'
 import { usestepperSlice } from '../store/stepperSlice.js'
 import  {Link} from 'react-router'
+import wordmarkLogo from '../assets/logo-dark.svg'
 export default function Singup() {
   const step = usestepperSlice((state) => state.step)
 
@@ -24,10 +25,7 @@ export default function Singup() {
 
         <div className="relative">
           <div className="flex items-center gap-3 mb-16">
-            <div className="w-10 h-10 rounded-xl bg-[#009F8E] flex items-center justify-center">
-              <Users className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-[20px] font-semibold text-[#E0E0E0]">EMS</span>
+            <img src={wordmarkLogo} alt="EmpoManager" className="h-13 w-70 max-w-full object-contain object-left" />
           </div>
 
           <h2 className="text-[36px] font-semibold text-[#E0E0E0] leading-tight mb-4">

@@ -1,13 +1,15 @@
-import { User } from "../models/user.models.js";
+import { User } from '../models/auth/user.model.js'
 
-export async  function generateTokens(id) {
-
+export async function generateTokens(id, rememberMe = false) {
     const userWithTokens = await User.findById(id)
-     
-    const refreshToken = await   userWithTokens.generateAccessToken()
-    const accessToken = await  userWithTokens.generateRefreshToken()
-    userWithTokens.refreshToken = refreshToken;
-   await  userWithTokens.save({validateBeforeSave:true})
+    if (!userWithTokens) throw new Error('Cannot issue tokens for a missing user')
 
-    return {userWithTokens,refreshToken,accessToken}
-}  
+    const accessToken = await userWithTokens.generateAccessToken()
+    const refreshToken = await userWithTokens.generateRefreshToken(
+        rememberMe ? '30d' : undefined
+    )
+    userWithTokens.refreshToken = refreshToken
+    await userWithTokens.save({ validateBeforeSave: false })
+
+    return { userWithTokens, accessToken, refreshToken }
+}

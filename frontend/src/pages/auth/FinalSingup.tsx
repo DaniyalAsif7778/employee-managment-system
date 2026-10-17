@@ -38,7 +38,7 @@ console.log(Organization, Admin);
   ]
   console.log(data);
   function onSubmit(){
-    // mutate({...Admin , ...Organization})
+    mutate({...Admin , ...Organization})
   }
   return (
     <div className="w-full ">

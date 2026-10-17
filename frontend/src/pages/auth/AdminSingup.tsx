@@ -20,6 +20,7 @@ import type { Admin } from '../../types/singupTypes.js'
 import { useAdminSlice } from '../../store/AdminSlice.js'
 import { setAdminFormData } from '../../store/AdminSlice.js'
 import { usestepperSlice } from '../../store/stepperSlice.js'
+import { trimInputRegistration } from '../../utils/trimInputRegistration.js'
 
 const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
@@ -95,7 +96,7 @@ export default function AdminSingup() {
 
             placeholder="Jordan Malik"
             error={errors.fullName?.message}
-            {...register('fullName')}
+            {...trimInputRegistration(register('fullName'))}
             className={fieldClass}
             prefix={<IconUsers size={16} className="text-text-disabled" />}
           />
@@ -108,7 +109,7 @@ export default function AdminSingup() {
 
             placeholder="you@company.com"
             error={errors.email?.message}
-            {...register('email')}
+            {...trimInputRegistration(register('email'), true)}
             className={fieldClass}
             prefix={<IconMail size={16} className="text-text-disabled" />}
           />
@@ -123,7 +124,7 @@ export default function AdminSingup() {
 
             placeholder="Enter your password"
             error={errors.password?.message}
-            {...register('password')}
+            {...trimInputRegistration(register('password'))}
             className={fieldWithSuffixClass}
             prefix={<IconLock size={16} className="text-text-disabled" />}
             suffix={passwordToggle(
@@ -141,7 +142,7 @@ export default function AdminSingup() {
 
             placeholder="Re-enter your password"
             error={errors.confirmPassword?.message}
-            {...register('confirmPassword')}
+            {...trimInputRegistration(register('confirmPassword'))}
             className={fieldWithSuffixClass}
             prefix={<IconLock size={16} className="text-text-disabled" />}
             suffix={passwordToggle(

@@ -17,6 +17,14 @@ import EmpolyDashboard from './employee/EmpolyDashboard.js'
 import Leave from './employee/Leave.js'
 import Schedule from './employee/Schedule.js'
 import Tasks from './employee/Tasks.js'
+import ManagerDashboard from './manager/ManagerDashboard.js'
+import HRDashboard from './hr/HRDashboard.js'
+import InviteEmployee from './admin/InviteEmployee.js'
+import ForgotPassword from './auth/ForgotPassword.js'
+import VerifyOtp from './auth/VerifyOtp.js'
+import ResetPassword from './auth/ResetPassword.js'
+import AuthErrorScreen from './auth/AuthErrorScreen.js'
+import AcceptInvitation from './auth/AcceptInvitation.js'
 
 export {
    
@@ -37,4 +45,12 @@ export {
   Leave,
   Schedule,
   Tasks,
+  ManagerDashboard,
+  HRDashboard,
+  InviteEmployee,
+  ForgotPassword,
+  VerifyOtp,
+  ResetPassword,
+  AuthErrorScreen,
+  AcceptInvitation,
 }
