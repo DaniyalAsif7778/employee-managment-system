@@ -2,33 +2,33 @@
 
 This document explains every major package used in the Employee Management System and why it exists.
 
-| Package | Purpose | Example Use |
-|---------|---------|-------------|
-| react-hook-form | Form state management | Login, Register, Employee Forms |
-| @hookform/resolvers | Connects React Hook Form with Zod | Form validation |
-| zod | Schema validation | Validate API and forms |
-| axios | HTTP client | API requests |
-| @tanstack/react-query | Server state management | Fetching employees |
-| sonner | Toast notifications | Success & error messages |
-| lucide-react | SVG icons | Sidebar, Navbar |
-| date-fns | Date utilities | Attendance, Payroll |
-| clsx | Conditional Tailwind classes | Dynamic styling |
-| class-variance-authority | Component variants | Buttons, Badges |
-| tailwind-merge | Merge Tailwind classes safely | Custom components |
-| cmdk | Command palette | Ctrl+K search |
-| recharts | Dashboard charts | Analytics |
-| react-day-picker | Calendar component | Leave requests |
-| @dnd-kit/* | Drag and Drop | Task ordering |
-| react-dropzone | File uploads | Avatar, Documents |
-| motion | UI animations | Page transitions |
-| next-themes | Theme switching | Light/Dark mode |
-| husky | Git hooks | Pre-commit checks |
-| lint-staged | Lint only staged files | Faster commits |
-| commitlint | Enforce commit message format | Team collaboration |
-| vitest | Testing framework | Unit tests |
-| @testing-library/react | Component testing | UI testing |
-| @testing-library/jest-dom | Extra DOM matchers | Better assertions |
-| @testing-library/user-event | Simulate user interactions | Clicks, typing |
+| Package                     | Purpose                           | Example Use                     |
+| --------------------------- | --------------------------------- | ------------------------------- |
+| react-hook-form             | Form state management             | Login, Register, Employee Forms |
+| @hookform/resolvers         | Connects React Hook Form with Zod | Form validation                 |
+| zod                         | Schema validation                 | Validate API and forms          |
+| axios                       | HTTP client                       | API requests                    |
+| @tanstack/react-query       | Server state management           | Fetching employees              |
+| sonner                      | Toast notifications               | Success & error messages        |
+| lucide-react                | SVG icons                         | Sidebar, Navbar                 |
+| date-fns                    | Date utilities                    | Attendance, Payroll             |
+| clsx                        | Conditional Tailwind classes      | Dynamic styling                 |
+| class-variance-authority    | Component variants                | Buttons, Badges                 |
+| tailwind-merge              | Merge Tailwind classes safely     | Custom components               |
+| cmdk                        | Command palette                   | Ctrl+K search                   |
+| recharts                    | Dashboard charts                  | Analytics                       |
+| react-day-picker            | Calendar component                | Leave requests                  |
+| @dnd-kit/*                  | Drag and Drop                     | Task ordering                   |
+| react-dropzone              | File uploads                      | Avatar, Documents               |
+| motion                      | UI animations                     | Page transitions                |
+| next-themes                 | Theme switching                   | Light/Dark mode                 |
+| husky                       | Git hooks                         | Pre-commit checks               |
+| lint-staged                 | Lint only staged files            | Faster commits                  |
+| commitlint                  | Enforce commit message format     | Team collaboration              |
+| vitest                      | Testing framework                 | Unit tests                      |
+| @testing-library/react      | Component testing                 | UI testing                      |
+| @testing-library/jest-dom   | Extra DOM matchers                | Better assertions               |
+| @testing-library/user-event | Simulate user interactions        | Clicks, typing                  |
 
 ---
 

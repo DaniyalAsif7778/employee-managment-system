@@ -63,8 +63,6 @@ const AdminSchema = z
 
     avatar: imageValidation('Avatar is required'),
 
-     
-
     password: z
       .string()
       .trim()
@@ -81,26 +79,21 @@ const AdminSchema = z
     path: ['confirmPassword'],
   })
 
-const OrganizationSchema = z
-  .object({
-    orgName: z
-      .string()
-      .trim()
-      .min(1, 'Organization name is required')
-      .max(100, 'Organization name is too long'),
- 
- 
-    address: z.string().trim().min(1, 'Address is required').max(255, 'Address is too long'),
+const OrganizationSchema = z.object({
+  orgName: z
+    .string()
+    .trim()
+    .min(1, 'Organization name is required')
+    .max(100, 'Organization name is too long'),
 
-    org_avatar: imageValidation('Organization avatar is required'),
+  address: z.string().trim().min(1, 'Address is required').max(255, 'Address is too long'),
 
-    org_CoverImage: imageValidation('Organization cover image is required'),
+  org_avatar: imageValidation('Organization avatar is required'),
 
-    industry: z.string().trim(),
-    companySize: z
-      .string()
-      .trim()
-   })
-  
+  org_CoverImage: imageValidation('Organization cover image is required'),
+
+  industry: z.string().trim(),
+  companySize: z.string().trim(),
+})
 
 export { AdminSchema, OrganizationSchema }

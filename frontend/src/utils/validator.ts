@@ -1,5 +1,3 @@
-
-
 export type AdminSingupReturn = {
   isFullNameValid: boolean
   isEmailValid: boolean
@@ -16,12 +14,12 @@ export type AdminSingup = {
   confirmPassword: string
 }
 
-
 const REGEX = {
   fullName: /^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/,
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   phoneNumber: /^\+?[1-9]\d{7,14}$/,
-  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=])[A-Za-z\d@$!%*?&#^()_\-+=]{12,128}$/,
+  password:
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=])[A-Za-z\d@$!%*?&#^()_\-+=]{12,128}$/,
 }
 export function validateAdminSignup(fields: AdminSingup): AdminSingupReturn {
   const { fullName, email, phoneNumber, password, confirmPassword } = fields
@@ -32,10 +30,27 @@ export function validateAdminSignup(fields: AdminSingup): AdminSingupReturn {
   const isConfirmPasswordValid = password === confirmPassword
   let isValid = true
 
-  if (isFullNameValid && isEmailValid && isPhoneNumberValid && isPasswordValid && isConfirmPasswordValid && fullName != "" && email != "" && phoneNumber != "" && password != "" && confirmPassword != "") {   isValid = false ;}
-   
-  return { isFullNameValid, isEmailValid, isPhoneNumberValid, isPasswordValid, isConfirmPasswordValid, isValid }
+  if (
+    isFullNameValid &&
+    isEmailValid &&
+    isPhoneNumberValid &&
+    isPasswordValid &&
+    isConfirmPasswordValid &&
+    fullName != '' &&
+    email != '' &&
+    phoneNumber != '' &&
+    password != '' &&
+    confirmPassword != ''
+  ) {
+    isValid = false
+  }
 
+  return {
+    isFullNameValid,
+    isEmailValid,
+    isPhoneNumberValid,
+    isPasswordValid,
+    isConfirmPasswordValid,
+    isValid,
+  }
 }
-
-

@@ -50,14 +50,18 @@ export default function AcceptInvitation() {
           <p className="mb-5 text-sm text-text-secondary">
             Ask your organization admin to send a new invitation.
           </p>
-          <Link to="/login" className="text-primary hover:underline">Go to login</Link>
+          <Link to="/login" className="text-primary hover:underline">
+            Go to login
+          </Link>
         </section>
       </main>
     )
   }
 
   if (invitationQuery.isPending) {
-    return <main className="min-h-screen bg-bg p-8 text-text-secondary">Checking invitation...</main>
+    return (
+      <main className="min-h-screen bg-bg p-8 text-text-secondary">Checking invitation...</main>
+    )
   }
 
   return (
@@ -68,7 +72,13 @@ export default function AcceptInvitation() {
           Set a password to join {invitation?.fullName ?? invitation?.email} as {invitation?.role}.
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <Input label="Work email" type="email" value={invitation?.email ?? ''} readOnly disabled />
+          <Input
+            label="Work email"
+            type="email"
+            value={invitation?.email ?? ''}
+            readOnly
+            disabled
+          />
           <Input
             label="Password"
             type="password"

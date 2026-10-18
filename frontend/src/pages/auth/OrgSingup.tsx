@@ -46,7 +46,6 @@ export default function OrgSingup() {
   const setStepUp = usestepperSlice((state) => state.setStepper)
   const setStepDown = usestepperSlice((state) => state.setStepperDown)
 
- 
   const {
     register,
     watch,
@@ -72,7 +71,7 @@ export default function OrgSingup() {
   const onSubmit = (data: Organization) => {
     console.log(data)
 
-    setOrgFormData({ ...data   })
+    setOrgFormData({ ...data })
     setStepUp()
   }
   return (
@@ -141,17 +140,17 @@ export default function OrgSingup() {
             prefix={<IconMapPin size={16} className="text-text-disabled" />}
           />
         </div>
-       <div className="mb-4">
+        <div className="mb-4">
           <label className="block text-[14px] font-medium text-[#9CA3AF] mb-1.5">
             Industry <span className="text-[#EF4444]">*</span>
           </label>
-          
-          <select 
+
+          <select
             {...register('industry')} // Hook Form takes over state and onChange
             className={`w-full h-11 px-3 rounded-lg border bg-[#121212] focus:outline-none focus:ring-2 focus:ring-[#009F8E] focus:border-transparent transition-all text-[15px] ${
               errors.industry ? 'border-[#EF4444]' : 'border-[#333333]'
-            }`} 
-            style={{ color: selectedIndustry ? '#E0E0E0' : '#4B5563' }} 
+            }`}
+            style={{ color: selectedIndustry ? '#E0E0E0' : '#4B5563' }}
           >
             <option value="" disabled>
               Select industry
@@ -167,7 +166,7 @@ export default function OrgSingup() {
             <p className="text-[12px] text-[#EF4444] mt-1">{errors.industry.message}</p>
           )}
         </div>
-<div>
+        <div>
           <label className="block text-[14px] font-medium text-[#9CA3AF] mb-3">
             Company Size <span className="text-[#EF4444]">*</span>
           </label>
@@ -194,7 +193,7 @@ export default function OrgSingup() {
                     type="radio"
                     value={label}
                     {...register('companySize')} // Integrated directly with react-hook-form
-                    checked={isSelected} 
+                    checked={isSelected}
                     className="sr-only"
                   />
                   <span className="emp-range text-[14px] text-[#E0E0E0]">{label}</span>

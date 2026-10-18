@@ -6,13 +6,7 @@
 >
 > **Stack:** React · TypeScript · Tailwind CSS  |  Node.js · Express · TypeScript · MongoDB/Mongoose  |  JWT (Access + Refresh) · HttpOnly Cookies
 
-  
-
-
 ---
-
-  
-
 
 # Table of Contents
 
@@ -40,25 +34,11 @@
 - [11. Best Practices Checklist](#11-best-practices-checklist)
 - [12. Future Features Backlog](#12-future-features-backlog)
 
-  
-
-
 ---
-
-  
-  
-
 
 # Part I — Foundations
 
-  
-
-
 # 1. System Overview
-
-  
-
-
 
 | Aspect           | Decision                                                        |
 | ---------------- | --------------------------------------------------------------- |
@@ -72,25 +52,11 @@
 | Password Policy  | Minimum 12 characters                                           |
 | Org Identifier   | Unique slug (e.g. `ems.com/acme-solutions`)                     |
 
-
-  
-
-
 ---
-
-  
-  
-
 
 # 2. Data Models
 
-  
-
-
 ## 2.1 Organization
-
-  
-
 
 ```
 Organization {
@@ -105,15 +71,9 @@ Organization {
 }
 ```
 
-  
-
-
 ## 2.2 User
 
-*(single model, shared by every role)*
-
-  
-
+_(single model, shared by every role)_
 
 ```
 User {
@@ -135,48 +95,28 @@ User {
 }
 ```
 
-  
-
-
-> **Why one model?** Behavior differs by *permissions*, not by *type*. This avoids duplicated schemas and simplifies queries, joins, and permission checks.
-
-  
-
+> **Why one model?** Behavior differs by _permissions_, not by _type_. This avoids duplicated schemas and simplifies queries, joins, and permission checks.
 
 ---
 
-  
-  
-
-
 # Part II — Core Flows
-
-  
-
 
 # 3. Registration Flow — Step by Step
 
 Registration creates **Organization + Owner User** together, in a single atomic request, via a 3-step frontend wizard.
 
-  
-
-
 ## Frontend Steps
-
-  
-
 
 **Step 1 — Owner Information**
 
 1. Collect: Full Name, Email, Phone, Password, Confirm Password.
 2. Client-side validation (format only — never trusted as final validation):
-  - Email format check
-  - Password ≥ 12 characters
-  - Password === Confirm Password
+
+- Email format check
+- Password ≥ 12 characters
+- Password === Confirm Password
+
 3. Store values in local wizard state (not submitted yet).
-
-  
-
 
 **Step 2 — Organization Information**
 
@@ -184,21 +124,12 @@ Registration creates **Organization + Owner User** together, in a single atomic 
 2. Slug auto-suggested from Organization Name (slugify), editable by user.
 3. Optional: live-check slug availability via a lightweight `GET /api/organizations/check-slug?slug=...` debounced call (UX only — real check happens server-side again on submit).
 
-  
-
-
 **Step 3 — Review**
 
 1. Show a summary of Steps 1 & 2 for user confirmation.
 2. On "Create Organization" click → send **one combined payload** to the backend.
 
-  
-
-
 ## Backend Steps — `POST /api/auth/register`
-
-  
-
 
 1. **Validate request shape** — schema validation (e.g. Zod/Joi) for all required fields and types.
 2. **Validate password strength** — length ≥ 12, reject common/breached passwords if a check is available.
@@ -209,19 +140,18 @@ Registration creates **Organization + Owner User** together, in a single atomic 
 7. **Hash the password** — bcrypt/argon2 with a strong cost factor.
 8. **Create Organization document** within the transaction.
 9. **Create Owner User document** within the transaction:
-  - `isOwner = true`
-    - `role = "Owner"`
-    - `permissions = [ALL_PERMISSIONS]` (Owner implicitly has full access)
-    - `status = "active"` (no activation step needed for the Owner)
+
+- `isOwner = true`
+  - `role = "Owner"`
+  - `permissions = [ALL_PERMISSIONS]` (Owner implicitly has full access)
+  - `status = "active"` (no activation step needed for the Owner)
+
 10. **Link User → Organization** (`organizationId`, and `Organization.ownerId`).
 11. **Commit transaction.** On any failure, roll back everything.
 12. **Generate JWT Access Token** (short expiry, e.g. 15 min) containing `userId`, `organizationId`, minimal claims.
 13. **Generate JWT Refresh Token** (long expiry, e.g. 7–30 days), store a hashed reference server-side (for rotation/revocation).
 14. **Set HttpOnly, Secure, SameSite cookies** for both tokens.
 15. **Return success response** (user + organization summary, no sensitive data) → frontend redirects to Dashboard. Registration effectively **auto-logs in** the Owner.
-
-  
-
 
 ## Sequence Summary
 
@@ -232,58 +162,42 @@ Frontend Wizard (3 steps)
       → Generate Tokens → Set Cookies → Return Success
 ```
 
-  
-
-
 ---
-
-  
-  
-
 
 # 4. Login Flow — Step by Step
 
-  
-
-
 ## Frontend
-
-  
-
 
 1. User enters Email + Password on Login page.
 2. Client-side validation for format only.
 3. Submit `POST /api/auth/login` with `{ email, password }` — **cookies included, no tokens handled in JS**.
 
-  
-
-
 ## Backend — `POST /api/auth/login`
-
-  
-
 
 1. **Rate-limit the endpoint** per IP and per email (protects against brute force/credential stuffing before doing any DB work).
 2. **Look up user by email.** If not found, proceed to Step 6 anyway with a dummy hash comparison (prevents timing/enumeration attacks) and return a **generic error**: "Invalid email or password."
 3. **Check account status:**
-  - If `status = "pending"` → return a generic error (do not reveal account exists/is unactivated, to avoid enumeration) or a neutral "check your email to activate your account" message, per your enumeration-risk tolerance.
-  - If `status = "locked"` → return a generic error and do not proceed with password check.
+
+- If `status = "pending"` → return a generic error (do not reveal account exists/is unactivated, to avoid enumeration) or a neutral "check your email to activate your account" message, per your enumeration-risk tolerance.
+- If `status = "locked"` → return a generic error and do not proceed with password check.
+
 4. **Compare password** against stored hash (bcrypt/argon2 compare).
 5. **On failure:**
-  - Increment `loginAttempts.count`.
-  - If threshold exceeded (e.g. 5 attempts), set `lockedUntil` (account lock / exponential backoff).
-  - Log the failed attempt (audit log) with IP/user-agent metadata.
-  - Return generic error.
+
+- Increment `loginAttempts.count`.
+- If threshold exceeded (e.g. 5 attempts), set `lockedUntil` (account lock / exponential backoff).
+- Log the failed attempt (audit log) with IP/user-agent metadata.
+- Return generic error.
+
 6. **On success:**
-  - Reset `loginAttempts.count` to 0.
-  - Generate **JWT Access Token** (short-lived).
-  - Generate **JWT Refresh Token** (long-lived), store hashed + device/session metadata.
-  - Set both as **HttpOnly, Secure, SameSite=Strict/Lax cookies**.
-  - Log successful login (audit log).
+
+- Reset `loginAttempts.count` to 0.
+- Generate **JWT Access Token** (short-lived).
+- Generate **JWT Refresh Token** (long-lived), store hashed + device/session metadata.
+- Set both as **HttpOnly, Secure, SameSite=Strict/Lax cookies**.
+- Log successful login (audit log).
+
 7. **Return success** with minimal user profile (id, name, role, permissions, organization) — never return password hash or token values in the JSON body.
-
-  
-
 
 ## Sequence Summary
 
@@ -295,19 +209,9 @@ User → Email + Password
      → [Success: generate tokens → store refresh token → set cookies → login success]
 ```
 
-  
-
-
 ---
 
-  
-  
-
-
 # 5. Token Strategy — Step by Step
-
-  
-
 
 ## 5.1 Access Token (JWT)
 
@@ -315,17 +219,11 @@ User → Email + Password
 - Payload: `userId`, `organizationId`, `permissions` (or a version/hash of them), `iat`, `exp`.
 - Sent as an HttpOnly cookie on every request; read by middleware to authenticate.
 
-  
-
-
 ## 5.2 Refresh Token (JWT)
 
 - Long expiry (e.g. 7–30 days).
 - Stored **hashed** in the database (per device/session), never stored in plaintext.
 - Sent only as HttpOnly cookie, scoped to a refresh-only endpoint path (e.g. `/api/auth/refresh`) where possible.
-
-  
-
 
 ## 5.3 Refresh Endpoint — `POST /api/auth/refresh`
 
@@ -336,16 +234,10 @@ User → Email + Password
 5. If an **already-used/rotated-out** refresh token is presented again → treat as a stolen-token signal, revoke **all** sessions for that user, and force re-login.
 6. Issues a new Access Token.
 
-  
-
-
 ## 5.4 Token Revocation
 
 - Logout deletes the corresponding refresh token record server-side and clears cookies.
 - "Log out of all devices" (future feature) deletes all refresh token records for the user.
-
-  
-
 
 ## 5.5 Cookie Configuration (both tokens)
 
@@ -354,51 +246,36 @@ User → Email + Password
 - `SameSite: Strict` or `Lax` — mitigates CSRF.
 - `Path` scoped appropriately (e.g. refresh cookie scoped to `/api/auth/refresh`).
 
-  
-
-
 ---
-
-  
-  
-
 
 # 6. Employee Invitation Flow — Step by Step
 
 Only users with `employee.create` permission (typically the Owner, or delegated Admin) can invite.
 
-  
-
-
 1. **Owner/Admin submits invitation form**: Name, Email, Role (label), Permissions (list).
 2. **Backend** `POST /api/employees/invite`:
-  - Verify requester has `employee.create` permission.
-  - Validate email format and uniqueness within the organization.
+
+- Verify requester has `employee.create` permission.
+- Validate email format and uniqueness within the organization.
+
 3. **Create a Pending User** record:
-  - `status = "pending"`
-  - `role`, `permissions` set as specified by the inviter
-  - `organizationId` = inviter's organization
-  - No password set yet.
+
+- `status = "pending"`
+- `role`, `permissions` set as specified by the inviter
+- `organizationId` = inviter's organization
+- No password set yet.
+
 4. **Generate Activation Token/Link** — a signed, single-use, expiring token (e.g. JWT or random token stored hashed) embedded in a URL like `https://ems.com/acme-solutions/activate?token=...`.
 5. **Generate OTP** — a random 6-digit code, **hashed** before storing, with `expiresAt = now + 5 minutes`.
 6. **Send Email** containing both the Activation Link and the OTP.
 7. **Owner can manage pending invites:**
-  - **Resend Invitation** → regenerate OTP + activation token (invalidate the old ones), resend email, rate-limited to prevent abuse.
-  - **Cancel Invitation** → delete the pending user record or mark as `disabled`.
 
-  
-
+- **Resend Invitation** → regenerate OTP + activation token (invalidate the old ones), resend email, rate-limited to prevent abuse.
+- **Cancel Invitation** → delete the pending user record or mark as `disabled`.
 
 ---
 
-  
-  
-
-
 # 7. Employee Activation Flow — Step by Step
-
-  
-
 
 1. Employee clicks the **Activation Link** from the email.
 2. Frontend Activation Page opens, extracting the token from the URL.
@@ -406,85 +283,59 @@ Only users with `employee.create` permission (typically the Owner, or delegated 
 4. Employee **enters the OTP** received by email.
 5. Employee **creates a password** (+ confirm password), validated client-side (≥12 chars) — never trusted as the real check.
 6. Employee submits → `POST /api/employees/activate`:
-  - Verify activation token is valid, not expired, and matches a pending user.
-  - Verify OTP hash matches and `expiresAt` has not passed. Rate-limit OTP attempts (prevent brute-forcing a 6-digit code).
-  - Validate the new password against policy.
-  - Hash the new password.
-  - Update user: set `passwordHash`, `status = "active"`, clear OTP fields and activation token.
+
+- Verify activation token is valid, not expired, and matches a pending user.
+- Verify OTP hash matches and `expiresAt` has not passed. Rate-limit OTP attempts (prevent brute-forcing a 6-digit code).
+- Validate the new password against policy.
+- Hash the new password.
+- Update user: set `passwordHash`, `status = "active"`, clear OTP fields and activation token.
+
 7. **Account Activated** → redirect to Login page (or optionally auto-login, matching the Owner registration pattern, if desired).
 8. Employee logs in via the standard [Login Flow](#4-login-flow--step-by-step).
 
-  
-
-
 ---
-
-  
-  
-
 
 # 8. Permission System — Step by Step
 
-  
-
-
 1. **Define a permission catalog** as constants, e.g.:
-  ```
-   employee.create, employee.update, employee.delete, employee.view,
-   payroll.view, payroll.manage,
-   attendance.manage, attendance.view,
-   organization.manage
-  ```
+
+```
+ employee.create, employee.update, employee.delete, employee.view,
+ payroll.view, payroll.manage,
+ attendance.manage, attendance.view,
+ organization.manage
+```
+
 2. **Role is a label only** — stored on the user for display/grouping purposes (e.g. "HR", "Manager"). It does **not** drive access checks directly.
 3. **Permissions array is the source of truth** — each user has an explicit `permissions[]` list assigned at invite time (and editable later by the Owner/Admin).
 4. **Optional: Role Templates** — predefined permission sets (e.g. "HR" → `[employee.create, employee.view, attendance.manage]`) used only to **pre-fill** the permissions field when inviting; the actual grant is still the individual's `permissions[]`.
 5. **Authorization middleware** — e.g. `requirePermission("employee.create")`:
-  - Reads `userId` from the verified access token.
-  - Loads (or reads from token claims) the user's current permissions.
-  - Rejects with `403 Forbidden` if the permission is missing.
-  - Applied per-route, on every protected endpoint.
+
+- Reads `userId` from the verified access token.
+- Loads (or reads from token claims) the user's current permissions.
+- Rejects with `403 Forbidden` if the permission is missing.
+- Applied per-route, on every protected endpoint.
+
 6. **Organization scoping** — every query is additionally filtered by `organizationId` from the token, so permission checks never leak across tenants (defense against IDOR/broken access control).
 7. **Owner override** — `isOwner = true` bypasses granular permission checks entirely (full access), but is still subject to organization scoping.
 
-  
-
-
 ---
-
-  
-  
-
 
 # 9. Logout & Session Management
 
-  
-
-
 1. `POST /api/auth/logout`:
-  - Identify the refresh token from the cookie.
-  - Delete/invalidate the matching refresh token record in the DB.
-  - Clear both Access and Refresh cookies (`Set-Cookie` with `Max-Age=0`).
+
+- Identify the refresh token from the cookie.
+- Delete/invalidate the matching refresh token record in the DB.
+- Clear both Access and Refresh cookies (`Set-Cookie` with `Max-Age=0`).
+
 2. Access tokens are short-lived, so no server-side action is needed for them beyond expiry — they simply stop being valid soon after logout even if somehow retained.
-
-  
-
 
 ---
 
-  
-  
-
-
 # Part III — Security
 
-  
-
-
 # 10. Security Risks & Solutions Reference
-
-  
-
-
 
 | #   | Risk                                        | What It Means                                                                             | Solution / Mitigation                                                                                                                                                |
 | --- | ------------------------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -509,27 +360,13 @@ Only users with `employee.create` permission (typically the Owner, or delegated 
 | 19  | **MITM (Man-in-the-Middle)**                | Traffic intercepted between client and server                                             | Enforce HTTPS everywhere (HSTS); Secure cookie flag; no sensitive data over plain HTTP                                                                               |
 | 20  | **Account Takeover**                        | Attacker gains full control of a user's account                                           | Combination of the above: strong passwords, rate limiting, token rotation, lockouts, audit logging, future 2FA                                                       |
 | 21  | **Cookie Theft**                            | Stolen cookie value used to impersonate a session                                         | HttpOnly (blocks JS access), Secure (HTTPS only), SameSite (blocks cross-site leakage), short expiry                                                                 |
-| 22  | **Insecure Direct Object Reference**        | *(see IDOR, #13 — duplicate entry in source requirements, same mitigation applies)*       | Same as #13                                                                                                                                                          |
-
-
-  
-
+| 22  | **Insecure Direct Object Reference**        | _(see IDOR, #13 — duplicate entry in source requirements, same mitigation applies)_       | Same as #13                                                                                                                                                          |
 
 ---
 
-  
-  
-
-
 # Part IV — Practices & Roadmap
 
-  
-
-
 # 11. Best Practices Checklist
-
-  
-
 
 - [ ] Validate **all** user input server-side — never trust frontend validation alone.
 
@@ -569,20 +406,9 @@ Only users with `employee.create` permission (typically the Owner, or delegated 
 
 - [ ] Apply Helmet for secure headers; configure CORS explicitly (no wildcard `*` with credentials); set a strict CSP.
 
-  
-
-
 ---
 
-  
-  
-
-
 # 12. Future Features Backlog
-
-  
-
-
 
 | Feature                         | Notes                                                     |
 | ------------------------------- | --------------------------------------------------------- |
@@ -601,13 +427,6 @@ Only users with `employee.create` permission (typically the Owner, or delegated 
 | Activity Timeline               | Per-user or per-record change history                     |
 | Email Templates                 | Configurable transactional email content                  |
 
-
-  
-
-
 ---
 
-  
-
-
-*End of Implementation Guide.*
+_End of Implementation Guide._

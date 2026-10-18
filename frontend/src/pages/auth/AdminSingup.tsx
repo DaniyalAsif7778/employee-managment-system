@@ -47,7 +47,7 @@ export default function AdminSingup() {
     defaultValues: {
       fullName: '',
       email: '',
-       password: '',
+      password: '',
       confirmPassword: '',
     },
   })
@@ -78,7 +78,7 @@ export default function AdminSingup() {
           <div>
             <h1 className="text-4xl font-bold text-text-primary mb-1">Create your admin account</h1>
             <p className="text-base text-text-secondary mb-6">
-             Start by setting up your personal admin credentials.
+              Start by setting up your personal admin credentials.
             </p>
           </div>
           <div>
@@ -114,8 +114,6 @@ export default function AdminSingup() {
             prefix={<IconMail size={16} className="text-text-disabled" />}
           />
         </div>
-
-         
 
         <div className="mb-4">
           <Input

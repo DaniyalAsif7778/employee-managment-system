@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const invitationSchema = new mongoose.Schema(
   {
@@ -16,15 +16,20 @@ const invitationSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    invitedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    invitedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
     tokenHash: { type: String, required: true, unique: true, select: false },
     expiresAt: { type: Date, required: true, expires: 0 },
     acceptedAt: { type: Date, default: null },
   },
   { timestamps: true, collection: 'invitations' }
-)
+);
 
-invitationSchema.index({ organization: 1, email: 1, acceptedAt: 1 })
+invitationSchema.index({ organization: 1, email: 1, acceptedAt: 1 });
 
 export const Invitation =
-  mongoose.models.Invitation || mongoose.model('Invitation', invitationSchema, 'invitations')
+  mongoose.models.Invitation ||
+  mongoose.model('Invitation', invitationSchema, 'invitations');

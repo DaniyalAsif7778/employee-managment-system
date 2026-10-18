@@ -116,4 +116,3 @@ erDiagram
 ## Why not separate credential collections?
 
 Keeping credentials in separate Admin/Manager/HR/Employee collections duplicates password hashing, unique-email enforcement, token storage, and login queries. The profile collections are separate for role-specific management, while the shared `User` collection keeps authentication consistent. An organization-specific role is currently stored on `User`; if accounts later need different roles across multiple organizations, add an `OrganizationMembership` model and move role to that membership rather than adding more credential models.
-

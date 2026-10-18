@@ -36,7 +36,9 @@ export default function VerifyOtp() {
         <section className="mx-auto max-w-md">
           <h1 className="mb-3 text-2xl font-semibold">Verification link is incomplete</h1>
           <p className="mb-5 text-sm text-text-secondary">Request a new code to continue.</p>
-          <Link to="/forgot-password" className="text-primary hover:underline">Request a code</Link>
+          <Link to="/forgot-password" className="text-primary hover:underline">
+            Request a code
+          </Link>
         </section>
       </main>
     )
@@ -66,11 +68,17 @@ export default function VerifyOtp() {
               {apiErrorMessage(error, 'The code could not be verified.')}
             </p>
           )}
-          <button className="w-full rounded-md bg-primary px-4 py-3 font-medium text-primary-fg disabled:opacity-60" disabled={isPending}>
+          <button
+            className="w-full rounded-md bg-primary px-4 py-3 font-medium text-primary-fg disabled:opacity-60"
+            disabled={isPending}
+          >
             {isPending ? 'Verifying...' : 'Verify code'}
           </button>
         </form>
-        <Link to="/forgot-password" className="mt-6 inline-block text-sm text-primary hover:underline">
+        <Link
+          to="/forgot-password"
+          className="mt-6 inline-block text-sm text-primary hover:underline"
+        >
           Send another code
         </Link>
       </section>

@@ -11,7 +11,11 @@ export default function AuthErrorScreen() {
         <h1 className="mb-3 text-3xl font-semibold">We could not complete that request</h1>
         <p className="mb-8 text-text-secondary">{message}</p>
         <div className="flex gap-3">
-          <button type="button" onClick={() => window.history.back()} className="rounded-md border border-border px-4 py-2.5">
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className="rounded-md border border-border px-4 py-2.5"
+          >
             Go back
           </button>
           <Link to="/login" className="rounded-md bg-primary px-4 py-2.5 text-primary-fg">

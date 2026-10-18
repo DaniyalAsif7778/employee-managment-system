@@ -1,10 +1,7 @@
 import type { ChangeEvent, FocusEvent } from 'react'
 import type { UseFormRegisterReturn } from 'react-hook-form'
 
-export function trimInputRegistration(
-  registration: UseFormRegisterReturn,
-  lowercase = false
-) {
+export function trimInputRegistration(registration: UseFormRegisterReturn, lowercase = false) {
   const normalize = (value: string, trimEnd: boolean) => {
     const normalized = trimEnd ? value.trim() : value.trimStart()
     return lowercase ? normalized.toLowerCase() : normalized

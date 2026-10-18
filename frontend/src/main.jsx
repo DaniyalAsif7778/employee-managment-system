@@ -22,13 +22,10 @@ const queryClient = new QueryClient({
   },
 })
 import {
-  OverView,
   EmpolyDashboard,
   AdminDashboard,
   DashBoard,
-   
   Login,
-  
   Settings,
   AdminDepartment,
   AdminEmployees,
@@ -51,53 +48,16 @@ import {
   AcceptInvitation,
   Singup,
 } from './import.js'
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
- 
-  Route,
-  RouterProvider,
-} from 'react-router'
-import { MenueProvider } from './hooks/hooks.js';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router'
+import { MenueProvider } from './hooks/hooks.js'
 import WorkspacePage from './pages/WorkspacePage.js'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route index element={<Login/>} />
-       <Route element={<ProtectedRoutes />}>
-        <Route path="DashBoard" element={<DashBoard />}>
-          <Route index element={<OverView />} />
-
-          <Route element={<AdminRoutes />}>
-            <Route path="Dashbord" element={<AdminDashboard />} />
-            <Route path="Department" element={<AdminDepartment />} />
-            <Route path="Employees" element={<AdminEmployees />} />
-            <Route path="Profile" element={<AdminProfile />} />
-            <Route path="Reports" element={<AdminReports />} />
-            <Route path="Tasks" element={<AdminTasks />} />
-            <Route path="Announcements" element={<AdminAnnocment />}></Route>
-            <Route path="InviteEmployee" element={<InviteEmployee />} />
-          </Route>
-          <Route element={<EmployeeRoutes />}>
-            <Route path="EmployeeDashboard" element={<EmpolyDashboard />} />
-
-            <Route path="Annoucments" element={<Annoucments />} />
-            <Route path="Colleagues" element={<Colleagues />} />
-            <Route path="EmployeeLeave" element={<Leave />} />
-            <Route path="EmployeeSchedule" element={<Schedule />} />
-            <Route path="EmployeeTasks" element={<Tasks />} />
-          </Route>
-          <Route element={<ManagerRoutes />}>
-            <Route path="ManagerDashboard" element={<ManagerDashboard />} />
-          </Route>
-          <Route element={<HRRoutes />}>
-            <Route path="HRDashboard" element={<HRDashboard />} />
-          </Route>
-          <Route path="settings" element={<Settings />} />
-        </Route>
-
-        <Route path="admin" element={<DashBoard />}>
+      <Route index element={<Login />} />
+      <Route element={<ProtectedRoutes />}>
+        <Route path="dashboard/admin/:userId" element={<DashBoard />}>
           <Route element={<AdminRoutes />}>
             <Route index element={<AdminDashboard />} />
             <Route path="organizations" element={<WorkspacePage title="Organizations" />} />
@@ -108,11 +68,13 @@ const router = createBrowserRouter(
             <Route path="messages" element={<WorkspacePage title="Messages" />} />
             <Route path="announcements" element={<AdminAnnocment />} />
             <Route path="notifications" element={<WorkspacePage title="Notifications" />} />
+            <Route path="profile" element={<AdminProfile />} />
+            <Route path="invite-employee" element={<InviteEmployee />} />
             <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
 
-        <Route path="employee" element={<DashBoard />}>
+        <Route path="dashboard/employee/:userId" element={<DashBoard />}>
           <Route element={<EmployeeRoutes />}>
             <Route index element={<EmpolyDashboard />} />
             <Route path="tasks" element={<Tasks />} />
@@ -126,7 +88,7 @@ const router = createBrowserRouter(
           </Route>
         </Route>
 
-        <Route path="manager" element={<DashBoard />}>
+        <Route path="dashboard/manager/:userId" element={<DashBoard />}>
           <Route element={<ManagerRoutes />}>
             <Route index element={<ManagerDashboard />} />
             <Route path="team" element={<WorkspacePage title="My Team" />} />
@@ -140,7 +102,7 @@ const router = createBrowserRouter(
           </Route>
         </Route>
 
-        <Route path="hr" element={<DashBoard />}>
+        <Route path="dashboard/hr/:userId" element={<DashBoard />}>
           <Route element={<HRRoutes />}>
             <Route index element={<HRDashboard />} />
             <Route path="recruitment" element={<WorkspacePage title="Recruitment" />} />
@@ -171,8 +133,8 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <MenueProvider>
- <RouterProvider router={router}/>
- </MenueProvider>
-     </QueryClientProvider>
+        <RouterProvider router={router} />
+      </MenueProvider>
+    </QueryClientProvider>
   </StrictMode>
 )

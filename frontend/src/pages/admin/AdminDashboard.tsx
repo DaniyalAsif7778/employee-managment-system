@@ -104,7 +104,7 @@ const AdminDashboard = () => {
       <section>
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link
-            to="/DashBoard/InviteEmployee"
+            to="invite-employee"
             className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#009F8E] transition-all duration-200 text-left group"
           >
             <div className="w-12 h-12 rounded-xl bg-[#009F8E1A] flex items-center justify-center mb-4 group-hover:bg-[#009F8E] transition-colors">
@@ -114,17 +114,17 @@ const AdminDashboard = () => {
             <p className="text-[14px] text-[#9CA3AF]">Onboard new team members</p>
           </Link>
           <Link
-            to="/DashBoard/Announcements"
+            to="announcements"
             className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#12C4D3] transition-all duration-200 text-left group"
           >
-              <div className="w-12 h-12 rounded-xl bg-[#12C4D31A] flex items-center justify-center mb-4 group-hover:bg-[#12C4D3] transition-colors">
-                <Megaphone className="w-5 h-5 text-[#12C4D3] group-hover:text-white transition-colors" />
-              </div>
-              <h3 className="text-md font-semibold text-[#E0E0E0] mb-1">View Announcements</h3>
-              <p className="text-[14px] text-[#9CA3AF]">Check company updates</p>
+            <div className="w-12 h-12 rounded-xl bg-[#12C4D31A] flex items-center justify-center mb-4 group-hover:bg-[#12C4D3] transition-colors">
+              <Megaphone className="w-5 h-5 text-[#12C4D3] group-hover:text-white transition-colors" />
+            </div>
+            <h3 className="text-md font-semibold text-[#E0E0E0] mb-1">View Announcements</h3>
+            <p className="text-[14px] text-[#9CA3AF]">Check company updates</p>
           </Link>
           <Link
-            to="/DashBoard/Reports"
+            to="reports"
             className="p-6 bg-[#121212] border border-[#333333] rounded-xl hover:border-[#FFC107] transition-all duration-200 text-left group"
           >
             <div className="w-12 h-12 rounded-xl bg-[#FFC1071A] flex items-center justify-center mb-4 group-hover:bg-[#FFC107] transition-colors">

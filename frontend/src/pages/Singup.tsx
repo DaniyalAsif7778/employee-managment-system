@@ -4,7 +4,7 @@ import OrgSingup from './auth/OrgSingup.js'
 import FinalSingup from './auth/FinalSingup.js'
 import Stepper from '../componenets/ui/Stepper.js'
 import { usestepperSlice } from '../store/stepperSlice.js'
-import  {Link} from 'react-router'
+import { Link } from 'react-router'
 import wordmarkLogo from '../assets/logo-dark.svg'
 export default function Singup() {
   const step = usestepperSlice((state) => state.step)
@@ -25,7 +25,11 @@ export default function Singup() {
 
         <div className="relative">
           <div className="flex items-center gap-3 mb-16">
-            <img src={wordmarkLogo} alt="EmpoManager" className="h-13 w-70 max-w-full object-contain object-left" />
+            <img
+              src={wordmarkLogo}
+              alt="EmpoManager"
+              className="h-13 w-70 max-w-full object-contain object-left"
+            />
           </div>
 
           <h2 className="text-[36px] font-semibold text-[#E0E0E0] leading-tight mb-4">
@@ -84,10 +88,12 @@ export default function Singup() {
                 {step === 3 && <FinalSingup />}
               </div>
 
-          <p className="text-[14px] text-[#6B7280] text-center mt-6">
-            Already registered?{' '}
-            <Link to="/login" className="text-[#009F8E] font-medium hover:underline">Sign in</Link>
-          </p>
+              <p className="text-[14px] text-[#6B7280] text-center mt-6">
+                Already registered?{' '}
+                <Link to="/login" className="text-[#009F8E] font-medium hover:underline">
+                  Sign in
+                </Link>
+              </p>
             </section>
           </div>
         </div>

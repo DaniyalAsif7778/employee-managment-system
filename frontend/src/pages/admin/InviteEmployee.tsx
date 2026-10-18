@@ -25,18 +25,19 @@ export default function InviteEmployee() {
         email: employee.email.trim().toLowerCase(),
         role: employee.role,
       },
-      { onSuccess: () => navigate('/DashBoard/Employees') }
+      { onSuccess: () => navigate('../employees') }
     )
   }
 
   return (
     <main className="mx-auto w-full max-w-2xl p-6 text-text-primary">
-      <Link to="/DashBoard/Employees" className="mb-6 inline-block text-sm text-primary hover:underline">
+      <Link to="../employees" className="mb-6 inline-block text-sm text-primary hover:underline">
         Back to employees
       </Link>
       <h1 className="mb-2 text-3xl font-semibold">Invite an employee</h1>
       <p className="mb-8 text-sm text-text-secondary">
-        Choose the employee&apos;s organization role. They will set their password from the invitation email.
+        Choose the employee&apos;s organization role. They will set their password from the
+        invitation email.
       </p>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <Input
@@ -57,8 +58,14 @@ export default function InviteEmployee() {
           error={errors.email?.message}
         />
         <div>
-          <label htmlFor="employee-role" className="mb-1.5 block text-sm text-text-secondary">Role</label>
-          <select id="employee-role" {...register('role')} className="h-11 w-full rounded-md border border-border bg-surface px-3 text-text-primary">
+          <label htmlFor="employee-role" className="mb-1.5 block text-sm text-text-secondary">
+            Role
+          </label>
+          <select
+            id="employee-role"
+            {...register('role')}
+            className="h-11 w-full rounded-md border border-border bg-surface px-3 text-text-primary"
+          >
             <option value="employee">Employee</option>
             <option value="manager">Manager</option>
             <option value="hr">HR</option>
@@ -69,7 +76,10 @@ export default function InviteEmployee() {
             {apiErrorMessage(error, 'The employee invitation could not be created.')}
           </p>
         )}
-        <button className="rounded-md bg-primary px-5 py-3 font-medium text-primary-fg disabled:opacity-60" disabled={isPending}>
+        <button
+          className="rounded-md bg-primary px-5 py-3 font-medium text-primary-fg disabled:opacity-60"
+          disabled={isPending}
+        >
           {isPending ? 'Sending invitation...' : 'Send invitation'}
         </button>
       </form>

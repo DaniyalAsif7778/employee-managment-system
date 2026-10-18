@@ -28,58 +28,64 @@ import HeaderDrawer from './HeaderDrawer.js'
 const DashBordHeader = () => {
   const navigate = useNavigate()
   const role = useLoginSlice((state) => state.role)
+  const userId = useLoginSlice((state) => state.userId)
   const clearAuthentication = useLoginSlice((state) => state.clearAuthentication)
   const { dashBoardDrawer, setDashBoardStatus } = useMenue()
 
   const linksByRole = {
     admin: [
-      { path: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
-      { path: '/admin/organizations', icon: Building2, label: 'Organizations' },
-      { path: '/admin/employees', icon: Users, label: 'Employees' },
-      { path: '/admin/departments', icon: Building2, label: 'Departments' },
-      { path: '/admin/tasks', icon: CheckSquare, label: 'Tasks' },
-      { path: '/admin/reports', icon: FileText, label: 'Reports' },
-      { path: '/admin/messages', icon: MessageSquare, label: 'Messages' },
-      { path: '/admin/announcements', icon: Megaphone, label: 'Announcements' },
-      { path: '/admin/notifications', icon: Bell, label: 'Notifications' },
-      { path: '/admin/settings', icon: Settings, label: 'Settings' },
+      { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
+      { path: '/organizations', icon: Building2, label: 'Organizations' },
+      { path: '/employees', icon: Users, label: 'Employees' },
+      { path: '/departments', icon: Building2, label: 'Departments' },
+      { path: '/tasks', icon: CheckSquare, label: 'Tasks' },
+      { path: '/reports', icon: FileText, label: 'Reports' },
+      { path: '/messages', icon: MessageSquare, label: 'Messages' },
+      { path: '/announcements', icon: Megaphone, label: 'Announcements' },
+      { path: '/notifications', icon: Bell, label: 'Notifications' },
+      { path: '/settings', icon: Settings, label: 'Settings' },
     ],
     employee: [
-      { path: '/employee', icon: LayoutDashboard, label: 'Dashboard', end: true },
-      { path: '/employee/tasks', icon: CheckSquare, label: 'My Tasks' },
-      { path: '/employee/schedule', icon: Briefcase, label: 'Schedule' },
-      { path: '/employee/leave', icon: Calendar, label: 'Leave' },
-      { path: '/employee/colleagues', icon: Users, label: 'Colleagues' },
-      { path: '/employee/messages', icon: MessageSquare, label: 'Messages' },
-      { path: '/employee/announcements', icon: Megaphone, label: 'Announcements' },
-      { path: '/employee/notifications', icon: Bell, label: 'Notifications' },
-      { path: '/employee/profile', icon: UserCircle, label: 'Profile' },
+      { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
+      { path: '/tasks', icon: CheckSquare, label: 'My Tasks' },
+      { path: '/schedule', icon: Briefcase, label: 'Schedule' },
+      { path: '/leave', icon: Calendar, label: 'Leave' },
+      { path: '/colleagues', icon: Users, label: 'Colleagues' },
+      { path: '/messages', icon: MessageSquare, label: 'Messages' },
+      { path: '/announcements', icon: Megaphone, label: 'Announcements' },
+      { path: '/notifications', icon: Bell, label: 'Notifications' },
+      { path: '/profile', icon: UserCircle, label: 'Profile' },
     ],
     manager: [
-      { path: '/manager', icon: LayoutDashboard, label: 'Dashboard', end: true },
-      { path: '/manager/team', icon: Users, label: 'My Team' },
-      { path: '/manager/tasks', icon: CheckSquare, label: 'Team Tasks' },
-      { path: '/manager/leave-approvals', icon: UserCheck, label: 'Leave Approvals' },
-      { path: '/manager/reports', icon: TrendingUp, label: 'Team Reports' },
-      { path: '/manager/messages', icon: MessageSquare, label: 'Messages' },
-      { path: '/manager/announcements', icon: Megaphone, label: 'Announcements' },
-      { path: '/manager/notifications', icon: Bell, label: 'Notifications' },
-      { path: '/manager/profile', icon: UserCircle, label: 'Profile' },
+      { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
+      { path: '/team', icon: Users, label: 'My Team' },
+      { path: '/tasks', icon: CheckSquare, label: 'Team Tasks' },
+      { path: '/leave-approvals', icon: UserCheck, label: 'Leave Approvals' },
+      { path: '/reports', icon: TrendingUp, label: 'Team Reports' },
+      { path: '/messages', icon: MessageSquare, label: 'Messages' },
+      { path: '/announcements', icon: Megaphone, label: 'Announcements' },
+      { path: '/notifications', icon: Bell, label: 'Notifications' },
+      { path: '/profile', icon: UserCircle, label: 'Profile' },
     ],
     hr: [
-      { path: '/hr', icon: LayoutDashboard, label: 'Dashboard', end: true },
-      { path: '/hr/recruitment', icon: UserPlus, label: 'Recruitment' },
-      { path: '/hr/employees', icon: Users, label: 'Employees' },
-      { path: '/hr/leaves', icon: Calendar, label: 'Leave Management' },
-      { path: '/hr/onboarding', icon: BookOpen, label: 'Onboarding' },
-      { path: '/hr/messages', icon: MessageSquare, label: 'Messages' },
-      { path: '/hr/announcements', icon: Megaphone, label: 'Announcements' },
-      { path: '/hr/notifications', icon: Bell, label: 'Notifications' },
-      { path: '/hr/profile', icon: UserCircle, label: 'Profile' },
+      { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
+      { path: '/recruitment', icon: UserPlus, label: 'Recruitment' },
+      { path: '/employees', icon: Users, label: 'Employees' },
+      { path: '/leaves', icon: Calendar, label: 'Leave Management' },
+      { path: '/onboarding', icon: BookOpen, label: 'Onboarding' },
+      { path: '/messages', icon: MessageSquare, label: 'Messages' },
+      { path: '/announcements', icon: Megaphone, label: 'Announcements' },
+      { path: '/notifications', icon: Bell, label: 'Notifications' },
+      { path: '/profile', icon: UserCircle, label: 'Profile' },
     ],
   }
 
-  const links = linksByRole[role ?? 'admin']
+  const dashboardBasePath =
+    role && userId ? `/dashboard/${role}/${encodeURIComponent(userId)}` : '/login'
+  const links = linksByRole[role ?? 'admin'].map((link) => ({
+    ...link,
+    path: `${dashboardBasePath}${link.path}`,
+  }))
 
   const closeDrawerOnMobile = () => {
     if (window.matchMedia('(max-width: 639px)').matches) {
@@ -101,16 +107,14 @@ const DashBordHeader = () => {
       id="dashboard-sidebar"
       aria-label="Dashboard navigation"
       className={`fixed bottom-0 left-0 top-10 z-30 flex flex-col border-r border-[#333] bg-[#1f1f1f] text-[#e0e0e0] shadow-xl transition-[width,transform] duration-200 ease-out ${
-        dashBoardDrawer
-          ? 'w-60 translate-x-0'
-          : 'w-60 -translate-x-full sm:w-15 sm:translate-x-0'
+        dashBoardDrawer ? 'w-60 translate-x-0' : 'w-60 -translate-x-full sm:w-15 sm:translate-x-0'
       }`}
     >
       <div className="flex h-15 shrink-0 items-center border-b border-[#333] px-2">
         {dashBoardDrawer ? (
           <>
             <div className="flex min-w-0 items-center gap-3">
-              <img src={iconLogo} alt="" className="size-10 shrink-0" />
+              <img src={iconLogo} alt="" className="size-8 shrink-0" />
               <span className="text-xl font-bold text-text-primary">EMS</span>
             </div>
             <HeaderDrawer className="ml-auto" />

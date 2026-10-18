@@ -56,7 +56,10 @@ export default function ForgotPassword() {
               {apiErrorMessage(error, 'Could not send a verification code.')}
             </p>
           )}
-          <button className="w-full rounded-md bg-primary px-4 py-3 font-medium text-primary-fg disabled:opacity-60" disabled={isPending}>
+          <button
+            className="w-full rounded-md bg-primary px-4 py-3 font-medium text-primary-fg disabled:opacity-60"
+            disabled={isPending}
+          >
             {isPending ? 'Sending code...' : 'Send verification code'}
           </button>
         </form>

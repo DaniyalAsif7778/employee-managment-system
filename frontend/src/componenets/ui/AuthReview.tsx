@@ -12,7 +12,6 @@ interface AuthReviewSectionProps {
 export function AuthReviewSection({ title, onEdit, children }: AuthReviewSectionProps) {
   return (
     <div className="bg-surface border border-border rounded-lg p-4 mb-4">
-   
       <div className="flex flex-col gap-2.5">{children}</div>
     </div>
   )
@@ -63,12 +62,13 @@ export function AuthTermsModal({ onClose }: AuthTermsModalProps) {
             and to use the platform only for lawful workforce management purposes.
           </p>
           <p>
-            Your organization&apos;s data — employee records, attendance, tasks and payroll — belongs
-            to you. We store it securely and never share it with third parties without your consent.
+            Your organization&apos;s data — employee records, attendance, tasks and payroll —
+            belongs to you. We store it securely and never share it with third parties without your
+            consent.
           </p>
           <p>
-            You&apos;re responsible for how members of your organization use their accounts, including
-            keeping login credentials confidential.
+            You&apos;re responsible for how members of your organization use their accounts,
+            including keeping login credentials confidential.
           </p>
           <p>
             We may update these terms from time to time. Continued use of Rosterly after an update

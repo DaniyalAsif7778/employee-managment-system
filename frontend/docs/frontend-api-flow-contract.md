@@ -39,19 +39,19 @@ Validation may include a `data.errors` object, but `message` must still be prese
 
 Current multipart keys:
 
-| Key | Value |
-|---|---|
-| `fullName` | Admin's full name |
-| `email` | Admin email, trimmed and lowercase |
-| `password` | Admin password |
-| `confirmPassword` | Confirmation; frontend currently includes it in the payload |
-| `avatar` | Admin profile image |
-| `orgName` | Organization name |
-| `address` | Organization address |
-| `industry` | Selected industry |
-| `companySize` | Selected size label, currently a string such as `1–10` |
-| `org_avatar` | Organization avatar image |
-| `org_CoverImage` | Organization cover image; exact casing follows the current frontend type/schema |
+| Key               | Value                                                                           |
+| ----------------- | ------------------------------------------------------------------------------- |
+| `fullName`        | Admin's full name                                                               |
+| `email`           | Admin email, trimmed and lowercase                                              |
+| `password`        | Admin password                                                                  |
+| `confirmPassword` | Confirmation; frontend currently includes it in the payload                     |
+| `avatar`          | Admin profile image                                                             |
+| `orgName`         | Organization name                                                               |
+| `address`         | Organization address                                                            |
+| `industry`        | Selected industry                                                               |
+| `companySize`     | Selected size label, currently a string such as `1–10`                          |
+| `org_avatar`      | Organization avatar image                                                       |
+| `org_CoverImage`  | Organization cover image; exact casing follows the current frontend type/schema |
 
 **Success response:** Any 2xx response currently counts as success at the service layer. A consistent envelope is recommended:
 
@@ -111,9 +111,7 @@ The browser must not need to read access or refresh tokens from JavaScript. Use 
 {
   "statusCode": 200,
   "data": {
-    "user": [
-      { "id": "user-id", "email": "employee@example.com", "role": "Employee" }
-    ]
+    "user": [{ "id": "user-id", "email": "employee@example.com", "role": "Employee" }]
   },
   "message": "Session restored"
 }
@@ -269,18 +267,18 @@ The backend should consume the invitation token, hash the password, activate/cre
 
 ## Frontend route map
 
-| Browser route | Screen / behavior |
-|---|---|
-| `/` and `/login` | Login. After invitation acceptance, the URL may include `invitation=accepted`, `email`, and `role` to show confirmation and prefill the form. |
-| `/forgot-password` | Collect email and request a reset OTP. |
-| `/verify-otp?email=...` | Collect the six-digit OTP and verify it. |
-| `/reset-password` | Set the new password using the short-lived reset token held in router state. |
-| `/accept-invite?token=...` | Load invitation details, show assigned email/role, and collect the employee-created password. |
-| `/error?message=...` and unknown paths | Generic error screen with a login link. |
-| `/DashBoard/Dashbord` | Admin dashboard; admin role required. |
-| `/DashBoard/EmployeeDashboard` | Employee dashboard; employee role required. |
-| `/DashBoard/ManagerDashboard` | Manager dashboard; manager role required. |
-| `/DashBoard/HRDashboard` | HR dashboard; HR role required. |
+| Browser route                          | Screen / behavior                                                                                                                             |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/` and `/login`                       | Login. After invitation acceptance, the URL may include `invitation=accepted`, `email`, and `role` to show confirmation and prefill the form. |
+| `/forgot-password`                     | Collect email and request a reset OTP.                                                                                                        |
+| `/verify-otp?email=...`                | Collect the six-digit OTP and verify it.                                                                                                      |
+| `/reset-password`                      | Set the new password using the short-lived reset token held in router state.                                                                  |
+| `/accept-invite?token=...`             | Load invitation details, show assigned email/role, and collect the employee-created password.                                                 |
+| `/error?message=...` and unknown paths | Generic error screen with a login link.                                                                                                       |
+| `/DashBoard/Dashbord`                  | Admin dashboard; admin role required.                                                                                                         |
+| `/DashBoard/EmployeeDashboard`         | Employee dashboard; employee role required.                                                                                                   |
+| `/DashBoard/ManagerDashboard`          | Manager dashboard; manager role required.                                                                                                     |
+| `/DashBoard/HRDashboard`               | HR dashboard; HR role required.                                                                                                               |
 
 All dashboard routes are behind the frontend session restore/role guards. When `/auth/me` returns `401`, the frontend redirects to `/login`.
 

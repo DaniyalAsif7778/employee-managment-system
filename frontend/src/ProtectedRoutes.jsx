@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
-import { Navigate, Outlet } from 'react-router'
+import { Navigate, Outlet, useParams } from 'react-router'
 import { getCurrentUser } from './lib/api/auth.service.js'
 import { useLoginSlice } from './store/LoginSlice.js'
 
 function ProtectedRoutes() {
   const role = useLoginSlice((state) => state.role)
+  const userId = useLoginSlice((state) => state.userId)
   const sessionReady = useLoginSlice((state) => state.sessionReady)
-  const setAuthenticatedRole = useLoginSlice((state) => state.setAuthenticatedRole)
+  const setAuthenticatedUser = useLoginSlice((state) => state.setAuthenticatedUser)
   const finishSessionRestore = useLoginSlice((state) => state.finishSessionRestore)
 
   useEffect(() => {
@@ -16,9 +17,10 @@ function ProtectedRoutes() {
     getCurrentUser()
       .then((response) => {
         const responseRole = response.data?.user?.[0]?.role?.trim().toLowerCase()
+        const responseUserId = response.data?.user?.[0]?.id
         const validRoles = ['admin', 'employee', 'manager', 'hr']
-        if (isActive && responseRole && validRoles.includes(responseRole)) {
-          setAuthenticatedRole(responseRole)
+        if (isActive && responseRole && responseUserId && validRoles.includes(responseRole)) {
+          setAuthenticatedUser(responseRole, responseUserId)
         } else if (isActive) {
           finishSessionRestore()
         }
@@ -30,7 +32,7 @@ function ProtectedRoutes() {
     return () => {
       isActive = false
     }
-  }, [finishSessionRestore, sessionReady, setAuthenticatedRole])
+  }, [finishSessionRestore, sessionReady, setAuthenticatedUser])
 
   if (!sessionReady) {
     return <div className="p-6 text-text-secondary">Restoring your session...</div>
@@ -41,7 +43,13 @@ function ProtectedRoutes() {
 
 function RoleRoutes({ allowedRole }) {
   const role = useLoginSlice((state) => state.role)
-  return role === allowedRole ? <Outlet /> : <Navigate to="/login" replace />
+  const userId = useLoginSlice((state) => state.userId)
+  const routeUserId = useParams().userId
+  if (!role || !userId) return <Navigate to="/login" replace />
+  if (role !== allowedRole || routeUserId !== userId) {
+    return <Navigate to={`/dashboard/${role}/${encodeURIComponent(userId)}`} replace />
+  }
+  return <Outlet />
 }
 
 function AdminRoutes() {

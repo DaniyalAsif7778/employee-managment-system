@@ -19,14 +19,15 @@ flowchart LR
   C -->|Previous| B
 ```
 
-| Step | `stepperCount` | Component | Action on continue |
-|------|----------------|-----------|-------------------|
-| 1 | `1` | `AdminSingup.tsx` | Save personal fields → `formContext` → go to step 2 |
-| 2 | `2` | `OrgSingup.tsx` | Save org fields → `formContext` → go to step 3 |
-| 3 | `3` | `FinalSingup.tsx` | User accepts terms → go to step 4 |
-| 4 | `4` | *(not built yet)* | `POST /api/auth/register` → handle response |
+| Step | `stepperCount` | Component         | Action on continue                                  |
+| ---- | -------------- | ----------------- | --------------------------------------------------- |
+| 1    | `1`            | `AdminSingup.tsx` | Save personal fields → `formContext` → go to step 2 |
+| 2    | `2`            | `OrgSingup.tsx`   | Save org fields → `formContext` → go to step 3      |
+| 3    | `3`            | `FinalSingup.tsx` | User accepts terms → go to step 4                   |
+| 4    | `4`            | _(not built yet)_ | `POST /api/auth/register` → handle response         |
 
 **State storage**
+
 - Wizard step: `stepperContext` (`stepperCount`, `setStepCount`)
 - Form payload: `formContext` (`formData`, `updateFormData`)
 - Step-local UI state stays in each page component (password visibility, slug touched, terms checkbox)
@@ -39,25 +40,26 @@ flowchart LR
 
 **Fields collected**
 
-| UI field | Context key | Required |
-|----------|-------------|----------|
-| Full name | `fullName` | Yes |
-| Email | `email` | Yes |
-| Phone | `phoneNumber` *(mapped from local `phone`)* | Yes |
-| Password | `password` | Yes |
-| Confirm password | `confirmPassword` | Yes |
+| UI field         | Context key                                 | Required |
+| ---------------- | ------------------------------------------- | -------- |
+| Full name        | `fullName`                                  | Yes      |
+| Email            | `email`                                     | Yes      |
+| Phone            | `phoneNumber` _(mapped from local `phone`)_ | Yes      |
+| Password         | `password`                                  | Yes      |
+| Confirm password | `confirmPassword`                           | Yes      |
 
 ### Frontend validation (format only — UX)
 
-| Field | Rule | Suggested regex / logic | Error message |
-|-------|------|-------------------------|---------------|
-| Full name | Letters, spaces, hyphens, apostrophes; min 2 chars after trim | `/^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/` | Enter a valid full name (letters, spaces, hyphens only) |
-| Email | Valid email format | `/^[^\s@]+@[^\s@]+\.[^\s@]+$/` | Enter a valid email address |
-| Phone | **Local numbers only** — exactly 10 digits | Strip non-digits → `/^\d{10}$/` | Enter a valid 10-digit local phone number |
-| Password | Min 12 chars; upper, lower, number, symbol | See backend guide | Use 12+ characters with upper, lower, number, and symbol |
-| Confirm password | Must match password | `password === confirmPassword` | Passwords do not match |
+| Field            | Rule                                                          | Suggested regex / logic            | Error message                                            |
+| ---------------- | ------------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------- |
+| Full name        | Letters, spaces, hyphens, apostrophes; min 2 chars after trim | `/^[A-Za-z]+(?:[ '-][A-Za-z]+)*$/` | Enter a valid full name (letters, spaces, hyphens only)  |
+| Email            | Valid email format                                            | `/^[^\s@]+@[^\s@]+\.[^\s@]+$/`     | Enter a valid email address                              |
+| Phone            | **Local numbers only** — exactly 10 digits                    | Strip non-digits → `/^\d{10}$/`    | Enter a valid 10-digit local phone number                |
+| Password         | Min 12 chars; upper, lower, number, symbol                    | See backend guide                  | Use 12+ characters with upper, lower, number, and symbol |
+| Confirm password | Must match password                                           | `password === confirmPassword`     | Passwords do not match                                   |
 
 **UX rules**
+
 - [ ] Show inline error only after user has typed in the field (avoid errors on empty initial state)
 - [ ] Disable **Continue** until all step-1 fields pass format validation
 - [ ] Optional: auto-format phone as `(555) 000-0000` while typing
@@ -65,27 +67,27 @@ flowchart LR
 
 ### Backend validation (authoritative)
 
-| Check | On failure — suggested API response | UI handling |
-|-------|-------------------------------------|-------------|
-| All fields present & correct types | `400` + field errors | Map to inline or toast errors |
-| Email unique | `409` or `400` `{ field: "email" }` | Show under email field |
-| Phone unique | `409` or `400` `{ field: "phoneNumber" }` | Show under phone field |
-| Password strength (≥ 12, complexity) | `400` `{ field: "password" }` | Show under password field |
-| Password hash never returned in response | — | Never log or store plain password after submit |
+| Check                                    | On failure — suggested API response       | UI handling                                    |
+| ---------------------------------------- | ----------------------------------------- | ---------------------------------------------- |
+| All fields present & correct types       | `400` + field errors                      | Map to inline or toast errors                  |
+| Email unique                             | `409` or `400` `{ field: "email" }`       | Show under email field                         |
+| Phone unique                             | `409` or `400` `{ field: "phoneNumber" }` | Show under phone field                         |
+| Password strength (≥ 12, complexity)     | `400` `{ field: "password" }`             | Show under password field                      |
+| Password hash never returned in response | —                                         | Never log or store plain password after submit |
 
 ### Edge cases — Step 1
 
-| Case | Expected behavior |
-|------|-------------------|
-| Empty field on Continue | Block navigation; show field error |
-| Leading/trailing spaces in name/email | Trim before validate & before save to context |
-| Phone with formatting `(555) 000-0000` | Normalize to digits before validate/submit |
-| Phone with country code `+1...` | Reject on frontend (local only policy) |
-| Password visible via eye toggle | Must not affect validation |
-| Copy-paste mismatch in confirm password | Show mismatch error |
-| User clicks **Login** NavLink mid-flow | Navigate away; wizard state may reset (document or persist intentionally) |
-| Browser autofill | Ensure controlled inputs still validate after autofill |
-| Very long inputs (>128 chars password, etc.) | Enforce max length client + server |
+| Case                                         | Expected behavior                                                         |
+| -------------------------------------------- | ------------------------------------------------------------------------- |
+| Empty field on Continue                      | Block navigation; show field error                                        |
+| Leading/trailing spaces in name/email        | Trim before validate & before save to context                             |
+| Phone with formatting `(555) 000-0000`       | Normalize to digits before validate/submit                                |
+| Phone with country code `+1...`              | Reject on frontend (local only policy)                                    |
+| Password visible via eye toggle              | Must not affect validation                                                |
+| Copy-paste mismatch in confirm password      | Show mismatch error                                                       |
+| User clicks **Login** NavLink mid-flow       | Navigate away; wizard state may reset (document or persist intentionally) |
+| Browser autofill                             | Ensure controlled inputs still validate after autofill                    |
+| Very long inputs (>128 chars password, etc.) | Enforce max length client + server                                        |
 
 ### Step 1 checklist
 
@@ -104,53 +106,55 @@ flowchart LR
 
 **Fields collected**
 
-| UI field | Context key *(expected)* | Current local state | Required |
-|----------|--------------------------|---------------------|----------|
-| Organization name | `organizationName` | `orgName` | Yes |
-| Organization slug | `organizationSlug` | `slug` | Yes |
-| Address | `address` | `address` | Yes |
-| Company size | `companySize` | `companySize` (number `1`, Select not wired) | Yes |
+| UI field          | Context key _(expected)_ | Current local state                          | Required |
+| ----------------- | ------------------------ | -------------------------------------------- | -------- |
+| Organization name | `organizationName`       | `orgName`                                    | Yes      |
+| Organization slug | `organizationSlug`       | `slug`                                       | Yes      |
+| Address           | `address`                | `address`                                    | Yes      |
+| Company size      | `companySize`            | `companySize` (number `1`, Select not wired) | Yes      |
 
 > **Known gap:** `OrgSingup` saves `{ orgName, slug, ... }` but `formContext` expects `{ organizationName, organizationSlug, ... }`. Fix mapping before API submit.
 
 ### Frontend validation (format only)
 
-| Field | Rule | Suggested regex / logic | Error message |
-|-------|------|-------------------------|---------------|
-| Organization name | 3–100 chars; letters, numbers, common punctuation | `/^[A-Za-z0-9&().,' -]{3,100}$/` | Enter a valid organization name (3–100 characters) |
-| Organization slug | Lowercase, numbers, hyphens; no leading/trailing hyphen | `/^[a-z0-9]+(?:-[a-z0-9]+)*$/` | Use lowercase letters, numbers, and hyphens only |
-| Address | 5–255 chars; allowed address characters | `/^[A-Za-z0-9\s,.'#/-]{5,255}$/` | Enter a valid address (at least 5 characters) |
-| Company size | Must be selected from list | One of predefined options | Select a company size |
+| Field             | Rule                                                    | Suggested regex / logic          | Error message                                      |
+| ----------------- | ------------------------------------------------------- | -------------------------------- | -------------------------------------------------- |
+| Organization name | 3–100 chars; letters, numbers, common punctuation       | `/^[A-Za-z0-9&().,' -]{3,100}$/` | Enter a valid organization name (3–100 characters) |
+| Organization slug | Lowercase, numbers, hyphens; no leading/trailing hyphen | `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`   | Use lowercase letters, numbers, and hyphens only   |
+| Address           | 5–255 chars; allowed address characters                 | `/^[A-Za-z0-9\s,.'#/-]{5,255}$/` | Enter a valid address (at least 5 characters)      |
+| Company size      | Must be selected from list                              | One of predefined options        | Select a company size                              |
 
 **Slug auto-generation**
+
 - [ ] Auto-slugify from org name when user has **not** manually edited slug (`slugTouched === false`)
 - [ ] Once user edits slug, stop auto-overwriting
 - [ ] Slugify: lowercase → replace non-alphanumeric runs with `-` → trim hyphens from ends
 - [ ] Fix slug input `type="file"` → `type="text"`
 
 **Optional UX**
+
 - [ ] Debounced `GET /api/organizations/check-slug?slug=...` (300ms) — show "available" / "taken" hint only; server re-checks on submit
 
 ### Backend validation (authoritative)
 
-| Check | On failure | UI handling |
-|-------|------------|-------------|
-| Organization name unique | `409` `{ field: "organizationName" }` | Error on org name |
-| Slug unique | `409` `{ field: "organizationSlug" }` | Error on slug + suggest alternative |
-| Address unique *(if enforced in model)* | `409` `{ field: "address" }` | Error on address |
-| Company size valid number / enum | `400` | Error on select |
+| Check                                   | On failure                            | UI handling                         |
+| --------------------------------------- | ------------------------------------- | ----------------------------------- |
+| Organization name unique                | `409` `{ field: "organizationName" }` | Error on org name                   |
+| Slug unique                             | `409` `{ field: "organizationSlug" }` | Error on slug + suggest alternative |
+| Address unique _(if enforced in model)_ | `409` `{ field: "address" }`          | Error on address                    |
+| Company size valid number / enum        | `400`                                 | Error on select                     |
 
 ### Edge cases — Step 2
 
-| Case | Expected behavior |
-|------|-------------------|
-| Org name changes after slug manually edited | Do not overwrite slug |
-| Org name produces empty slug (e.g. `"!!!"`) | Block continue; prompt user to enter slug manually |
-| Slug already taken (live check says taken) | Disable continue or warn; backend must reject anyway |
-| User clicks **Previous** | Go to step 1; keep `formContext` data from step 1 |
-| Company size not selected | Block continue |
-| Special characters in org name | Slug strips them; preview updates `rosterly.app/your-org` |
-| XSS in text fields | Escape on display in review step; sanitize server-side |
+| Case                                        | Expected behavior                                         |
+| ------------------------------------------- | --------------------------------------------------------- |
+| Org name changes after slug manually edited | Do not overwrite slug                                     |
+| Org name produces empty slug (e.g. `"!!!"`) | Block continue; prompt user to enter slug manually        |
+| Slug already taken (live check says taken)  | Disable continue or warn; backend must reject anyway      |
+| User clicks **Previous**                    | Go to step 1; keep `formContext` data from step 1         |
+| Company size not selected                   | Block continue                                            |
+| Special characters in org name              | Slug strips them; preview updates `rosterly.app/your-org` |
+| XSS in text fields                          | Escape on display in review step; sanitize server-side    |
 
 ### Step 2 checklist
 
@@ -168,16 +172,17 @@ flowchart LR
 **File:** `src/pages/auth/FinalSingup.tsx`
 
 **Purpose**
+
 - Display summary of steps 1 & 2 from `formContext`
 - Require terms acceptance before submit
 
 ### Validation
 
-| Rule | Error / behavior |
-|------|------------------|
-| Terms checkbox must be checked | Disable **Create organization** until `agreed === true` *(already implemented)* |
-| All prior step data must exist in context | If missing, redirect to earliest incomplete step |
-| Review rows must show actual values | Currently shows labels only — wire `formData` values |
+| Rule                                      | Error / behavior                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------------- |
+| Terms checkbox must be checked            | Disable **Create organization** until `agreed === true` _(already implemented)_ |
+| All prior step data must exist in context | If missing, redirect to earliest incomplete step                                |
+| Review rows must show actual values       | Currently shows labels only — wire `formData` values                            |
 
 **Review display checklist**
 
@@ -193,12 +198,12 @@ flowchart LR
 
 ### Edge cases — Step 3
 
-| Case | Expected behavior |
-|------|-------------------|
-| User refreshes on review page | Restore from context or send back to step 1 |
-| User opens terms modal | Modal closes without auto-checking terms |
-| User clicks Previous | Return to step 2; keep all context data |
-| Partial context (empty email) | Block create; show message + link to edit step |
+| Case                             | Expected behavior                              |
+| -------------------------------- | ---------------------------------------------- |
+| User refreshes on review page    | Restore from context or send back to step 1    |
+| User opens terms modal           | Modal closes without auto-checking terms       |
+| User clicks Previous             | Return to step 2; keep all context data        |
+| Partial context (empty email)    | Block create; show message + link to edit step |
 | Double-click Create organization | Debounce / loading state; single API call only |
 
 ### Step 3 checklist
@@ -213,7 +218,7 @@ flowchart LR
 
 ## Step 4 — API submit & response
 
-**Trigger:** `setStepCount(4)` after terms accepted *(step 4 UI / submit handler not implemented yet)*
+**Trigger:** `setStepCount(4)` after terms accepted _(step 4 UI / submit handler not implemented yet)_
 
 ### Request payload (single combined POST)
 
@@ -258,23 +263,23 @@ flowchart LR
 
 ### Error response handling
 
-| HTTP | Meaning | Frontend action |
-|------|---------|-----------------|
-| `400` | Validation failed | Map `errors[]` or `{ field, message }` to fields; stay on review or jump to step |
-| `409` | Duplicate email / phone / slug / org name | Show specific field error; jump to relevant step |
-| `500` | Server error | Generic toast: "Something went wrong. Try again." |
-| Network offline | No response | Toast + retry button; do not clear form |
-| Timeout | Request hung | Cancel + retry; keep form data |
+| HTTP            | Meaning                                   | Frontend action                                                                  |
+| --------------- | ----------------------------------------- | -------------------------------------------------------------------------------- |
+| `400`           | Validation failed                         | Map `errors[]` or `{ field, message }` to fields; stay on review or jump to step |
+| `409`           | Duplicate email / phone / slug / org name | Show specific field error; jump to relevant step                                 |
+| `500`           | Server error                              | Generic toast: "Something went wrong. Try again."                                |
+| Network offline | No response                               | Toast + retry button; do not clear form                                          |
+| Timeout         | Request hung                              | Cancel + retry; keep form data                                                   |
 
 ### Edge cases — Step 4
 
-| Case | Expected behavior |
-|------|-------------------|
-| Transaction fails mid-create | Backend rolls back; user sees error; no partial account |
-| Email taken between step 1 and submit | `409` on email; navigate user to step 1 with error |
-| Slug taken at submit time | `409` on slug; navigate to step 2 |
-| User navigates back after failed submit | Preserve form data for correction |
-| Success but redirect fails | Still show success; user can click Dashboard manually |
+| Case                                    | Expected behavior                                       |
+| --------------------------------------- | ------------------------------------------------------- |
+| Transaction fails mid-create            | Backend rolls back; user sees error; no partial account |
+| Email taken between step 1 and submit   | `409` on email; navigate user to step 1 with error      |
+| Slug taken at submit time               | `409` on slug; navigate to step 2                       |
+| User navigates back after failed submit | Preserve form data for correction                       |
+| Success but redirect fails              | Still show success; user can click Dashboard manually   |
 
 ### Step 4 checklist
 
@@ -300,13 +305,13 @@ flowchart LR
 
 ### Security edge cases
 
-| Threat | Mitigation |
-|--------|------------|
-| Email enumeration | Same generic message where possible; identical response timing |
-| Password in logs | Never `console.log` form data in production |
-| CSRF on register | SameSite cookies + CSRF token if not using pure JWT cookie pattern |
-| Rate limiting | Backend throttle on `/register`; frontend disable button after submit |
-| XSS in review step | React escapes by default; avoid `dangerouslySetInnerHTML` |
+| Threat             | Mitigation                                                            |
+| ------------------ | --------------------------------------------------------------------- |
+| Email enumeration  | Same generic message where possible; identical response timing        |
+| Password in logs   | Never `console.log` form data in production                           |
+| CSRF on register   | SameSite cookies + CSRF token if not using pure JWT cookie pattern    |
+| Rate limiting      | Backend throttle on `/register`; frontend disable button after submit |
+| XSS in review step | React escapes by default; avoid `dangerouslySetInnerHTML`             |
 
 ---
 
@@ -316,7 +321,7 @@ flowchart LR
 
 - [ ] `src/utils/validator.ts` — shared regex + helpers (`fieldError`, `normalizePhone`, `formatLocalPhone`)
 - [ ] `src/hooks/useValidator.tsx` — step-1 boolean validation hook
-- [ ] `src/hooks/useOrgValidator.tsx` — step-2 validation hook *(optional separate file)*
+- [ ] `src/hooks/useOrgValidator.tsx` — step-2 validation hook _(optional separate file)_
 - [ ] `useDebounce.ts` — for slug/email async checks
 
 ### Step pages
@@ -349,17 +354,17 @@ flowchart LR
 
 ## Current codebase status (as of 2026-07-20)
 
-| Item | Status |
-|------|--------|
-| Wizard routing (`Singup.tsx` steps 1–3) | Done |
-| `formContext` + `stepperContext` | Done |
-| Step 1 validation | **Not implemented** — user to add |
-| Step 2 validation | **Not implemented** — user to add |
-| Step 2 → context field mapping | **Broken** — key mismatch |
-| Step 3 review values | **Not wired** — labels only |
-| Step 4 API submit | **Not implemented** |
-| Terms gate on Create | Done |
-| Backend register endpoint | Refer to `backend/docs/employee-management-system-implementation-guide.md` |
+| Item                                    | Status                                                                     |
+| --------------------------------------- | -------------------------------------------------------------------------- |
+| Wizard routing (`Singup.tsx` steps 1–3) | Done                                                                       |
+| `formContext` + `stepperContext`        | Done                                                                       |
+| Step 1 validation                       | **Not implemented** — user to add                                          |
+| Step 2 validation                       | **Not implemented** — user to add                                          |
+| Step 2 → context field mapping          | **Broken** — key mismatch                                                  |
+| Step 3 review values                    | **Not wired** — labels only                                                |
+| Step 4 API submit                       | **Not implemented**                                                        |
+| Terms gate on Create                    | Done                                                                       |
+| Backend register endpoint               | Refer to `backend/docs/employee-management-system-implementation-guide.md` |
 
 ---
 
@@ -403,7 +408,7 @@ Use this section as your main progress tracker. Work top to bottom; check each b
 - [ ] **0.1** Create `src/utils/validator.ts` with regex rules for step 1 and step 2
 - [ ] **0.2** Add helpers: `fieldError()`, `normalizePhone()`, `formatLocalPhone()`
 - [ ] **0.3** Create `src/hooks/useValidator.tsx` for step 1 (returns booleans + `canSubmit`)
-- [ ] **0.4** Create `src/hooks/useOrgValidator.tsx` for step 2 *(optional separate hook)*
+- [ ] **0.4** Create `src/hooks/useOrgValidator.tsx` for step 2 _(optional separate hook)_
 - [ ] **0.5** Confirm `src/hooks/useDebounce.ts` exists for async slug/email checks (300ms)
 
 ---
@@ -437,7 +442,7 @@ Use this section as your main progress tracker. Work top to bottom; check each b
 - [ ] **2.9** Stop auto-slugify after user manually edits slug
 - [ ] **2.10** Show inline errors on all step-2 fields
 - [ ] **2.11** Disable **Continue** until step 2 valid
-- [ ] **2.12** *(Optional)* Debounced slug availability check API
+- [ ] **2.12** _(Optional)_ Debounced slug availability check API
 - [ ] **2.13** Test edge cases: empty slug from special chars, Previous button keeps step 1 data
 
 ---
@@ -456,7 +461,7 @@ Use this section as your main progress tracker. Work top to bottom; check each b
 - [ ] **3.10** Wire **Edit** on owner section → `setStepCount(1)`
 - [ ] **3.11** Wire **Edit** on organization section → `setStepCount(2)`
 - [ ] **3.12** Guard: if step 1/2 data missing, redirect to incomplete step
-- [ ] **3.13** Confirm terms checkbox gates **Create organization** *(already done)*
+- [ ] **3.13** Confirm terms checkbox gates **Create organization** _(already done)_
 - [ ] **3.14** Test edge cases: refresh page, double-click Create, open/close terms modal
 
 ---
@@ -492,7 +497,7 @@ Use this section as your main progress tracker. Work top to bottom; check each b
 - [ ] **5.9** Link admin to organization
 - [ ] **5.10** Return response without password or sensitive tokens in body
 - [ ] **5.11** Set HttpOnly auth cookies (auto-login owner)
-- [ ] **5.12** *(Optional)* `GET /api/organizations/check-slug?slug=...`
+- [ ] **5.12** _(Optional)_ `GET /api/organizations/check-slug?slug=...`
 
 ---
 
@@ -516,15 +521,14 @@ Use this section as your main progress tracker. Work top to bottom; check each b
 
 ### Progress summary
 
-| Phase | Description | Done |
-|-------|-------------|------|
-| 0 | Setup & utilities | ☐ |
-| 1 | Step 1 — Personal info | ☐ |
-| 2 | Step 2 — Organization info | ☐ |
-| 3 | Step 3 — Review & terms | ☐ |
-| 4 | Step 4 — API submit | ☐ |
-| 5 | Backend validation | ☐ |
-| 6 | Manual QA | ☐ |
+| Phase | Description                | Done |
+| ----- | -------------------------- | ---- |
+| 0     | Setup & utilities          | ☐    |
+| 1     | Step 1 — Personal info     | ☐    |
+| 2     | Step 2 — Organization info | ☐    |
+| 3     | Step 3 — Review & terms    | ☐    |
+| 4     | Step 4 — API submit        | ☐    |
+| 5     | Backend validation         | ☐    |
+| 6     | Manual QA                  | ☐    |
 
 **Overall signup flow complete:** ☐
-

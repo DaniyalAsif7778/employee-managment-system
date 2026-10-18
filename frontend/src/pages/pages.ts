@@ -1,4 +1,4 @@
-  import Login from './Login.js'
+import Login from './Login.js'
 import Settings from './Settings.js'
 import Singup from './Singup.js'
 import UpdateProfile from './UpdateProfile.js'
@@ -27,7 +27,6 @@ import AuthErrorScreen from './auth/AuthErrorScreen.js'
 import AcceptInvitation from './auth/AcceptInvitation.js'
 
 export {
-   
   Login,
   Settings,
   Singup,

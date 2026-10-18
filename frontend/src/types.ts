@@ -38,6 +38,7 @@ export interface LoginResponse {
   message?: string
   data?: {
     user?: Array<{
+      id?: string
       role?: string
     }>
   }

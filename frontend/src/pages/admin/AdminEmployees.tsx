@@ -30,7 +30,10 @@ const AdminEmployees = () => {
             </p>
           </div>
           <div>
-            <Link to="/DashBoard/InviteEmployee" className="inline-flex rounded-md bg-primary px-3 py-2 text-primary-fg">
+            <Link
+              to="../invite-employee"
+              className="inline-flex rounded-md bg-primary px-3 py-2 text-primary-fg"
+            >
               + Add Employee
             </Link>
           </div>

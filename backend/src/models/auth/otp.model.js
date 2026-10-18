@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const otpSchema = new mongoose.Schema(
   {
@@ -9,6 +9,7 @@ const otpSchema = new mongoose.Schema(
     consumedAt: { type: Date, default: null },
   },
   { timestamps: true, collection: 'otps' }
-)
+);
 
-export const Otp = mongoose.models.Otp || mongoose.model('Otp', otpSchema, 'otps')
+export const Otp =
+  mongoose.models.Otp || mongoose.model('Otp', otpSchema, 'otps');

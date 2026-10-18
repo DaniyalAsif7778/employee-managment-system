@@ -314,17 +314,20 @@ const AdminTasks = () => {
       </div>
       {/* Navigation Section */}
       <section className="tasks-navigation-sec  w-full flex flex-row justify-between mt-5">
-         <div>
+        <div>
           <p>{`Showing 8 of 8 tasks`}</p>
-         </div>
-         <div className='w-2/4 flex flex-row justify-end  gap-4'>
-          <div><button>Previous</button></div>
+        </div>
+        <div className="w-2/4 flex flex-row justify-end  gap-4">
           <div>
-            <span>
-            </span>
+            <button>Previous</button>
           </div>
-          <div><button>Next</button></div>
-         </div>
+          <div>
+            <span></span>
+          </div>
+          <div>
+            <button>Next</button>
+          </div>
+        </div>
       </section>
     </div>
   )

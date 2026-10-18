@@ -46,11 +46,12 @@ const roles = [
 ]
 
 const rolePaths: Record<LoginRole, string> = {
-  admin: '/DashBoard/Dashbord',
-  manager: '/DashBoard/ManagerDashboard',
-  hr: '/DashBoard/HRDashboard',
-  employee: '/DashBoard/EmployeeDashboard',
+  admin: '/dashboard/admin',
+  manager: '/dashboard/manager',
+  hr: '/dashboard/hr',
+  employee: '/dashboard/employee',
 }
+
 const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
@@ -73,7 +74,7 @@ export default function LoginAuth() {
   const [searchParams] = useSearchParams()
   const { mutate, isPending, isError, error } = useLogin()
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const setAuthenticatedRole = useLoginSlice((state) => state.setAuthenticatedRole)
+  const setAuthenticatedUser = useLoginSlice((state) => state.setAuthenticatedUser)
   const autoCredentials = useLoginSlice((state) => state.autoCredentials)
   const invitedRole = roles.find((role) => role.value === searchParams.get('role')?.toLowerCase())
   const {
@@ -93,9 +94,7 @@ export default function LoginAuth() {
 
   const selectedRole = watch('role')
   const activeRole = roles.find((r) => r.value === selectedRole)!
-  const suggestedCredentials = autoCredentials
-    ? developmentCredentials?.[selectedRole]
-    : undefined
+  const suggestedCredentials = autoCredentials ? developmentCredentials?.[selectedRole] : undefined
   useEffect(() => setActiveRole(selectedRole), [selectedRole, setActiveRole])
   const emailRegistration = register('email', {
     required: 'Email is required',
@@ -118,10 +117,14 @@ export default function LoginAuth() {
     mutate(credentials, {
       onSuccess: (response) => {
         const responseRole = response.data?.user?.[0]?.role?.trim().toLowerCase() as
-          | LoginRole
-          | undefined
+          LoginRole | undefined
+        const userId = response.data?.user?.[0]?.id
         if (!responseRole) {
           setErrors({ form: 'The login response did not include a role.' })
+          return
+        }
+        if (!userId) {
+          setErrors({ form: 'The login response did not include a user ID.' })
           return
         }
         const destination = rolePaths[responseRole]
@@ -131,22 +134,26 @@ export default function LoginAuth() {
           return
         }
 
-        setAuthenticatedRole(responseRole)
-        navigate(destination)
+        setAuthenticatedUser(responseRole, userId)
+        navigate(`${destination}/${encodeURIComponent(userId)}`)
       },
     })
   }
 
   const requestError = isError
-    ? (error as { response?: { data?: { message?: string } }; message?: string }).response?.data
-        ?.message ?? 'Unable to sign in. Check your credentials and try again.'
+    ? ((error as { response?: { data?: { message?: string } }; message?: string }).response?.data
+        ?.message ?? 'Unable to sign in. Check your credentials and try again.')
     : ''
 
   return (
     <div className="w-full max-w-115">
       {/* Mobile logo */}
       <div className="flex items-center gap-3 mb-8 lg:hidden">
-        <img src={wordmarkLogo} alt="EmpoManager" className="h-13 w-70 max-w-full object-contain object-left" />
+        <img
+          src={wordmarkLogo}
+          alt="EmpoManager"
+          className="h-13 w-70 max-w-full object-contain object-left"
+        />
       </div>
 
       <h1 className="text-[28px] font-semibold text-[#E0E0E0] mb-2">Sign in to your account</h1>

@@ -1,5 +1,5 @@
 import { Toaster } from 'react-hot-toast'
- import { Outlet } from 'react-router'
+import { Outlet } from 'react-router'
 import BuildStatusBadge from './componenets/ui/BuildStatusBadge.js'
 import './index.css'
 function Layout() {
@@ -7,7 +7,7 @@ function Layout() {
     <div className="w-full">
       <BuildStatusBadge />
       <Outlet />
-     
+
       <Toaster
         position="top-right"
         toastOptions={{

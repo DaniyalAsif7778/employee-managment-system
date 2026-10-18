@@ -32,8 +32,12 @@ export default function ResetPassword() {
       <main className="min-h-screen bg-bg px-5 py-12 text-text-primary">
         <section className="mx-auto max-w-md">
           <h1 className="mb-3 text-2xl font-semibold">Reset session expired</h1>
-          <p className="mb-5 text-sm text-text-secondary">Verify a new code to reset your password.</p>
-          <Link to="/forgot-password" className="text-primary hover:underline">Start again</Link>
+          <p className="mb-5 text-sm text-text-secondary">
+            Verify a new code to reset your password.
+          </p>
+          <Link to="/forgot-password" className="text-primary hover:underline">
+            Start again
+          </Link>
         </section>
       </main>
     )
@@ -70,7 +74,10 @@ export default function ResetPassword() {
               {apiErrorMessage(error, 'Password could not be updated.')}
             </p>
           )}
-          <button className="w-full rounded-md bg-primary px-4 py-3 font-medium text-primary-fg disabled:opacity-60" disabled={isPending}>
+          <button
+            className="w-full rounded-md bg-primary px-4 py-3 font-medium text-primary-fg disabled:opacity-60"
+            disabled={isPending}
+          >
             {isPending ? 'Updating...' : 'Update password'}
           </button>
         </form>

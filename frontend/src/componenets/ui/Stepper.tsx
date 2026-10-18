@@ -1,13 +1,13 @@
 import React from 'react'
 import { IconCheck } from '@tabler/icons-react'
-import {  usestepperSlice } from '../../store/stepperSlice.js';
+import { usestepperSlice } from '../../store/stepperSlice.js'
 interface StepperProps {
   labels: string[]
   steps: number
 }
 
 function Stepper({ labels = [] }: StepperProps) {
-  const step = usestepperSlice(state => state.step)
+  const step = usestepperSlice((state) => state.step)
   return (
     <div className="flex   items-center mb-8">
       {labels.map((label, index) => {
@@ -32,9 +32,7 @@ function Stepper({ labels = [] }: StepperProps) {
               </div>
 
               {index < labels.length - 1 && (
-                <div
-                  className="   w-[100px]    h-[2px] mx-2 mb-4  bg-navbar overflow-hidden"
-                 >
+                <div className="   w-[100px]    h-[2px] mx-2 mb-4  bg-navbar overflow-hidden">
                   <div
                     className={`h-full    transition-all duration-300 ${done ? 'w-full h-[2px] bg-primary' : 'w-0 bg-navbar'}`}
                   ></div>

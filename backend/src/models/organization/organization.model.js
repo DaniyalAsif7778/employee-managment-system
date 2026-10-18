@@ -1,10 +1,10 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const organizationSchema = new mongoose.Schema(
   {
     orgName: { type: String, required: true, trim: true },
     orgSlug: { type: String, required: true, trim: true, lowercase: true },
-    organizationEmail: { type: String, trim: true, lowercase: true },
+    adminEmail: { type: String, trim: true, lowercase: true },
     address: { type: String, required: true, trim: true },
     industry: { type: String, trim: true, default: '' },
     companySize: { type: String, required: true, trim: true },
@@ -13,14 +13,14 @@ const organizationSchema = new mongoose.Schema(
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true, collection: 'organizations' }
-)
+);
 
-organizationSchema.index({ orgSlug: 1 }, { unique: true })
-organizationSchema.index({ orgName: 1 }, { unique: true })
-organizationSchema.index(
-  { organizationEmail: 1 },
-  { unique: true, sparse: true }
-)
+organizationSchema.index({ orgSlug: 1 }, { unique: true });
+organizationSchema.index({ orgName: 1 }, { unique: true });
+organizationSchema.index({ adminEmail: 1 }, { unique: true, sparse: true });
 
-export const Organization =
-  mongoose.models.Organization || mongoose.model('Organization', organizationSchema, 'organizations')
+export const Organization = mongoose.model(
+  'Organization',
+  organizationSchema,
+  'organizations'
+);

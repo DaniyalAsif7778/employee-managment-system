@@ -1,25 +1,10 @@
-import {
-  useEffect,
-  useId,
-  useRef,
-  useState,
-  type ChangeEvent,
-} from 'react'
+import { useEffect, useId, useRef, useState, type ChangeEvent } from 'react'
 import type { UseFormRegisterReturn } from 'react-hook-form'
-import {
-  IconPhotoPlus,
-  IconX,
-} from '@tabler/icons-react'
+import { IconPhotoPlus, IconX } from '@tabler/icons-react'
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 
-const ACCEPTED_TYPES = [
-  'image/png',
-  'image/jpeg',
-  'image/webp',
-  'image/gif',
-  'image/svg+xml',
-]
+const ACCEPTED_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/svg+xml']
 
 interface CoverImagePickerProps {
   label?: string
@@ -50,17 +35,13 @@ export default function CoverImagePicker({
   const errorId = useId()
   const previewId = useId()
 
-  const [selectedFile, setSelectedFile] =
-    useState<File | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
-  const [previewUrl, setPreviewUrl] =
-    useState<string | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-  const [localError, setLocalError] =
-    useState<string | null>(null)
+  const [localError, setLocalError] = useState<string | null>(null)
 
-  const [isPreviewOpen, setIsPreviewOpen] =
-    useState(false)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
   // Create preview URL
   useEffect(() => {
@@ -84,11 +65,9 @@ export default function CoverImagePicker({
     }
   }
 
-  const handleFileChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-console.log(file,'coverimage');
+    console.log(file, 'coverimage')
 
     if (!file) {
       return
@@ -96,9 +75,7 @@ console.log(file,'coverimage');
 
     // Validate file type
     if (!ACCEPTED_TYPES.includes(file.type)) {
-      setLocalError(
-        'Choose a PNG, JPEG, WebP, SVG, or GIF image.'
-      )
+      setLocalError('Choose a PNG, JPEG, WebP, SVG, or GIF image.')
 
       // Clear invalid file
       event.target.value = ''
@@ -108,9 +85,7 @@ console.log(file,'coverimage');
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
-      setLocalError(
-        'Choose an image smaller than 5 MB.'
-      )
+      setLocalError('Choose an image smaller than 5 MB.')
 
       // Clear invalid file
       event.target.value = ''
@@ -144,34 +119,19 @@ console.log(file,'coverimage');
   const displayError = localError || error
 
   return (
-    <div
-      className={`relative w-full max-w-160 ${className}`}
-    >
+    <div className={`relative w-full max-w-160 ${className}`}>
       {/* View / Add button */}
       <button
         type="button"
         className="inline-flex min-h-9 w-35 items-center justify-center gap-1.5 rounded-md border-2 border-primary px-2 py-1 text-[12px] font-medium leading-tight transition hover:bg-info/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50"
-        onClick={
-          selectedFile
-            ? () => setIsPreviewOpen(true)
-            : openFilePicker
-        }
+        onClick={selectedFile ? () => setIsPreviewOpen(true) : openFilePicker}
         disabled={disabled}
-        aria-controls={
-          selectedFile ? previewId : undefined
-        }
-        aria-expanded={
-          selectedFile ? isPreviewOpen : undefined
-        }
+        aria-controls={selectedFile ? previewId : undefined}
+        aria-expanded={selectedFile ? isPreviewOpen : undefined}
       >
-        <IconPhotoPlus
-          size={16}
-          aria-hidden="true"
-        />
+        <IconPhotoPlus size={16} aria-hidden="true" />
 
-        {selectedFile
-          ? 'View'
-          : 'Add Cover Image'}
+        {selectedFile ? 'View' : 'Add Cover Image'}
       </button>
 
       {/* Preview modal */}
@@ -183,9 +143,7 @@ console.log(file,'coverimage');
         >
           <div
             className="relative flex w-full max-w-3xl flex-col gap-4 overflow-hidden rounded-xl bg-bg/90 p-4 shadow-2xl"
-            onClick={(event) =>
-              event.stopPropagation()
-            }
+            onClick={(event) => event.stopPropagation()}
           >
             <img
               src={previewUrl}
@@ -212,10 +170,7 @@ console.log(file,'coverimage');
               disabled={disabled}
               aria-label="Close cover image preview"
             >
-              <IconX
-                size={20}
-                aria-hidden="true"
-              />
+              <IconX size={20} aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -231,9 +186,7 @@ console.log(file,'coverimage');
         disabled={disabled}
         aria-label={`${label} file input`}
         aria-invalid={!!displayError}
-        aria-describedby={
-          displayError ? errorId : undefined
-        }
+        aria-describedby={displayError ? errorId : undefined}
         onBlur={register?.onBlur}
         onChange={handleFileChange}
         ref={(element) => {
@@ -244,11 +197,7 @@ console.log(file,'coverimage');
 
       {/* Error */}
       {displayError && (
-        <p
-          id={errorId}
-          role="alert"
-          className="mt-1 text-sm text-error"
-        >
+        <p id={errorId} role="alert" className="mt-1 text-sm text-error">
           {displayError}
         </p>
       )}

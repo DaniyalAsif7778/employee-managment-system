@@ -1,9 +1,7 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
 import { Shield, Briefcase, Heart, User } from 'lucide-react'
 import LoginAuth from './auth/LoginAuth.js'
 import { useContentByRoleInLogin } from '../store/useContentByRoleInLogin.js'
-import type {UserRoleOption} from "../types/singupTypes.js"
+import type { UserRoleOption } from '../types/singupTypes.js'
 import wordmarkLogo from '../assets/logo-dark.svg'
 const roles = [
   {
@@ -13,7 +11,7 @@ const roles = [
     icon: Shield,
     color: '#009F8E',
     bg: '#009F8E1A',
-    path: '/admin',
+    path: '/dashboard/admin/:userId',
   },
   {
     value: 'manager',
@@ -22,7 +20,7 @@ const roles = [
     icon: Briefcase,
     color: '#8B5CF6',
     bg: '#8B5CF61A',
-    path: '/manager',
+    path: '/dashboard/manager/:userId',
   },
   {
     value: 'hr',
@@ -31,7 +29,7 @@ const roles = [
     icon: Heart,
     color: '#EC4899',
     bg: '#EC48991A',
-    path: '/hr',
+    path: '/dashboard/hr/:userId',
   },
   {
     value: 'employee',
@@ -40,19 +38,15 @@ const roles = [
     icon: User,
     color: '#12C4D3',
     bg: '#12C4D31A',
-    path: '/employee',
+    path: '/dashboard/employee/:userId',
   },
 ]
 
 export default function Login() {
-  const navigate = useNavigate()
- 
-
   const role = useContentByRoleInLogin((state) => state.role)
-  console.log(role);
-    const activeRole:UserRoleOption | undefined = roles.find(r => r.value === role) ;
+  console.log(role)
+  const activeRole: UserRoleOption | undefined = roles.find((r) => r.value === role)
 
- 
   return (
     <div className="min-h-screen bg-bg flex">
       {/* Left decorative panel */}
@@ -75,12 +69,19 @@ export default function Login() {
 
         <div className="relative">
           <div className="flex items-center gap-3 mb-20">
-            <img src={wordmarkLogo} alt="EmpoManager" className="h-13 w-70 max-w-full object-contain object-left" />
+            <img
+              src={wordmarkLogo}
+              alt="EmpoManager"
+              className="h-13 w-70 max-w-full object-contain object-left"
+            />
           </div>
           <div className="mb-8">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300"
-              style={{ backgroundColor: activeRole?.bg, border: `1px solid ${activeRole?.color}33` }}
+              style={{
+                backgroundColor: activeRole?.bg,
+                border: `1px solid ${activeRole?.color}33`,
+              }}
             >
               {activeRole?.icon && <activeRole.icon className="w-8 h-8 text-white" />}
             </div>
