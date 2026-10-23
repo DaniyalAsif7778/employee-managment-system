@@ -16,4 +16,4 @@ app.use(express.urlencoded({ extended: true, limit: '20kb' }));
 app.use(express.static('public'));
 app.use(cookieParser());
 
-app.use('/v1/ems', userRouter);
+app.use('/api/v1/ems', userRouter);
