@@ -1,12 +1,10 @@
 import express from 'express';
-import {
-  registerOrgnaization,
-  sendOTP,
-} from '../controllers/orgnization/organization.controller.js';
+ 
 import {
   login,
   getCurrentUser,
-  logout,
+  logout,registerOrgnaization,
+  sendOTP
 } from '../controllers/auth/auth.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import { verifyJwt } from '../middlewares/verifyJwt.js';

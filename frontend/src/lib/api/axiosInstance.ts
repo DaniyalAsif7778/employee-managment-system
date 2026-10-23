@@ -1,8 +1,10 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api/v1/ems',
+  baseURL: `${import.meta.env.VITE_API_URL+"/api/v1/ems"}`, 
   withCredentials: true,
 })
 
 export { apiClient }
+
+

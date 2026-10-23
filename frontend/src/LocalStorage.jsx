@@ -1,1 +1,0 @@
-const api = 'https://api.jsonbin.io/v3/b/689b29a0ae596e708fc820c6'
