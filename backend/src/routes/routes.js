@@ -3,7 +3,8 @@ import express from 'express';
 import {
   login,
   getCurrentUser,
-  logout,registerOrgnaization,
+  logout,
+  registerOrgnaization,
   sendOTP
 } from '../controllers/auth/auth.controller.js';
 import { upload } from '../middlewares/multer.middleware.js';

@@ -1,5 +1,5 @@
 import process from 'process';
-import { User } from '../../models/auth/user.model.js';
+import { User } from '../../models/user.model.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 import { asyncHandler } from '../../utils/asyncHanlder.js';
 import { generateTokens } from '../../utils/generateTokens.js';

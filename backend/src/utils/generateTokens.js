@@ -1,4 +1,4 @@
-import { User } from '../models/auth/user.model.js';
+import { User } from '../models/user.model.js';
 
 export async function generateTokens(id, rememberMe = false) {
   const userWithTokens = await User.findById(id);
