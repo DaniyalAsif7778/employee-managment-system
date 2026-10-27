@@ -1,15 +1,14 @@
 import { create } from 'zustand'
 
-import type { Admin, AdminFile } from '../types/singupTypes.js'
-type AdminState = Admin & AdminFile
+import type { Admin   } from '../types/singupTypes.js'
+type AdminState = Admin  
 export const useAdminSlice = create<AdminState>(() => ({
   fullName: '',
   email: '',
 
   password: '',
   confirmPassword: '',
-  avatar: null,
-}))
+ })) 
 
 export const setAdminFormData = (data: Admin) =>
   useAdminSlice.setState((state: Admin) => ({ ...state, ...data }))

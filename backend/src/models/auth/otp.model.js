@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 
 const otpSchema = new mongoose.Schema(
   {
+          _id: { type: String },
+
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
     otp: { type: String, required: true },
     expiresAt: { type: Date, expires: 0 },
@@ -12,4 +14,4 @@ const otpSchema = new mongoose.Schema(
 );
 
 export const Otp =
-  mongoose.models.Otp || mongoose.model('Otp', otpSchema, 'otps');
+  mongoose.models.Otp || mongoose.model('Otp', otpSchema );

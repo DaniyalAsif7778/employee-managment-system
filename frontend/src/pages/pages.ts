@@ -25,7 +25,7 @@ import VerifyOtp from './auth/VerifyOtp.js'
 import ResetPassword from './auth/ResetPassword.js'
 import AuthErrorScreen from './auth/AuthErrorScreen.js'
 import AcceptInvitation from './auth/AcceptInvitation.js'
-
+import VerifyEmail from './auth/Verify-Email.js'
 export {
   Login,
   Settings,
@@ -52,4 +52,5 @@ export {
   ResetPassword,
   AuthErrorScreen,
   AcceptInvitation,
+  VerifyEmail
 }

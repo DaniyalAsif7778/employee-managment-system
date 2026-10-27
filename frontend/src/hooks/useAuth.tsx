@@ -18,20 +18,31 @@ import type {
   ResetPasswordRequest,
   VerifyOtpRequest,
 } from '../types.js'
+import { useNavigate } from 'react-router'
+ 
+
 
 export const useRegister = () => {
+  const navigate = useNavigate()
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationKey: ['register'],
     mutationFn: (userData: RegistrationData) => registerUser(userData),
+      onSuccess: () => {
+      // Store the token in localStorage or cookies
+      navigate('/verify-email') // Navigate to the OTP verification page
+    },
   })
 
   return { mutate, isPending, isError, error }
 }
 
 export const useLogin = () => {
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationKey: ['login'],
     mutationFn: (credentials: LoginCredentials) => loginUser(credentials),
+
   })
 
   return { mutate, isPending, isError, error }

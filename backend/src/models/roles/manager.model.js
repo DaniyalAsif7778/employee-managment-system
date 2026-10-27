@@ -2,11 +2,12 @@ import mongoose from 'mongoose';
 
 const managerSchema = new mongoose.Schema(
   {
+    // --- Core Relationships & Auth Link ---
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
       unique: true,
+      required: true,
     },
     organization: {
       type: mongoose.Schema.Types.ObjectId,
@@ -14,12 +15,66 @@ const managerSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    department: { type: String, trim: true, default: '' },
-    reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Employee' }],
+
+    // --- Profile & Identity Data ---
+    fullName: { type: String, required: true, trim: true },
+    firstName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
+    username: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true, lowercase: true },
+    avatar: { type: String, default: "" },
+    bio: { type: String, default: "" },
+    dateOfBirth: { type: Date, default: null },
+
+    // --- System Role & Status Configuration ---
+     title: { type: String, default: 'Manager', trim: true },
+    position: { type: String, default: 'Department Manager', trim: true },
+    role: { type: String, default: 'manager', enum: ['manager'] },
+    status: { type: String, default: 'active', enum: ['active', 'inactive', 'on-leave', 'suspended'] },
+    isActive: { type: Boolean, default: true },
+
+    // --- Dynamic Target Scopes (For Pipeline Joins) ---
+    department: { type: String, trim: true, default: "" }, // Descriptive name
+ departmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Department',
+      required: true,
+      unique: true,
+      index: true,
+    },
+    // --- Core Operations & System Metrics ---
+    salary: { type: Number, min: 0, default: null },
+    hireDate: { type: Date, default: null },
+    performanceRating: { type: Number, min: 0, max: 5, default: null },
+    totalTasks: { type: Number, default: 0 },
+    tasksCompleted: { type: Number, default: 0 },
+    completionRate: { type: Number, default: null },
+    skills: [{ type: String, trim: true }],
+
+    // --- Contact & Location Metadata ---
+    location: { type: String, default: "" },
+    address: {
+      street: { type: String, default: "" },
+      city: { type: String, default: "" },
+      state: { type: String, default: "" },
+      zipCode: { type: String, default: "" },
+      country: { type: String, default: "" }
+    },
+    emergencyContact: {
+      name: { type: String, default: "" },
+      relationship: { type: String, default: "" },
+      phone: { type: String, default: "" },
+      email: { type: String, default: "" }
+    }
   },
-  { timestamps: true, collection: 'manager_profiles' }
+  { 
+    timestamps: true,
+     
+  }
 );
 
-export const Manager =
-  mongoose.models.Manager ||
-  mongoose.model('Manager', managerSchema, 'manager_profiles');
+// --- INDEXES ---
+// Enforces that an employeeId is unique inside the context of its own organization node
+managerSchema.index({ organization: 1, employeeId: 1 }, { unique: true });
+
+export const ManagerProfile =   mongoose.model('Manager', managerSchema);

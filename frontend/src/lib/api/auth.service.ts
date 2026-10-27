@@ -13,11 +13,10 @@ import type {
 } from '../../types.js'
 
 const registerUser = (data: RegistrationData) => {
-  const formData = new FormData()
-  Object.entries(data).forEach(([key, value]) => {
-    formData.append(key, typeof value === 'number' ? String(value) : value === null ? '' : value)
-  })
-  return apiClient.post('/register-org', formData)
+   
+  const response =  apiClient.post('/register-org', data)
+   
+  return response 
 }
 
 const loginUser = async (data: LoginCredentials) => {
@@ -51,7 +50,7 @@ const resetPassword = async (data: ResetPasswordRequest) => {
 }
 
 const inviteEmployee = async (data: InviteEmployeeRequest) => {
-  const response = await apiClient.post('/employees/invite', data)
+  const response = await apiClient.post('/sendEmail', data)
   return response.data
 }
 

@@ -1,15 +1,18 @@
 import process from 'process';
-import { User } from '../../models/user.model.js';
+import { User } from '../../models/auth/user.model.js';
 import { ApiResponse } from '../../utils/ApiResponse.js';
 import { asyncHandler } from '../../utils/asyncHanlder.js';
 import { generateTokens } from '../../utils/generateTokens.js';
+
 import { Organization } from '../../models/organization/organization.model.js';
 import { Otp } from '../../models/auth/otp.model.js';
 import { Admin } from '../../models/roles/admin.model.js';
 import { ApiError } from '../../utils/ApiError.js';
-import { uploadOnCloudinary } from '../../utils/cloudinary.js';
+// import { uploadOnCloudinary } from '../../utils/cloudinary.js';
 import { sendEmail } from '../../utils/sendEmail.js';
 import { normalizeRole, safeUser } from '../../utils/auth.utils.js';
+import { generateSecureOTP } from '../../utils/generateOtp.js';
+import mongoose from 'mongoose';
 const persistentCookieAge = 30 * 24 * 60 * 60 * 1000;
 const cookieOptions = {
   httpOnly: true,
@@ -82,7 +85,6 @@ const registerOrgnaization = asyncHandler(async (req, res) => {
     fullName,
     email,
     password,
-    confirmPassword,
     orgName,
     address,
     industry,
@@ -91,153 +93,101 @@ const registerOrgnaization = asyncHandler(async (req, res) => {
 
   // admin registeration
 
-  if (
-    [
+
+  const [organizationSearch ,adminUser  ] = await Promise.all([
+    Organization.findOne({
+      $or: [{ orgName }, { email }, { address }],
+    }), 
+    User.findOne({
+      $or: [{ email }],
+    }),
+  ]);
+  console.log(adminUser, organizationSearch);
+// &&  adminUser?.isPasswordCorrect(password)
+  if (adminUser ) {
+    return res.status(401).json(new ApiError(401, 'InValid Creadentials', [{ email: 'email is invalid' }] ));
+  }
+   
+  if (organizationSearch) {
+        return res.status(400).json(new ApiError(400, 'Orgnaization already exists',  [{ orgName: 'Organization name is already taken'  , address:"Address is already taken"}] ));
+  }
+  const orgId = new mongoose.Types.ObjectId();
+  const adminId = new mongoose.Types.ObjectId();
+
+  // 2. SLUG VARS & NAME PARSING
+  const slug = orgName.replace(/\s+/g, '-').toLowerCase();
+
+  // 3. RUN ALL 3 QUERIES CONCURRENTLY (NO SESSIONS)
+  const [organization, admin, user] = await Promise.all([
+    Organization.create({
+      _id: orgId,
+      orgName,
+      orgSlug: slug,
+      adminEmail: email,
+      companySize,
+      industry,
+      address,
+      org_avatar: '',
+      org_CoverImage: '',
+      status: 'unVerified',
+    }),
+    Admin.create({
+      _id: adminId,
       fullName,
+      organization: orgId,
+      role: 'admin',
+      avatar: '',
+    }),
+    User.create({
+      user: adminId,
+      fullName,
+      organization: orgId,
       email,
       password,
-      confirmPassword,
-      orgName,
-      address,
-      industry,
-      companySize,
-    ].some((field) => field == '')
-  ) {
-    throw new ApiError(400, 'fill all fields');
+      role: 'admins',
+      profileId: adminId,
+    }),
+  ]);
+
+  console.log(organization, admin, user);
+
+  if (!organization || !admin || !user) {
+    throw new ApiError(500, 'Something went wrong during entity creation.');
   }
 
-  const organizationSearch = await Organization.findOne({
-    $or: [{ orgName }, { email }],
-  });
-  console.log(organizationSearch);
-
-  if (organizationSearch) {
-    throw new ApiError(400, 'Orgnaization already exists');
-  }
-
-  const usernameFromName = fullName.trim().replace(/\s+/g, '').toLowerCase();
-  const adminUser = await User.findOne({
-    $or: [{ email }, { username: usernameFromName }],
-  });
-
-  if (adminUser) {
-    throw new ApiError(400, 'admin already exists');
-  }
-  console.log(req.files);
-  const avatarLocalPath = req.files?.avatar[0]?.path;
-  const org_avatarLocalPath = req.files?.org_avatar[0]?.path;
-  let org_CoverImageLocalPath;
-
-  if (req.files?.org_CoverImage?.length) {
-    org_CoverImageLocalPath = req.files.org_CoverImage[0].path;
-    console.log(org_CoverImageLocalPath);
-  }
-
-  if (!avatarLocalPath) {
-    throw new ApiError(404, 'avatar must required');
-  }
-  if (!org_avatarLocalPath) {
-    throw new ApiError(404, 'org_avatar must required');
-  }
-
-  const org_avatarCloudinary = await uploadOnCloudinary(org_avatarLocalPath);
-  const org_CoverImageCloudinary = await uploadOnCloudinary(
-    org_CoverImageLocalPath
-  );
-  const avatarCloudinary = await uploadOnCloudinary(avatarLocalPath);
-
-  if (!avatarCloudinary) {
-    throw new ApiError(404, 'error on uploding clodinary avatar');
-  }
-  if (!org_avatarCloudinary) {
-    throw new ApiError(404, 'error on uploding clodinary orgavatar');
-  }
-
-  if (!org_CoverImageCloudinary) {
-    throw new ApiError(404, 'error on uploding clodinary orgCoverImage');
-  }
-
-  const organization = await Organization.create({
-    orgName,
-
-    adminEmail: email,
-    companySize,
-    industry,
-    address,
-    org_avatar: org_avatarCloudinary?.url || '',
-    org_CoverImage: org_CoverImageCloudinary?.url || '',
-  });
-  const admin = await User.create({
-    fullName,
-    firstName: fullName.trim().split(/\s+/)[0] || '',
-    lastName: fullName.trim().split(/\s+/).slice(1).join(' '),
-    username: usernameFromName,
-    email,
-    password,
-    organization: organization._id,
-    role: 'admin',
-    avatar: avatarCloudinary?.url || '',
-  });
-  await Admin.create({ user: admin._id, organization: organization._id });
-  if (!organization) {
-    throw new ApiError(404, 'Something went wrong');
-  }
-  if (!admin) {
-    throw new ApiError(404, 'Something went wrong');
-  }
-
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      {
-        user: {
-          id: admin._id.toString(),
-          fullName: admin.fullName,
-          firstName: admin.firstName,
-          lastName: admin.lastName,
-          username: admin.username,
-          email: admin.email,
-          avatar: admin.avatar,
-          role: admin.role,
-        },
-        organization: {
-          id: organization._id.toString(),
-          orgName: organization.orgName,
-          orgSlug: organization.orgSlug,
-        },
-      },
-      'admin and org created successfully'
-    )
-  );
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { user: admin, organization },
+        'Admin, user account, and organization created successfully'
+      )
+    );
 });
 
 const sendOTP = asyncHandler(async (req, res) => {
-  const { fullName } = req.body;
-  console.log(fullName);
+  const { fullName, role, email } = req.body;
 
-  if (!fullName) {
-    throw new ApiError(401, 'sent user id');
+  if (!fullName || !role || !email) {
+    throw new ApiError(401, 'all info is required');
   }
-  const user = await User.findOne({ fullName });
-  console.log(user);
 
-  if (!user) {
-    throw new ApiError(401, 'unAuthorized Request');
-  }
-  const { encryptedOtp } = await user.generateOtp();
-  console.log(encryptedOtp);
+  const { hashedOTP } = await generateSecureOTP();
+  console.log(hashedOTP);
 
-  if (!encryptedOtp) {
+  if (!hashedOTP) {
     throw new ApiError(404, 'error in otp generation');
   }
-  console.log(encryptedOtp);
+  console.log(hashedOTP);
 
   const verificationOtp = await Otp.create({
-    otp: encryptedOtp,
+    otp: hashedOTP,
   });
+
   console.log(verificationOtp);
 
-  const link = `http://localhost:8000/api/vi/ems/verifyotp?id=${user._id}&token=${verificationOtp.otp}`;
+  const link = ` ${process.env.CLIENT_URL || 'http://localhost:5173'}/verify-otp?token=${verificationOtp.otp}`;
   const htmlTemplate = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -246,15 +196,14 @@ const sendOTP = asyncHandler(async (req, res) => {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Verify Your OTP</title>
   <style>
-    /* Absolute reset for consistent client rendering */
     body, table, td, a { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
     table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
     img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
     table { border-collapse: collapse !important; }
     body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     
-    /* Interactive Button Transitions */
-    .btn-verify:hover { background-color: #4338ca !important; }
+    /* Interactive Button Transitions matching your brand color */
+    .btn-verify:hover { background-color: #007d70 !important; }
   </style>
 </head>
 <body>
@@ -265,10 +214,9 @@ const sendOTP = asyncHandler(async (req, res) => {
         <!-- Main Structured Card Frame -->
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 520px; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.02); padding: 40px;">
           
-          
           <tr>
             <td align="left" style="padding-bottom: 36px;">
-              <span style="color: #0f172a; font-size: 15px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">Your Company</span>
+              <span style="color: #009F8E; font-size: 15px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">${'EMS'}</span>
             </td>
           </tr>
 
@@ -279,20 +227,20 @@ const sendOTP = asyncHandler(async (req, res) => {
             </td>
           </tr>
 
-          <!-- Contextual Explanatory Copy -->
+          <!-- Contextual Explanatory Copy with Dynamic Role Injection -->
           <tr>
             <td align="left" style="padding-bottom: 32px; color: #334155; font-size: 15px; line-height: 24px;">
               Hello,<br><br>
-              Use the security button below to verify your account. This One-Time Password (OTP) is valid for <strong style="color: #0f172a; font-weight: 600;">5 minutes</strong>. Do not share this code with anyone.
+              You have been invited to join the platform as a data-verified <strong style="color: #009F8E; font-weight: 600;">${role}</strong>. Use the security button below to verify your account. This verification link is valid for <strong style="color: #009F8E; font-weight: 600;">5 minutes</strong>. Do not forward or share this link with anyone.
             </td>
           </tr>
 
-          <!-- Standardized Bulletproof Button Block -->
+          <!-- Standardized Bulletproof Button Block with brand primary color #009F8E -->
           <tr>
-            <td align="center" style="padding-bottom: 36px;">
+            <td align="center" style="padding-bottom: 12px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td align="center" style="border-radius: 8px; background-color: #4f46e5;">
+                  <td align="center" style="border-radius: 8px; background-color: #009F8E;">
                     <a href="${link}" target="_blank" class="btn-verify" style="display: block; padding: 14px 40px; font-size: 15px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px; letter-spacing: 0.2px; transition: background-color 0.2s ease;">
                       Verify Account
                     </a>
@@ -302,27 +250,11 @@ const sendOTP = asyncHandler(async (req, res) => {
             </td>
           </tr>
 
-          <!-- Manual Code Fallback Container Block -->
-          <tr>
-            <td align="left" style="border-top: 1px solid #f1f5f9; padding-top: 32px; padding-bottom: 36px;">
-              <p style="margin: 0 0 16px 0; color: #64748b; font-size: 13px; line-height: 20px;">
-                If the button above does not work, copy and paste your code manually on the verification page:
-              </p>
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td align="center" style="background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 16px;">
-                    <span style="font-family: 'Courier New', Courier, monospace; font-size: 28px; font-weight: 700; color: #0f172a; letter-spacing: 6px; padding-left: 6px;">123456</span>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-
           <!-- Technical Footer -->
           <tr>
-            <td align="center" style="color: #94a3b8; font-size: 12px; line-height: 20px;">
+            <td align="center" style="border-top: 1px solid #f1f5f9; margin-top: 24px; padding-top: 32px; color: #94a3b8; font-size: 12px; line-height: 20px;">
               If you did not request this email, you can safely ignore it. <br>
-              &copy; 2026 Your Company. All rights reserved.
+              &copy; 2026 EMS. All rights reserved.
             </td>
           </tr>
 
@@ -331,9 +263,10 @@ const sendOTP = asyncHandler(async (req, res) => {
     </tr>
   </table>
 </body>
-</html>`;
+</html>
+`;
 
-  const response = await sendEmail('EMS verify otp', htmlTemplate);
+  const response = await sendEmail('EMS verify otp', htmlTemplate, email);
 
   res.status(200).json(
     new ApiResponse(
