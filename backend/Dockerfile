@@ -13,5 +13,8 @@ RUN npm install --only=production
 # 5. Copies all your backend folders/files into /usr/src/app
 COPY . .
 
-# 6. Starts the backend by executing 'node /usr/src/app/src/server.js'
+# 🚀 6. THE PATCH: Open port 8000 to match your production environment variable configuration
+EXPOSE 8000
+
+# 7. Starts the backend by executing 'node /usr/src/app/src/index.js'
 CMD ["node", "src/index.js"]
