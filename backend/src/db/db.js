@@ -12,7 +12,7 @@ const connectDB = async () => {
     app.on('error', (error) => {
       console.log('error accour on connecting', error);
     });
-    app.listen(process.env.PORT || 8000, () => {
+    app.listen(process.env.PORT || 8000,'0.0.0.0', () => {
       console.log('app is listening at ', process.env.PORT);
     });
   } catch (error) {
