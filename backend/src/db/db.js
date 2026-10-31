@@ -12,9 +12,17 @@ const connectDB = async () => {
     app.on('error', (error) => {
       console.log('error accour on connecting', error);
     });
-    app.listen(process.env.PORT || 8000,'0.0.0.0', () => {
-      console.log('app is listening at ', process.env.PORT);
-    });
+    // 🚀 CRUCIAL FIX 2: Prevent instant production crashes from Redis/Mongo disconnects
+// eslint-disable-next-line no-unused-vars
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('🚨 [Unhandled Rejection Detected]:', reason);
+    // Keeps the container alive temporarily instead of crashing instantly 
+    // so you can read the exact database connection error message in your dashboard logs.
+});
+
+process.on('uncaughtException', (error) => {
+    console.error('🚨 [Uncaught Exception Detected]:', error.message);
+});
   } catch (error) {
     console.log(error);
   }
