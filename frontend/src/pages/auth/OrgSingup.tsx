@@ -5,9 +5,7 @@ import { useAdminSlice } from '../../store/AdminSlice.js'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 const fieldClass = `${inputBase} pl-9 bg-transparent`
-import { ProfilePicturePicker } from '../../import.js'
-import { CoverImagePicker } from '../../import.js'
-import { OrganizationSchema } from '../../schema/Singup_schem.js'
+ import { OrganizationSchema } from '../../schema/Singup_schem.js'
 import { set, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Organization } from '../../types/singupTypes.js'
@@ -56,8 +54,7 @@ export default function OrgSingup() {
     resolver: zodResolver(OrganizationSchema),
     defaultValues: {
       orgName: '',
-      org_avatar: null,
-      org_CoverImage: null,
+       
       address: '',
       industry: '',
       companySize: '',
@@ -85,21 +82,9 @@ export default function OrgSingup() {
               </h1>
               <p className="text-base text-text-secondary mb-6">Where and how big is your team?</p>
             </div>
-            <div>
-              <CoverImagePicker
-                label="Organization Cover Image"
-                register={register('org_CoverImage')}
-                error={errors.org_CoverImage?.message}
-              />
-            </div>
+            
           </div>
-          <div>
-            <ProfilePicturePicker
-              label="Organization Avatar"
-              register={register('org_avatar')}
-              error={errors.org_avatar?.message}
-            />
-          </div>
+           
         </div>
 
         <div className="mb-4">

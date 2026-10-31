@@ -17,8 +17,7 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false, // Prevents aggressive refetching on tab switch
       retry: 1, // Retry failed requests once before showing error
-      staleTime: 1000 * 60 * 5, // Consider data fresh for 5 minutes
-    },
+     },
   },
 })
 import {
@@ -42,11 +41,12 @@ import {
   HRDashboard,
   InviteEmployee,
   ForgotPassword,
-  VerifyOtp,
+  SendEmail,
   ResetPassword,
   AuthErrorScreen,
   AcceptInvitation,
   Singup,
+   
 } from './import.js'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router'
 import { MenueProvider } from './hooks/hooks.js'
@@ -121,12 +121,11 @@ const router = createBrowserRouter(
 
       <Route path="login" element={<Login />} />
       <Route path="forgot-password" element={<ForgotPassword />} />
-      <Route path="verify-otp" element={<VerifyOtp />} />
+      <Route path="sendEmail" element={<SendEmail />} />
       <Route path="reset-password" element={<ResetPassword />} />
-      <Route path="accept-invite" element={<AcceptInvitation />} />
+       <Route path="accept-invite" element={<AcceptInvitation />} />
       <Route path="error" element={<AuthErrorScreen />} />
-      <Route path="*" element={<AuthErrorScreen />} />
-    </Route>
+     </Route>
   )
 )
 createRoot(document.getElementById('root')).render(

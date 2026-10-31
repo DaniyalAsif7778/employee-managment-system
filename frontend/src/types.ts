@@ -64,10 +64,9 @@ export interface ResetPasswordRequest extends EmailRequest {
 }
 
 export interface InviteEmployeeRequest {
-  fullName: string
+    
   email: string
-  role: UserRole
-}
+ }
 
 export interface EmployeeInvitation {
   fullName: string

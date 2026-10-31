@@ -8,7 +8,7 @@ import {
   requestPasswordResetOtp,
   resetPassword,
   verifyPasswordResetOtp,
-} from '../lib/api/auth.service.js'
+ } from '../lib/api/auth.service.js'
 import { type RegistrationData } from '../types/singupTypes.js'
 import type {
   AcceptEmployeeInvitationRequest,
@@ -18,20 +18,33 @@ import type {
   ResetPasswordRequest,
   VerifyOtpRequest,
 } from '../types.js'
+import { useNavigate } from 'react-router'
+ 
+
 
 export const useRegister = () => {
+  const navigate = useNavigate()
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationKey: ['register'],
     mutationFn: (userData: RegistrationData) => registerUser(userData),
+      onSuccess: (data) => {
+ console.log(data.data.data.user.email,"data");
+ 
+      // Store the token in localStorage or cookies
+      navigate(`/sendEmail?email=${data.data?.data?.user?.email}`) // Navigate to the OTP verification page
+    },
   })
 
   return { mutate, isPending, isError, error }
 }
 
 export const useLogin = () => {
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationKey: ['login'],
     mutationFn: (credentials: LoginCredentials) => loginUser(credentials),
+
   })
 
   return { mutate, isPending, isError, error }

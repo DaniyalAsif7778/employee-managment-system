@@ -25,8 +25,9 @@ import VerifyOtp from './auth/VerifyOtp.js'
 import ResetPassword from './auth/ResetPassword.js'
 import AuthErrorScreen from './auth/AuthErrorScreen.js'
 import AcceptInvitation from './auth/AcceptInvitation.js'
-
-export {
+import SendEmail from './auth/VerifyOtp.js';
+ SendEmail
+ export {
   Login,
   Settings,
   Singup,
@@ -48,8 +49,9 @@ export {
   HRDashboard,
   InviteEmployee,
   ForgotPassword,
-  VerifyOtp,
+  SendEmail,
   ResetPassword,
   AuthErrorScreen,
   AcceptInvitation,
+   
 }

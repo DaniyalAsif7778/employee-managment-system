@@ -9,13 +9,9 @@ export type RegistrationData = {
   address: string
   industry: string
   companySize: string
-  avatar: File | null
-  org_avatar: File | null
-  org_CoverImage: File | null
+   
 }
-export type AdminFile = {
-  avatar: File | null
-}
+ 
 export type UserRoleOption = {
   value: string
   label: string

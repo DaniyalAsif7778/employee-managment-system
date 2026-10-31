@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # 1. Your Backend Application (Express API)
+  api-server:
+    build: .
+    ports:
+      - "${PORT}:${PORT}" # Bridges your system port to the container port dynamically
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST=redis-cache
+      - REDIS_PORT=6379
+      
+      # Core Application Configuration
+      - PORT=${PORT}
+      - MONGODB_URI=${MONGODB_URI}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+      - CLIENT_URL=${CLIENT_URL}
+      
+      # Authentication Tokens & Expirations
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - ACCESS_TOKEN_EXPIRY=${ACCESS_TOKEN_EXPIRY}
+      - REFRESH_TOKEN_ACCESS=${REFRESH_TOKEN_ACCESS}
+      - REFRESH_TOKEN_EXPIRY=${REFRESH_TOKEN_EXPIRY}
+      
+      # Cloudinary Asset Management Keys
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      
+      # Email System Settings (Nodemailer & Resend)
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASS=${EMAIL_PASS}
+    depends_on:
+      - redis-cache
+    restart: always
+
+  # 🚀 Dedicated Background Queue Worker (Patched & Aligned)
+  queue-worker:
+    build: .
+    command: node src/worker/emailWorker.js
+    env_file:
+      - .env
+    depends_on:
+      - redis-cache
+    restart: always
+
+  # 2. Your Redis Queue Database (Runs locally for free inside the container)
+  redis-cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+volumes:
+  redis_data:

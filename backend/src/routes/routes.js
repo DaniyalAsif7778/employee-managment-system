@@ -5,36 +5,21 @@ import {
   getCurrentUser,
   logout,
   registerOrgnaization,
-  sendOTP
+  verifyEmail
 } from '../controllers/auth/auth.controller.js';
-import { upload } from '../middlewares/multer.middleware.js';
-import { verifyJwt } from '../middlewares/verifyJwt.js';
+ import { verifyJwt } from '../middlewares/verifyJwt.js';
 const router = express.Router();
 
-router.route('/').get((req, res) => {
-  res.json('welcome to home page');
+router.route('/health').get((req, res) => {
+  res.json('EMS is running');
 });
 
 router.route('/register-org').post(
-  upload.fields([
-    {
-      name: 'avatar',
-      maxCount: 1,
-    },
-    {
-      name: 'org_avatar',
-      maxCount: 1,
-    },
-    {
-      name: 'org_CoverImage',
-      maxCount: 1,
-    },
-  ]),
-  registerOrgnaization
+   registerOrgnaization
 );
 
 router.route('/login').post(login);
 router.route('/auth/me').get(verifyJwt, getCurrentUser);
 router.route('/logout').post(logout);
-router.route('/sendEmail').post(sendOTP);
+router.route('/sendEmail').post(verifyEmail);
 export const userRouter = router;
