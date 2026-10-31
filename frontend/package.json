@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier . --write",
-    "format:check": "prettier . --check",
-      "worker": "node src/worker/emailWorker.js"
+    "format:check": "prettier . --check"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

@@ -3,6 +3,7 @@ import { userRouter } from './routes/routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import process from 'process';
+import '../src/worker/emailWorker.js';
 export const app = express();
 app.use(
   cors({
