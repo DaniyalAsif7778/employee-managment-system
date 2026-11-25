@@ -388,7 +388,7 @@ const sendPasswordResetEmail = asyncHandler(async (req, res) => {
   const sendEmail = await sendDynamicEmail(
     user.email,
     `Welcome to our platform, ${user.fullName}!`,
-    'verifyEmail',
+    'resetPassword',
     {
       name: user.fullName,
       email: user.email,
