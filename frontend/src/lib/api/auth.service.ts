@@ -1,22 +1,27 @@
 import { apiClient } from './axiosInstance.js'
-import { type RegistrationData } from '../../types/singupTypes.js'
 import type {
+  ApiResponse,
   EmailRequest,
   AcceptEmployeeInvitationRequest,
   EmployeeInvitationResponse,
   InviteEmployeeRequest,
   LoginCredentials,
   LoginResponse,
+  RegisterOrganizationRequest,
+  RegisterOrganizationResult,
   ResetPasswordRequest,
-  VerifyOtpRequest,
-  VerifyOtpResponse,
+  PasswordResetOtpRequest,
+  PasswordResetOtpResponse,
+  VerifyEmailTokenRequest,
+  VerifyEmailResponse,
 } from '../../types.js'
 
-const registerUser = (data: RegistrationData) => {
-   
-  const response =  apiClient.post('/register-org', data)
-   
-  return response 
+const registerUser = async (data: RegisterOrganizationRequest) => {
+  const response = await apiClient.post<ApiResponse<RegisterOrganizationResult>>(
+    '/register-org',
+    data
+  )
+  return response.data
 }
 
 const loginUser = async (data: LoginCredentials) => {
@@ -30,30 +35,41 @@ const getCurrentUser = async () => {
 }
 
 const logoutUser = async () => {
-  const response = await apiClient.post('/logout')
+  const response = await apiClient.post<ApiResponse<null>>('/logout')
   return response.data
 }
 
 const requestPasswordResetOtp = async (data: EmailRequest) => {
-  const response = await apiClient.post('/auth/forgot-password', data)
+  const response = await apiClient.post('/forgot-password', data)
   return response.data
 }
 
-const verifyPasswordResetOtp = async (data: VerifyOtpRequest) => {
-  const response = await apiClient.post<VerifyOtpResponse>('/auth/verify-otp', data)
+const verifyPasswordResetOtp = async (data: PasswordResetOtpRequest) => {
+  const response = await apiClient.post<PasswordResetOtpResponse>(
+    '/verify-password-reset-otp',
+    data
+  )
   return response.data
 }
 
 const resetPassword = async (data: ResetPasswordRequest) => {
-  const response = await apiClient.post('/auth/reset-password', data)
+  const response = await apiClient.post('/reset-password', data)
   return response.data
 }
 
-const inviteEmployee = async (data: InviteEmployeeRequest) => {
-  const response = await apiClient.post('/sendEmail', data)
+const sendVerificationEmail = async (data: InviteEmployeeRequest) => {
+  const response = await apiClient.post<ApiResponse<{ response: string; email: string }>>(
+    '/sendEmail',
+    data
+  )
   return response.data
 }
-
+const verifyEmailOtp = async ({ token }: VerifyEmailTokenRequest) => {
+  const response = await apiClient.post<VerifyEmailResponse>('/verifyOtp', null, {
+    params: { token },
+  })
+  return response.data
+}
 const getEmployeeInvitation = async (token: string) => {
   const response = await apiClient.get<EmployeeInvitationResponse>(
     `/employees/invitations/${encodeURIComponent(token)}`
@@ -74,7 +90,8 @@ export {
   requestPasswordResetOtp,
   verifyPasswordResetOtp,
   resetPassword,
-  inviteEmployee,
+  sendVerificationEmail,
   getEmployeeInvitation,
   acceptEmployeeInvitation,
+  verifyEmailOtp,
 }

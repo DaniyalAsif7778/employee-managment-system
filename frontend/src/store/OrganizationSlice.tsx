@@ -7,7 +7,6 @@ export const useOrganizationSlice = create<Organization>((set) => ({
   address: '',
   industry: '',
   companySize: '  ',
-  
 }))
 
 export const setOrgFormData = (data: Organization) =>

@@ -1,147 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react'
 import {
   useForm,
   useController,
   type Control,
   type UseFormTrigger,
   type UseControllerProps,
-} from 'react-hook-form';
-import { Pencil, Check, X } from 'lucide-react';
+} from 'react-hook-form'
+import { Pencil, Check, X } from 'lucide-react'
 
-import Button from '../../componenets/ui/Button.js';
-import Input from '../../componenets/ui/Input.js';
-import {
-  AuthReviewSection,
-  AuthTermsModal,
-} from '../../componenets/ui/AuthReview.js';
-import { useOrganizationSlice } from '../../store/OrganizationSlice.js';
-import { useAdminSlice } from '../../store/AdminSlice.js';
-import { useTermsConditionSlice } from '../../store/TermsConditionSlce.js';
-import { useRegister } from '../../hooks/useAuth.js';
-
-import { type RegistrationData } from '../../types/singupTypes.js';
+import Button from '../../componenets/ui/Button.js'
+import Input from '../../componenets/ui/Input.js'
+import { AuthReviewSection, AuthTermsModal } from '../../componenets/ui/AuthReview.js'
+import { useOrganizationSlice } from '../../store/OrganizationSlice.js'
+import { useAdminSlice } from '../../store/AdminSlice.js'
+import { useTermsConditionSlice } from '../../store/TermsConditionSlce.js'
+import { useRegister } from '../../hooks/useAuth.js'
+import type { RegistrationData } from '../../types.js'
 
 const ghostBtnClass =
-  'rounded-md px-4 py-2.5 text-sm font-medium border-[1.5px] border-border text-text-secondary hover:border-border-secondary hover:text-text-primary transition';
+  'rounded-md px-4 py-2.5 text-sm font-medium border-[1.5px] border-border text-text-secondary hover:border-border-secondary hover:text-text-primary transition'
 
 const primaryBtnClass =
-  'rounded-md py-2.5 text-base font-medium bg-primary text-primary-fg hover:bg-primary-hover active:bg-primary-pressed active:scale-[0.98] transition disabled:opacity-40 disabled:cursor-not-allowed';
+  'rounded-md py-2.5 text-base font-medium bg-primary text-primary-fg hover:bg-primary-hover active:bg-primary-pressed active:scale-[0.98] transition disabled:opacity-40 disabled:cursor-not-allowed'
 
 const iconBtnClass =
-  'p-1.5 rounded-md text-text-secondary hover:text-text-primary hover:bg-black/5 transition';
-
-/* ---------- API error parsing ---------- */
-
-const FORM_FIELDS = [
-  'fullName',
-  'email',
-  'password',
-  'confirmPassword',
-  'orgName',
-  'address',
-  'industry',
-  'companySize',
-] as const;
-
-type FormField = (typeof FORM_FIELDS)[number];
-
-type ParsedApiErrors = {
-  fields: Partial<Record<FormField, string>>;
-  general: string | null;
-};
-
-const isRecord = (v: unknown): v is Record<string, unknown> =>
-  typeof v === 'object' && v !== null;
-
-const isFormField = (v: string): v is FormField =>
-  (FORM_FIELDS as readonly string[]).includes(v);
-
-// Finds the errors array wherever the HTTP client put it
-function extractErrorList(error: unknown): unknown[] | undefined {
-  if (!isRecord(error)) return undefined;
-
-  const candidates: unknown[] = [
-    isRecord(error.response) && isRecord(error.response.data)
-      ? error.response.data.errors
-      : undefined,
-    isRecord(error.data) ? error.data.errors : undefined,
-    error.errors,
-  ];
-
-  return candidates.find(Array.isArray);
-}
-
-function extractServerMessage(error: unknown): string | null {
-  if (!isRecord(error)) return null;
-
-  if (
-    isRecord(error.response) &&
-    isRecord(error.response.data) &&
-    typeof error.response.data.message === 'string'
-  ) {
-    return error.response.data.message;
-  }
-  return null;
-}
-
-/**
- * Expects: errors = [{ orgName: '...', address: '...' }, { email: '...' }]
- * Every step is checked before anything renders:
- *  - errors must be an array
- *  - each item must be an object
- *  - each value must be a non-empty string
- *  - keys matching a form field go on that field, others go to `general`
- */
-function parseApiErrors(error: unknown): ParsedApiErrors {
-  const result: ParsedApiErrors = { fields: {}, general: null };
-  if (!error) return result;
-
-  const list = extractErrorList(error);
-
-  if (list) {
-    const unmapped: string[] = [];
-
-    for (const item of list) {
-      if (!isRecord(item)) continue;
-
-      for (const [key, message] of Object.entries(item)) {
-        if (typeof message !== 'string' || !message.trim()) continue;
-
-        if (isFormField(key)) {
-          if (!result.fields[key]) result.fields[key] = message;
-        } else {
-          unmapped.push(message);
-        }
-      }
-    }
-
-    if (unmapped.length) result.general = unmapped.join('. ');
-  }
-
-  if (Object.keys(result.fields).length === 0 && !result.general) {
-    result.general =
-      extractServerMessage(error) ??
-      (error instanceof Error
-        ? error.message
-        : 'Registration failed. Please try again.');
-  }
-
-  return result;
-}
+  'p-1.5 rounded-md text-text-secondary hover:text-text-primary hover:bg-black/5 transition'
 
 /* ---------- Review field ---------- */
 
-type FieldRules = NonNullable<UseControllerProps<RegistrationData>['rules']>;
+type FieldRules = NonNullable<UseControllerProps<RegistrationData>['rules']>
 
 type ReviewFieldProps = {
-  name: keyof RegistrationData;
-  label: string;
-  placeholder?: string;
-  type?: 'text' | 'email' | 'password';
-  rules?: FieldRules;
-  control: Control<RegistrationData>;
-  trigger: UseFormTrigger<RegistrationData>;
-};
+  name: keyof RegistrationData
+  label: string
+  placeholder?: string
+  type?: 'text' | 'email' | 'password'
+  rules?: FieldRules
+  control: Control<RegistrationData, undefined, RegistrationData>
+  trigger: UseFormTrigger<RegistrationData>
+}
 
 function ReviewField({
   name,
@@ -152,40 +49,34 @@ function ReviewField({
   control,
   trigger,
 }: ReviewFieldProps) {
-  const { field, fieldState } = useController({ name, control, rules });
-  const [isEditing, setIsEditing] = useState(false);
-  const [backup, setBackup] = useState<unknown>('');
+  const { field, fieldState } = useController<
+    RegistrationData,
+    keyof RegistrationData,
+    RegistrationData
+  >({ name, control, rules })
+  const [isEditing, setIsEditing] = useState(false)
+  const [backup, setBackup] = useState<unknown>('')
 
-  const errorMessage = fieldState.error?.message;
-  const isServerError = fieldState.error?.type === 'server';
-
-  // API error on this field: open it for editing so the user can fix it
-  useEffect(() => {
-    if (isServerError) {
-      setBackup(field.value);
-      setIsEditing(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isServerError, errorMessage]);
+  const errorMessage = fieldState.error?.message
 
   const startEdit = () => {
-    setBackup(field.value);
-    setIsEditing(true);
-  };
+    setBackup(field.value)
+    setIsEditing(true)
+  }
 
   // trigger() re-validates and clears the server error once the value is valid
   const handleSave = async () => {
-    const valid = await trigger(name);
-    if (valid) setIsEditing(false);
-  };
+    const valid = await trigger(name)
+    if (valid) setIsEditing(false)
+  }
 
   const handleCancel = () => {
-    field.onChange(backup);
-    setIsEditing(false);
-  };
+    field.onChange(backup)
+    setIsEditing(false)
+  }
 
-  const raw = (field.value as string) ?? '';
-  const displayValue = type === 'password' ? '•'.repeat(raw.length) : raw;
+  const raw = (field.value as string) ?? ''
+  const displayValue = type === 'password' ? '•'.repeat(raw.length) : raw
 
   if (isEditing) {
     return (
@@ -222,7 +113,7 @@ function ReviewField({
           </button>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -247,68 +138,49 @@ function ReviewField({
         <Pencil size={16} />
       </button>
     </div>
-  );
+  )
 }
 
 /* ---------- Page ---------- */
 
 export default function FinalSingup() {
-  const { mutate, isPending, isError, error } = useRegister();
-console.log(error,isError);
+  const { mutate, isPending, isError } = useRegister()
 
-  const [showTerms, setShowTerms] = useState(false);
+  const [showTerms, setShowTerms] = useState(false)
 
-  const checkBoxCondition = useTermsConditionSlice((state) => state.checkBox);
-  const setCheckBoxCondition = useTermsConditionSlice(
-    (state) => state.setTermsCheckBox,
-  );
+  const checkBoxCondition = useTermsConditionSlice((state) => state.checkBox)
+  const setCheckBoxCondition = useTermsConditionSlice((state) => state.setTermsCheckBox)
 
-  const Admin = useAdminSlice((state) => state);
-  const Organization = useOrganizationSlice((state) => state);
+  const Admin = useAdminSlice((state) => state)
+  const Organization = useOrganizationSlice((state) => state)
 
-  const { control, handleSubmit, trigger, getValues, setError } =
-    useForm<RegistrationData>({
-      defaultValues: {
-        fullName: Admin.fullName ?? '',
-        email: Admin.email ?? '',
-        password: Admin.password ?? '',
-        confirmPassword: Admin.confirmPassword ?? '',
-        orgName: Organization.orgName ?? '',
-        address: Organization.address ?? '',
-        industry: Organization.industry ?? '',
-        companySize: Organization.companySize ?? '',
-        avatar: Admin.avatar ?? null,
-        org_avatar: Organization.org_avatar ?? null,
-        org_CoverImage: Organization.org_CoverImage ?? null,
-      },
-    });
-
-  const parsed = isError ? parseApiErrors(error) : null;
-
-  // Push API field errors (email, orgName, address, password...) into the form
-  useEffect(() => {
-    if (!isError) return;
-    const { fields } = parseApiErrors(error);
-
-    (Object.entries(fields) as [FormField, string][]).forEach(
-      ([field, message]) => {
-        setError(field, { type: 'server', message });
-      },
-    );
-  }, [isError, error, setError]);
+  const { control, handleSubmit, trigger, getValues } = useForm<
+    RegistrationData,
+    undefined,
+    RegistrationData
+  >({
+    defaultValues: {
+      fullName: Admin.fullName ?? '',
+      email: Admin.email ?? '',
+      password: Admin.password ?? '',
+      confirmPassword: Admin.confirmPassword ?? '',
+      orgName: Organization.orgName ?? '',
+      address: Organization.address ?? '',
+      industry: Organization.industry ?? '',
+      companySize: Organization.companySize ?? '',
+    },
+  })
 
   const onSubmit = (formData: RegistrationData) => {
-    if (!checkBoxCondition || isPending) return;
-    mutate(formData);
-  };
+    if (!checkBoxCondition || isPending) return
+    mutate(formData)
+  }
 
-  const shared = { control, trigger };
+  const shared = { control, trigger }
 
   return (
     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-      <h1 className="text-2xl font-semibold text-text-primary mb-1">
-        Review your information
-      </h1>
+      <h1 className="text-2xl font-semibold text-text-primary mb-1">Review your information</h1>
 
       <p className="text-sm text-text-secondary mb-6">
         Make sure everything is correct before you create your organization.
@@ -346,8 +218,7 @@ console.log(error,isError);
           placeholder="Confirm password"
           rules={{
             required: 'Please confirm your password',
-            validate: (value) =>
-              value === getValues('password') || 'Passwords do not match',
+            validate: (value) => value === getValues('password') || 'Passwords do not match',
           }}
         />
       </AuthReviewSection>
@@ -405,20 +276,15 @@ console.log(error,isError);
         </span>
       </label>
 
-      {/* Only errors that don't belong to a specific field */}
-      {parsed?.general && (
+      {isError && (
         <p role="alert" className="text-sm text-red-500 mb-4">
-          {parsed.general}
+          We couldn't create your account with the information provided. Please review the form and
+          try again.
         </p>
       )}
 
       <div className="flex items-center gap-3">
-        <Button
-          type="button"
-          disabled={false}
-          text="Previous"
-          className={ghostBtnClass}
-        />
+        <Button type="button" disabled={false} text="Previous" className={ghostBtnClass} />
 
         <Button
           type="submit"
@@ -430,5 +296,5 @@ console.log(error,isError);
 
       {showTerms && <AuthTermsModal onClose={() => setShowTerms(false)} />}
     </form>
-  );
+  )
 }

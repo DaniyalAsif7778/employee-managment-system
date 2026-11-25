@@ -1,13 +1,13 @@
 import { create } from 'zustand'
+import type { UserRole } from '../types.js'
 
 interface RoleLoginState {
-  role: string
-  setActiveRoleInLogin: (role: string) => void
+  role: UserRole
+  setActiveRoleInLogin: (role: UserRole) => void
 }
 
 export const useContentByRoleInLogin = create<RoleLoginState>((set) => ({
-  // Initial state
-  role: 'admin',
+  role: 'admins',
 
-  setActiveRoleInLogin: (newRole: string) => set(() => ({ role: newRole })),
+  setActiveRoleInLogin: (role) => set({ role }),
 }))

@@ -3,42 +3,38 @@ import LoginAuth from './auth/LoginAuth.js'
 import { useContentByRoleInLogin } from '../store/useContentByRoleInLogin.js'
 import type { UserRoleOption } from '../types/singupTypes.js'
 import wordmarkLogo from '../assets/logo-dark.svg'
-const roles = [
+const roles: UserRoleOption[] = [
   {
-    value: 'admin',
+    value: 'admins',
     label: 'Administrator',
     description: 'Full system access — manage employees, departments & settings',
     icon: Shield,
     color: '#009F8E',
     bg: '#009F8E1A',
-    path: '/dashboard/admin/:userId',
   },
   {
-    value: 'manager',
+    value: 'managers',
     label: 'Manager',
     description: 'Team oversight — approve leaves, assign tasks & view reports',
     icon: Briefcase,
     color: '#8B5CF6',
     bg: '#8B5CF61A',
-    path: '/dashboard/manager/:userId',
   },
   {
-    value: 'hr',
+    value: 'hrs',
     label: 'HR',
     description: 'People operations — recruitment, onboarding & leave policies',
     icon: Heart,
     color: '#EC4899',
     bg: '#EC48991A',
-    path: '/dashboard/hr/:userId',
   },
   {
-    value: 'employee',
+    value: 'employees',
     label: 'Employee',
     description: 'Personal workspace — tasks, schedule & leave requests',
     icon: User,
     color: '#12C4D3',
     bg: '#12C4D31A',
-    path: '/dashboard/employee/:userId',
   },
 ]
 

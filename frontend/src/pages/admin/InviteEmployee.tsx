@@ -1,87 +1,63 @@
-import { Link, useNavigate } from 'react-router'
-import { useForm } from 'react-hook-form'
-import Input from '../../componenets/ui/Input.js'
-import { useInviteEmployee } from '../../hooks/useAuth.js'
-import type { InviteEmployeeRequest } from '../../types.js'
-import { apiErrorMessage } from '../../utils/apiErrorMessage.js'
-
-type InviteEmployeeForm = InviteEmployeeRequest
+import { UserPlus } from 'lucide-react'
+import PageHeader from '../../componenets/ui/PageHeader.js'
 
 export default function InviteEmployee() {
-  const navigate = useNavigate()
-  const { mutate, isPending, isError, error } = useInviteEmployee()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<InviteEmployeeForm>({
-    defaultValues: { fullName: '', email: '', role: 'employee' },
-  })
-
-  const onSubmit = (employee: InviteEmployeeForm) => {
-    mutate(
-      {
-        fullName: employee.fullName.trim(),
-        email: employee.email.trim().toLowerCase(),
-        role: employee.role,
-      },
-      { onSuccess: () => navigate('../employees') }
-    )
-  }
-
   return (
-    <main className="mx-auto w-full max-w-2xl p-6 text-text-primary">
-      <Link to="../employees" className="mb-6 inline-block text-sm text-primary hover:underline">
-        Back to employees
-      </Link>
-      <h1 className="mb-2 text-3xl font-semibold">Invite an employee</h1>
-      <p className="mb-8 text-sm text-text-secondary">
-        Choose the employee&apos;s organization role. They will set their password from the
-        invitation email.
-      </p>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <Input
-          label="Full name"
-          type="text"
-          autoComplete="name"
-          {...register('fullName', { required: 'Full name is required' })}
-          error={errors.fullName?.message}
-        />
-        <Input
-          label="Work email"
-          type="email"
-          autoComplete="email"
-          {...register('email', {
-            required: 'Email is required',
-            pattern: { value: /^\S+@\S+\.\S+$/, message: 'Enter a valid email address' },
-          })}
-          error={errors.email?.message}
-        />
-        <div>
-          <label htmlFor="employee-role" className="mb-1.5 block text-sm text-text-secondary">
-            Role
-          </label>
-          <select
-            id="employee-role"
-            {...register('role')}
-            className="h-11 w-full rounded-md border border-border bg-surface px-3 text-text-primary"
-          >
-            <option value="employee">Employee</option>
-            <option value="manager">Manager</option>
-            <option value="hr">HR</option>
+    <main className="mx-auto w-full max-w-3xl space-y-6 p-4 text-text-primary sm:p-6">
+      <PageHeader
+        title="Invite employee"
+        description="Sample invitation form for UI preview."
+        icon={UserPlus}
+      />
+      <form className="grid gap-4 rounded-xl border border-border bg-surface p-5 sm:grid-cols-2 sm:p-6">
+        <label className="grid gap-1.5 text-sm text-text-secondary">
+          First name
+          <input
+            className="h-10 rounded-lg border border-border bg-bg px-3 text-text-primary"
+            placeholder="First name"
+          />
+        </label>
+        <label className="grid gap-1.5 text-sm text-text-secondary">
+          Last name
+          <input
+            className="h-10 rounded-lg border border-border bg-bg px-3 text-text-primary"
+            placeholder="Last name"
+          />
+        </label>
+        <label className="grid gap-1.5 text-sm text-text-secondary sm:col-span-2">
+          Work email
+          <input
+            type="email"
+            className="h-10 rounded-lg border border-border bg-bg px-3 text-text-primary"
+            placeholder="name@company.com"
+          />
+        </label>
+        <label className="grid gap-1.5 text-sm text-text-secondary">
+          Department
+          <select className="h-10 rounded-lg border border-border bg-bg px-3 text-text-primary">
+            <option>Engineering</option>
+            <option>Human Resources</option>
+            <option>Finance</option>
+            <option>Marketing</option>
           </select>
-        </div>
-        {isError && (
-          <p role="alert" className="text-sm text-error">
-            {apiErrorMessage(error, 'The employee invitation could not be created.')}
-          </p>
-        )}
+        </label>
+        <label className="grid gap-1.5 text-sm text-text-secondary">
+          Role
+          <select className="h-10 rounded-lg border border-border bg-bg px-3 text-text-primary">
+            <option>Employee</option>
+            <option>Manager</option>
+            <option>HR</option>
+          </select>
+        </label>
         <button
-          className="rounded-md bg-primary px-5 py-3 font-medium text-primary-fg disabled:opacity-60"
-          disabled={isPending}
+          type="button"
+          className="h-10 rounded-lg bg-primary px-4 text-sm font-medium text-white sm:col-span-2"
         >
-          {isPending ? 'Sending invitation...' : 'Send invitation'}
+          Preview invitation
         </button>
+        <p className="text-xs text-text-secondary sm:col-span-2">
+          This sample form does not send invitations or contact the server.
+        </p>
       </form>
     </main>
   )

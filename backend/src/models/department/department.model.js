@@ -33,7 +33,7 @@ const departmentSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         index: true,
-      }
+      },
     ],
 
     // --- Operational & Financial Management ---
@@ -41,22 +41,22 @@ const departmentSchema = new mongoose.Schema(
       type: String,
       enum: ['active', 'inactive', 'restructuring'],
       default: 'active',
-      index: true
+      index: true,
     },
     isActive: {
       type: Boolean,
       default: true,
-      index: true
+      index: true,
     },
     budget: {
       allocated: { type: Number, min: 0, default: 0 },
       spent: { type: Number, min: 0, default: 0 },
-      currency: { type: String, default: 'USD', uppercase: true }
+      currency: { type: String, default: 'USD', uppercase: true },
     },
 
     // --- Location Scope ---
     location: { type: String, trim: true, default: '' }, // e.g., "Building A, Floor 3" or "Remote"
-    
+
     // --- Parent/Child Hierarchy (For Sub-departments if needed) ---
     // parentDepartmentId: {
     //   type: mongoose.Schema.Types.ObjectId,
@@ -65,9 +65,9 @@ const departmentSchema = new mongoose.Schema(
     //   index: true
     // }
   },
-  { 
-    timestamps: true, 
-    collection: 'departments' 
+  {
+    timestamps: true,
+    collection: 'departments',
   }
 );
 
@@ -76,4 +76,6 @@ const departmentSchema = new mongoose.Schema(
 departmentSchema.index({ organization: 1, name: 1 }, { unique: true });
 departmentSchema.index({ organization: 1, code: 1 }, { unique: true });
 
-export const Department = mongoose.models.Department || mongoose.model('Department', departmentSchema, 'departments');
+export const Department =
+  mongoose.models.Department ||
+  mongoose.model('Department', departmentSchema, 'departments');

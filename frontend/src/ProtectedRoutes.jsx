@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Navigate, Outlet, useParams } from 'react-router'
 import { getCurrentUser } from './lib/api/auth.service.js'
 import { useLoginSlice } from './store/LoginSlice.js'
+import { getDashboardPath } from './lib/authRoutes.js'
 
 function ProtectedRoutes() {
   const role = useLoginSlice((state) => state.role)
@@ -18,7 +19,7 @@ function ProtectedRoutes() {
       .then((response) => {
         const responseRole = response.data?.user?.[0]?.role?.trim().toLowerCase()
         const responseUserId = response.data?.user?.[0]?.id
-        const validRoles = ['admin', 'employee', 'manager', 'hr']
+        const validRoles = ['admins', 'employees', 'managers', 'hrs']
         if (isActive && responseRole && responseUserId && validRoles.includes(responseRole)) {
           setAuthenticatedUser(responseRole, responseUserId)
         } else if (isActive) {
@@ -47,25 +48,25 @@ function RoleRoutes({ allowedRole }) {
   const routeUserId = useParams().userId
   if (!role || !userId) return <Navigate to="/login" replace />
   if (role !== allowedRole || routeUserId !== userId) {
-    return <Navigate to={`/dashboard/${role}/${encodeURIComponent(userId)}`} replace />
+    return <Navigate to={getDashboardPath(role, userId)} replace />
   }
   return <Outlet />
 }
 
 function AdminRoutes() {
-  return <RoleRoutes allowedRole="admin" />
+  return <RoleRoutes allowedRole="admins" />
 }
 
 function EmployeeRoutes() {
-  return <RoleRoutes allowedRole="employee" />
+  return <RoleRoutes allowedRole="employees" />
 }
 
 function ManagerRoutes() {
-  return <RoleRoutes allowedRole="manager" />
+  return <RoleRoutes allowedRole="managers" />
 }
 
 function HRRoutes() {
-  return <RoleRoutes allowedRole="hr" />
+  return <RoleRoutes allowedRole="hrs" />
 }
 
 export { ProtectedRoutes, AdminRoutes, EmployeeRoutes, ManagerRoutes, HRRoutes }

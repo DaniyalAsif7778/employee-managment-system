@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { data } from 'react-router'
- 
-   
+
 const AdminSchema = z
   .object({
     fullName: z
@@ -21,7 +20,6 @@ const AdminSchema = z
       .min(1, 'Email is required')
       .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Please enter a valid email'),
 
- 
     password: z
       .string()
       .trim()
@@ -47,8 +45,6 @@ const OrganizationSchema = z.object({
 
   address: z.string().trim().min(1, 'Address is required').max(255, 'Address is too long'),
 
- 
- 
   industry: z.string().trim(),
   companySize: z.string().trim(),
 })

@@ -12,7 +12,7 @@ import {
 } from '@tabler/icons-react'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
- import { AdminSchema } from '../../schema/Singup_schem.js'
+import { AdminSchema } from '../../schema/Singup_schem.js'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Admin } from '../../types/singupTypes.js'
@@ -80,7 +80,6 @@ export default function AdminSingup() {
               Start by setting up your personal admin credentials.
             </p>
           </div>
- 
         </div>
         <div className="mb-4">
           <Input

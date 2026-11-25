@@ -38,15 +38,16 @@ const employeeSchema = new mongoose.Schema(
     },
 
     // --- System Role & Status Configuration ---
-     department: { type: String, trim: true, default: '' },
- departmentId: {
+    department: { type: String, trim: true, default: '' },
+    departmentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Department',
       required: true,
       unique: true,
       index: true,
-    },    position: { type: String, trim: true, default: '' },
-    
+    },
+    position: { type: String, trim: true, default: '' },
+
     // --- Organizational Hierarchy Anchors (For Joins) ---
     managerId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -86,9 +87,8 @@ const employeeSchema = new mongoose.Schema(
   { timestamps: true, collection: 'employee_profiles' }
 );
 
-employeeSchema.index(
-  { organization: 1, employeeId: 1 },
-  { unique: true }
-);
+employeeSchema.index({ organization: 1, employeeId: 1 }, { unique: true });
 
-export const Employee = mongoose.models.Employee || mongoose.model('Employee', employeeSchema, 'employee_profiles');
+export const Employee =
+  mongoose.models.Employee ||
+  mongoose.model('Employee', employeeSchema, 'employee_profiles');

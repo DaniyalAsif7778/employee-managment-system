@@ -2,91 +2,85 @@ import mongoose from 'mongoose';
 
 const organizationSchema = new mongoose.Schema(
   {
-       _id: { type: String },
-    orgName: { 
-      type: String, 
-      required: true, 
+    _id: { type: String },
+    orgName: {
+      type: String,
+      required: true,
       maxlength: 200,
-    
- 
-      trim: true 
+
+      trim: true,
     },
-    orgSlug: { 
-      type: String, 
-      required: true, 
-    
-      maxlength: 120, 
-      trim: true, 
-      lowercase: true 
+    orgSlug: {
+      type: String,
+      required: true,
+
+      maxlength: 120,
+      trim: true,
+      lowercase: true,
     },
-    adminEmail: { 
-      type: String, 
-      required: true, 
-      maxlength: 255, 
-      trim: true, 
-      lowercase: true, 
-       
+    adminEmail: {
+      type: String,
+      required: true,
+      maxlength: 255,
+      trim: true,
+      lowercase: true,
     },
-    industry: { 
-      type: String, 
-      maxlength: 100, 
-      trim: true, 
-      default: '' 
+    industry: {
+      type: String,
+      maxlength: 100,
+      trim: true,
+      default: '',
     },
-    companySize: { 
-      type: String, 
-      required: true, 
-      trim: true, 
-     },
-    timezone: { 
-      type: String, 
-       default: 'GMT +05:30', 
-      maxlength: 100 
+    companySize: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    description: { 
-      type: String 
+    timezone: {
+      type: String,
+      default: 'GMT +05:30',
+      maxlength: 100,
     },
-    phone: { 
-      type: String, 
-      maxlength: 30 
+    description: {
+      type: String,
     },
-    website: { 
-      type: String, 
-      maxlength: 500 
+    phone: {
+      type: String,
+      maxlength: 30,
     },
-    org_avatar: { 
-      type: String, 
-       default: '' 
+    website: {
+      type: String,
+      maxlength: 500,
     },
-    org_CoverImage: { 
-      type: String, 
-       
-      default: '' 
+    org_avatar: {
+      type: String,
+      default: '',
     },
-    address: { 
+    org_CoverImage: {
+      type: String,
+
+      default: '',
+    },
+    address: {
       type: mongoose.Schema.Types.Mixed,
-      required: true
+      required: true,
     },
-    settings: { 
-      type: mongoose.Schema.Types.Mixed, 
-      default: {} 
+    settings: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
     },
-    isActive: { 
-      type: Boolean, 
-      default: false 
-    }
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { 
-    timestamps: true, 
-    collection: 'organizations' 
+  {
+    timestamps: true,
+    collection: 'organizations',
   }
 );
 
-
- organizationSchema.index({ orgName: 1 }, { unique: true });
+organizationSchema.index({ orgName: 1 }, { unique: true });
 organizationSchema.index({ adminEmail: 1 }, { unique: true, sparse: true });
 
-export const Organization = mongoose.model(
-  'Organization',
-  organizationSchema 
-);
+export const Organization = mongoose.model('Organization', organizationSchema);

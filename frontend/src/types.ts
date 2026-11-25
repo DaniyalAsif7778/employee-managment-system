@@ -11,20 +11,23 @@ export interface User {
   lastName: string
   fullName: string
   role: UserRole
-  avatar?: string
-  phone?: string
-  createdAt: string
-  updatedAt: string
+  username?: string
+  avatar: string
+  phone: string
+  organization: OrganizationReference | null
 }
 
-export type UserRole = 'admin' | 'employee' | 'manager' | 'hr'
+export type UserRole = 'admins' | 'employees' | 'managers' | 'hrs'
 
 export type LoginRole = UserRole
 
-export interface AuthUser extends User {
-  token: string
-  refreshToken: string
+export interface OrganizationReference {
+  _id: string
+  orgName?: string
+  orgSlug?: string
 }
+
+export type AuthUser = User
 
 export interface LoginCredentials {
   email: string
@@ -33,14 +36,31 @@ export interface LoginCredentials {
   rememberMe: boolean
 }
 
-export interface LoginResponse {
-  statusCode?: number
-  message?: string
-  data?: {
-    user?: Array<{
-      id?: string
-      role?: string
-    }>
+export type LoginResponse = ApiResponse<{ user: AuthUser[] }>
+
+export interface RegistrationData {
+  fullName: string
+  email: string
+  password: string
+  confirmPassword: string
+  orgName: string
+  address: string
+  industry: string
+  companySize: string
+}
+
+export type RegisterOrganizationRequest = Omit<RegistrationData, 'confirmPassword'>
+
+export type RegisterData = RegisterOrganizationRequest
+
+export interface RegisterOrganizationResult {
+  user: {
+    _id: string
+    email: string
+  }
+  organization: {
+    _id: string
+    orgName: string
   }
 }
 
@@ -48,25 +68,32 @@ export interface EmailRequest {
   email: string
 }
 
-export interface VerifyOtpRequest extends EmailRequest {
+export interface PasswordResetOtpRequest extends EmailRequest {
   otp: string
 }
 
-export interface VerifyOtpResponse {
+export interface PasswordResetOtpResponse {
   data?: {
     resetToken?: string
   }
 }
 
-export interface ResetPasswordRequest extends EmailRequest {
-  resetToken: string
-  password: string
+export interface VerifyOtpRequest {
+  token: string
+}
+
+export type VerifyOtpResponse = ApiResponse<{ verified: boolean }>
+
+export type VerifyEmailTokenRequest = VerifyOtpRequest
+export type VerifyEmailResponse = VerifyOtpResponse
+
+export interface ResetPasswordRequest {
+  newPassword: string
 }
 
 export interface InviteEmployeeRequest {
-    
   email: string
- }
+}
 
 export interface EmployeeInvitation {
   fullName: string
@@ -84,14 +111,6 @@ export interface EmployeeInvitationResponse {
 export interface AcceptEmployeeInvitationRequest {
   token: string
   password: string
-}
-
-export interface RegisterData {
-  email: string
-  password: string
-  firstName: string
-  lastName: string
-  role: UserRole
 }
 
 // ==================== EMPLOYEES ====================
@@ -765,12 +784,10 @@ export interface FilterParams {
 
 // ==================== API RESPONSES ====================
 
-export interface ApiResponse<T = any> {
-  success: boolean
-  data?: T
-  message?: string
-  errors?: ValidationError[]
-  timestamp: string
+export interface ApiResponse<T> {
+  statusCode: number
+  data: T
+  message: string
 }
 
 export interface ValidationError {

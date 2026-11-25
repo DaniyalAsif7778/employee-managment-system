@@ -30,12 +30,10 @@ const verifyToken = (token, secret) => {
 
 const verifyJwt = asyncHandler(async (req, res, next) => {
   const accessSecret = process.env.ACCESS_TOKEN_SECRET;
-  const refreshSecret = process.env.REFRESH_TOKEN_SECRET || accessSecret;
+  const refreshSecret = process.env.REFRESH_TOKEN_SECRET;
   const accessPayload = verifyToken(req.cookies?.accessToken, accessSecret);
 
-  let user = accessPayload?._id
-    ? await User.findById(accessPayload._id).populate('organization')
-    : null;
+  let user = accessPayload?._id ? await User.findById(accessPayload._id) : null;
 
   if (!user) {
     const refreshPayload = verifyToken(

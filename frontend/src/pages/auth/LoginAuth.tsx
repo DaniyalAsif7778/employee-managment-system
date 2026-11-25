@@ -3,16 +3,24 @@ import { IconMail, IconLock, IconEye, IconEyeOff } from '@tabler/icons-react'
 import { useContentByRoleInLogin } from '../../store/useContentByRoleInLogin.js'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import { Link, useNavigate, useSearchParams } from 'react-router'
-import { Shield, Briefcase, Heart, User } from 'lucide-react'
+import { Shield, Briefcase, Heart, User, type LucideIcon } from 'lucide-react'
 import { useLogin } from '../../hooks/useAuth.js'
 import { useLoginSlice } from '../../store/LoginSlice.js'
 import type { LoginCredentials, LoginRole } from '../../types.js'
+import { getDashboardPath, isUserRole } from '../../lib/authRoutes.js'
 import { useForm } from 'react-hook-form'
 import wordmarkLogo from '../../assets/logo-dark.svg'
 
-const roles = [
+const roles: Array<{
+  value: LoginRole
+  label: string
+  description: string
+  icon: LucideIcon
+  color: string
+  bg: string
+}> = [
   {
-    value: 'admin',
+    value: 'admins',
     label: 'Administrator',
     description: 'Full system access — manage employees, departments & settings',
     icon: Shield,
@@ -20,7 +28,7 @@ const roles = [
     bg: '#009F8E1A',
   },
   {
-    value: 'manager',
+    value: 'managers',
     label: 'Manager',
     description: 'Team oversight — approve leaves, assign tasks & view reports',
     icon: Briefcase,
@@ -28,7 +36,7 @@ const roles = [
     bg: '#8B5CF61A',
   },
   {
-    value: 'hr',
+    value: 'hrs',
     label: 'HR',
     description: 'People operations — recruitment, onboarding & leave policies',
     icon: Heart,
@@ -36,7 +44,7 @@ const roles = [
     bg: '#EC48991A',
   },
   {
-    value: 'employee',
+    value: 'employees',
     label: 'Employee',
     description: 'Personal workspace — tasks, schedule & leave requests',
     icon: User,
@@ -45,38 +53,22 @@ const roles = [
   },
 ]
 
-const rolePaths: Record<LoginRole, string> = {
-  admin: '/dashboard/admin',
-  manager: '/dashboard/manager',
-  hr: '/dashboard/hr',
-  employee: '/dashboard/employee',
-}
-
 const fieldClass = `${inputBase} pl-9`
 const fieldWithSuffixClass = `${inputBase} pl-9 pr-10`
 
 const primaryBtnClass =
   'w-full rounded-md py-2.5 text-base font-medium bg-primary text-primary-fg hover:bg-primary-hover active:bg-primary-pressed transition'
 
-const developmentCredentials = import.meta.env.DEV
-  ? {
-      admin: { email: 'ems.admin@ems.local', password: 'emsAdmin123!' },
-      hr: { email: 'ems.hr@ems.local', password: 'emsHr123!' },
-      manager: { email: 'ems.manager@ems.local', password: 'emsManager123!' },
-      employee: { email: 'ems.employee@ems.local', password: 'emsEmployee123!' },
-    }
-  : null
-
 export default function LoginAuth() {
   const setActiveRole = useContentByRoleInLogin((state) => state.setActiveRoleInLogin)
   const [showPw, setShowPw] = useState(false)
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const { mutate, isPending, isError, error } = useLogin()
+  const { mutate, isPending, isError } = useLogin()
   const [errors, setErrors] = useState<Record<string, string>>({})
   const setAuthenticatedUser = useLoginSlice((state) => state.setAuthenticatedUser)
-  const autoCredentials = useLoginSlice((state) => state.autoCredentials)
-  const invitedRole = roles.find((role) => role.value === searchParams.get('role')?.toLowerCase())
+  const setRolePreview = useLoginSlice((state) => state.setRolePreview)
+  const requestedRole = searchParams.get('role')?.trim().toLowerCase()
   const {
     register,
     watch,
@@ -85,16 +77,15 @@ export default function LoginAuth() {
     formState: { errors: fieldErrors },
   } = useForm<LoginCredentials>({
     defaultValues: {
-      email: searchParams.get('email')?.trim().toLowerCase() ?? '',
+      email: '',
       password: '',
-      role: (invitedRole?.value as LoginRole | undefined) ?? 'admin',
+      role: isUserRole(requestedRole) ? requestedRole : 'admins',
       rememberMe: false,
     },
   })
 
   const selectedRole = watch('role')
   const activeRole = roles.find((r) => r.value === selectedRole)!
-  const suggestedCredentials = autoCredentials ? developmentCredentials?.[selectedRole] : undefined
   useEffect(() => setActiveRole(selectedRole), [selectedRole, setActiveRole])
   const emailRegistration = register('email', {
     required: 'Email is required',
@@ -104,46 +95,31 @@ export default function LoginAuth() {
   const roleRegistration = register('role')
   const rememberRegistration = register('rememberMe')
 
-  const fillSuggestedCredentials = () => {
-    if (!suggestedCredentials) return
-    setValue('email', suggestedCredentials.email, { shouldDirty: true, shouldValidate: true })
-    setValue('password', suggestedCredentials.password, {
-      shouldDirty: true,
-      shouldValidate: true,
-    })
-  }
-
   const submitLogin = (credentials: LoginCredentials) => {
+    setErrors({})
     mutate(credentials, {
       onSuccess: (response) => {
-        const responseRole = response.data?.user?.[0]?.role?.trim().toLowerCase() as
-          LoginRole | undefined
+        console.log('Login response:', response)
+        const responseRole = response.data?.user?.[0]?.role
         const userId = response.data?.user?.[0]?.id
-        if (!responseRole) {
-          setErrors({ form: 'The login response did not include a role.' })
-          return
-        }
-        if (!userId) {
-          setErrors({ form: 'The login response did not include a user ID.' })
-          return
-        }
-        const destination = rolePaths[responseRole]
-
-        if (!destination) {
-          setErrors({ form: 'Your role does not have a configured frontend destination.' })
+        console.log('Response user ID:', userId)
+        if (!isUserRole(responseRole) || !userId) {
+          console.log('Invalid user role or ID')
+          setErrors({ form: 'Select your role.' })
           return
         }
 
         setAuthenticatedUser(responseRole, userId)
-        navigate(`${destination}/${encodeURIComponent(userId)}`)
+        navigate(getDashboardPath(responseRole, userId))
       },
     })
   }
 
-  const requestError = isError
-    ? ((error as { response?: { data?: { message?: string } }; message?: string }).response?.data
-        ?.message ?? 'Unable to sign in. Check your credentials and try again.')
-    : ''
+  const openRolePreview = (role: LoginRole) => {
+    const previewUserId = `preview-${role}`
+    setRolePreview(role, previewUserId)
+    navigate(getDashboardPath(role, previewUserId))
+  }
 
   return (
     <div className="w-full max-w-115">
@@ -163,6 +139,11 @@ export default function LoginAuth() {
       {searchParams.get('invitation') === 'accepted' && (
         <p role="status" className="mb-5 text-sm text-success">
           Password created. Sign in to continue to your organization.
+        </p>
+      )}
+      {searchParams.get('passwordReset') === 'success' && (
+        <p role="status" className="mb-5 text-sm text-success">
+          Password reset preview completed. Sign in to continue.
         </p>
       )}
 
@@ -189,32 +170,32 @@ export default function LoginAuth() {
                 <div
                   className="flex items-center gap-3 px-3 py-3 rounded-xl border transition-all duration-200"
                   style={{
-                    borderColor: isSelected ? role.color : '#333333',
+                    borderColor: isSelected ? role?.color : '#333333',
                     backgroundColor: isSelected ? role.bg : '#121212',
-                    boxShadow: isSelected ? `0 0 0 1px ${role.color}` : 'none',
+                    boxShadow: isSelected ? `0 0 0 1px ${role?.color}` : 'none',
                   }}
                 >
                   {/* custom radio */}
                   <div
                     className="w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-150"
-                    style={{ borderColor: isSelected ? role.color : '#4B5563' }}
+                    style={{ borderColor: isSelected ? role?.color : '#4B5563' }}
                   >
                     {isSelected && (
                       <div
                         className="w-2 h-2 rounded-full transition-all"
-                        style={{ backgroundColor: role.color }}
+                        style={{ backgroundColor: role?.color }}
                       />
                     )}
                   </div>
                   <Icon
                     className="w-4 h-4 shrink-0 transition-colors"
-                    style={{ color: isSelected ? role.color : '#6B7280' }}
+                    style={{ color: isSelected ? role?.color : '#6B7280' }}
                   />
                   <span
                     className="text-[14px] font-medium transition-colors"
                     style={{ color: isSelected ? '#E0E0E0' : '#9CA3AF' }}
                   >
-                    {role.label}
+                    {role?.label}
                   </span>
                 </div>
               </label>
@@ -224,27 +205,6 @@ export default function LoginAuth() {
       </div>
 
       <form className="space-y-4" onSubmit={handleSubmit(submitLogin)}>
-        {suggestedCredentials && (
-          <div className="rounded-lg border border-[#333333] bg-[#121212] p-3">
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-xs font-medium text-[#9CA3AF]">Development credentials</p>
-                <p className="truncate text-sm text-[#E0E0E0]">{suggestedCredentials.email}</p>
-              </div>
-              <button
-                type="button"
-                onClick={fillSuggestedCredentials}
-                className="shrink-0 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white transition hover:bg-primary-hover"
-              >
-                Fill fields
-              </button>
-            </div>
-            <p className="mt-1 text-xs text-[#9CA3AF]">
-              Password: <span className="text-[#E0E0E0]">{suggestedCredentials.password}</span>
-            </p>
-          </div>
-        )}
-
         <div className="mb-4">
           <Input
             label="Email"
@@ -315,9 +275,9 @@ export default function LoginAuth() {
           <span className="text-[14px] text-[#9CA3AF]">Remember me for 30 days</span>
         </label>
 
-        {(errors.form || requestError) && (
+        {(errors.form || isError) && (
           <p role="alert" className="text-sm text-error">
-            {errors.form || requestError}
+            {errors.form || isError}
           </p>
         )}
 
@@ -326,12 +286,13 @@ export default function LoginAuth() {
           type="submit"
           disabled={isPending}
           className="w-full h-11 rounded-lg text-white font-semibold text-[15px] transition-all duration-200 mt-2 hover:opacity-90"
-          style={{ backgroundColor: activeRole.color }}
+          style={{ backgroundColor: activeRole?.color }}
         >
-          {isPending ? 'Signing in...' : `Sign in as ${activeRole.label}`}
+          {isPending ? 'Signing in...' : `Sign in as ${activeRole?.label}`}
         </button>
       </form>
 
+     
       {/* Divider */}
       <div className="flex items-center gap-4 my-6">
         <div className="flex-1 h-px bg-[#1F1F1F]" />
@@ -340,7 +301,7 @@ export default function LoginAuth() {
       </div>
 
       <Link
-        to="/singup"
+        to="/register"
         className="w-full h-11 rounded-lg border border-[#333333] text-[#9CA3AF] font-medium text-[15px] flex items-center justify-center hover:bg-[#121212] hover:text-[#E0E0E0] hover:border-border-secondary transition-all duration-200"
       >
         Register your organization

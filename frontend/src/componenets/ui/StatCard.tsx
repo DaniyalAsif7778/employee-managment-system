@@ -1,7 +1,8 @@
 import { Number, CompletionRates } from '../../import.js'
+import type { LucideIcon } from 'lucide-react'
 interface StatCardProps {
   title: string
-  value?: number
+  value?: number | string
   // icon?: " React.ComponentType";
   iconColor?: string
   iconBg?: string
@@ -13,13 +14,12 @@ interface StatCardProps {
   valueClass?: string
   trendClass?: string
   className?: string
-  icon?: React.ReactNode
+  icon?: LucideIcon
 }
 
 const StatCard = ({
   title = 'Total Employees',
   value,
-  // icon: Icon,
   iconColor = '',
   iconBg = '',
   trend,
@@ -32,13 +32,18 @@ const StatCard = ({
   className,
   icon,
 }: StatCardProps) => {
+  const Icon = icon
   return (
     <div
       className={` h-${height} ${className}    bg-surface flex flex-row  items-center justify-between duration-normal rounded-lg  p-4  border  `}
     >
       <div className=" h-full flex flex-col items-start justify-evenly">
         <h1 className={`${titleClass}text-text-disabled text-base font-light`}> {title}</h1>
-        <Number number={value} className={`${valueClass}text-xl`} />
+        {typeof value === 'number' ? (
+          <Number number={value} className={`${valueClass}text-xl`} />
+        ) : (
+          <span className={`${valueClass}text-xl`}>{value ?? '—'}</span>
+        )}
         {trendDisplay && (
           <CompletionRates
             className={` ${trendClass}text-primary text-sm`}
@@ -52,7 +57,7 @@ const StatCard = ({
           className="w-10 h-10   flex items-center justify-center rounded-full"
           style={{ backgroundColor: iconBg }}
         >
-          {iconDisplay && icon}
+          {iconDisplay && Icon ? <Icon className="size-5" style={{ color: iconColor }} /> : null}
         </span>
       </div>
     </div>

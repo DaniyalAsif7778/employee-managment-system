@@ -6,7 +6,7 @@ import process from 'process';
 const userSchema = new mongoose.Schema(
   {
     // --- IDENTITY & CORE ROUTING ---
-       
+
     fullName: { type: String, required: true, trim: true },
     email: {
       type: String,
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       unique: true,
     },
-   
+
     // --- CREDENTIALS & SECURITY ---
     password: { type: String, required: true, select: false },
     refreshToken: { type: String, select: false },
@@ -26,19 +26,19 @@ const userSchema = new mongoose.Schema(
       required: true,
       lowercase: true,
       enum: ['admins', 'managers', 'hrs', 'employees'],
-    }, 
+    },
     profileId: {
       type: mongoose.Schema.Types.ObjectId,
       refPath: 'role',
       required: true,
-      unique: true
+      unique: true,
     },
-       status: { 
-      type: String, 
-      required: true, 
-      default: 'unVerified', 
-      enum: ['unVerified','verified', 'suspended', 'archived'], 
-      index: true 
+    status: {
+      type: String,
+      required: true,
+      default: 'unVerified',
+      enum: ['unVerified', 'verified', 'suspended', 'archived'],
+      index: true,
     },
 
     isActive: { type: Boolean, default: false, index: true },
@@ -49,22 +49,20 @@ const userSchema = new mongoose.Schema(
       index: true,
     },
   },
-  { 
-    timestamps: true, 
-     
+  {
+    timestamps: true,
   }
 );
 
 // --- MIDDLEWARE ---
 // Encrypt password before saving
-userSchema.pre('save', async function ( ) {
-  if (!this.isModified('password')) return ;
-  
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) return;
+
   try {
     this.password = await bcrypt.hash(this.password, 10);
-     
   } catch (err) {
-      Error('Error hashing password',err)
+    Error('Error hashing password', err);
   }
 });
 
@@ -81,7 +79,12 @@ userSchema.methods.generateAccessToken = function () {
   }
 
   return jwt.sign(
-    { _id: this._id, role: this.role, email: this.email, organization: this.organization },
+    {
+      _id: this._id,
+      role: this.role,
+      email: this.email,
+      organization: this.organization,
+    },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: process.env.ACCESS_TOKEN_EXPIRY || '15m' }
   );
@@ -89,7 +92,8 @@ userSchema.methods.generateAccessToken = function () {
 
 // Refresh token generator
 userSchema.methods.generateRefreshToken = function (expiresIn) {
-  const secret = process.env.REFRESH_TOKEN_SECRET || process.env.ACCESS_TOKEN_SECRET;
+  const secret =
+    process.env.REFRESH_TOKEN_SECRET || process.env.ACCESS_TOKEN_SECRET;
   if (!secret) {
     throw new Error('REFRESH_TOKEN_SECRET or ACCESS_TOKEN_SECRET is required');
   }
@@ -99,4 +103,4 @@ userSchema.methods.generateRefreshToken = function (expiresIn) {
   });
 };
 
-export const User = mongoose.models.User || mongoose.model('User', userSchema );
+export const User = mongoose.models.User || mongoose.model('User', userSchema);

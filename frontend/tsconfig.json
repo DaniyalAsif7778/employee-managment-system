@@ -6,6 +6,7 @@
     "module": "nodenext",
     "target": "esnext",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "resolveJsonModule": true,
 
     "sourceMap": true,
     "declaration": true,

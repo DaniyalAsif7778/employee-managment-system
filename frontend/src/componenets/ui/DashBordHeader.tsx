@@ -33,7 +33,7 @@ const DashBordHeader = () => {
   const { dashBoardDrawer, setDashBoardStatus } = useMenue()
 
   const linksByRole = {
-    admin: [
+    admins: [
       { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
       { path: '/organizations', icon: Building2, label: 'Organizations' },
       { path: '/employees', icon: Users, label: 'Employees' },
@@ -45,7 +45,7 @@ const DashBordHeader = () => {
       { path: '/notifications', icon: Bell, label: 'Notifications' },
       { path: '/settings', icon: Settings, label: 'Settings' },
     ],
-    employee: [
+    employees: [
       { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
       { path: '/tasks', icon: CheckSquare, label: 'My Tasks' },
       { path: '/schedule', icon: Briefcase, label: 'Schedule' },
@@ -56,7 +56,7 @@ const DashBordHeader = () => {
       { path: '/notifications', icon: Bell, label: 'Notifications' },
       { path: '/profile', icon: UserCircle, label: 'Profile' },
     ],
-    manager: [
+    managers: [
       { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
       { path: '/team', icon: Users, label: 'My Team' },
       { path: '/tasks', icon: CheckSquare, label: 'Team Tasks' },
@@ -67,7 +67,7 @@ const DashBordHeader = () => {
       { path: '/notifications', icon: Bell, label: 'Notifications' },
       { path: '/profile', icon: UserCircle, label: 'Profile' },
     ],
-    hr: [
+    hrs: [
       { path: '', icon: LayoutDashboard, label: 'Dashboard', end: true },
       { path: '/recruitment', icon: UserPlus, label: 'Recruitment' },
       { path: '/employees', icon: Users, label: 'Employees' },
@@ -82,7 +82,7 @@ const DashBordHeader = () => {
 
   const dashboardBasePath =
     role && userId ? `/dashboard/${role}/${encodeURIComponent(userId)}` : '/login'
-  const links = linksByRole[role ?? 'admin'].map((link) => ({
+  const links = linksByRole[role ?? 'admins'].map((link) => ({
     ...link,
     path: `${dashboardBasePath}${link.path}`,
   }))

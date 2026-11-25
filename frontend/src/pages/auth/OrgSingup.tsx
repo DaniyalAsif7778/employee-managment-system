@@ -5,7 +5,7 @@ import { useAdminSlice } from '../../store/AdminSlice.js'
 import Input, { inputBase } from '../../componenets/ui/Input.js'
 import Button from '../../componenets/ui/Button.js'
 const fieldClass = `${inputBase} pl-9 bg-transparent`
- import { OrganizationSchema } from '../../schema/Singup_schem.js'
+import { OrganizationSchema } from '../../schema/Singup_schem.js'
 import { set, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { Organization } from '../../types/singupTypes.js'
@@ -54,7 +54,7 @@ export default function OrgSingup() {
     resolver: zodResolver(OrganizationSchema),
     defaultValues: {
       orgName: '',
-       
+
       address: '',
       industry: '',
       companySize: '',
@@ -82,9 +82,7 @@ export default function OrgSingup() {
               </h1>
               <p className="text-base text-text-secondary mb-6">Where and how big is your team?</p>
             </div>
-            
           </div>
-           
         </div>
 
         <div className="mb-4">

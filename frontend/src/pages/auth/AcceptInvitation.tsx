@@ -34,7 +34,7 @@ export default function AcceptInvitation() {
           const query = new URLSearchParams({
             invitation: 'accepted',
             email: invitation?.email ?? '',
-            role: invitation?.role ?? 'employee',
+            role: invitation?.role ?? 'employees',
           })
           navigate(`/login?${query.toString()}`)
         },
