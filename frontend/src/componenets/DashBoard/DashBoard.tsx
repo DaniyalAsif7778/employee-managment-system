@@ -22,7 +22,7 @@ const DashBoard = () => {
         <HeaderDrawer className="fixed left-3 top-12 z-40 bg-[#1f1f1f] shadow-lg sm:hidden" />
       )}
       <main
-        className={`min-h-[calc(100dvh-2.5rem)] min-w-0 overflow-x-clip pt-14 transition-[margin] duration-200 sm:pt-0 ${
+        className={`min-h-[calc(100dvh-2.5rem)] min-w-0 p-10  overflow-x-clip pt-14 transition-[margin] duration-200 sm:pt-0 ${
           dashBoardDrawer ? 'sm:ml-60' : 'sm:ml-15'
         }`}
       >

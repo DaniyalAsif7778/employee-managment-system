@@ -291,6 +291,31 @@ export default function LoginAuth() {
           {isPending ? 'Signing in...' : `Sign in as ${activeRole?.label}`}
         </button>
       </form>
+  {import.meta.env.DEV  ? (
+        <section
+          className="mt-5 rounded-xl border border-[#28534f] bg-[#102421]/60 p-4"
+          aria-label="Local role previews"
+        >
+          <div className="mb-3">
+            <h2 className="text-sm font-semibold text-[#E0E0E0]">Local role previews</h2>
+            <p className="mt-1 text-xs leading-5 text-[#9CA3AF]">
+              Open protected role screens with sample data. No account or server login is used.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {roles.map((role) => (
+              <button
+                key={role.value}
+                type="button"
+                onClick={() => openRolePreview(role.value)}
+                className="rounded-lg border border-[#333333] bg-[#121212] px-3 py-2.5 text-left text-xs font-medium text-[#E0E0E0] transition hover:border-primary hover:bg-[#1a1a1a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                Preview {role.label}
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
      
       {/* Divider */}

@@ -3,7 +3,7 @@ import { userRouter } from './routes/routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import process from 'process';
-import { errorHandler } from './middlewares/errorHandler.js';
+// import { errorHandler } from './middlewares/errorHandler.js';
 export const app = express();
 app.use(
   cors({
@@ -18,4 +18,4 @@ app.use(express.static('public'));
 app.use(cookieParser());
 
 app.use('/api/v1/ems', userRouter);
-app.use(errorHandler);
+// app.use(errorHandler);

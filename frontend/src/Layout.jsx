@@ -5,7 +5,7 @@ import './index.css'
 function Layout() {
   return (
     <div className="w-full">
-      <BuildStatusBadge />
+      {/* <BuildStatusBadge /> */}
       <Outlet />
 
       <Toaster

@@ -136,7 +136,7 @@ const registerOrgnaization = asyncHandler(async (req, res) => {
       _id: adminId,
       fullName,
       organization: orgId,
-      role: 'admins',
+      role: 'admin',
        email,
 
       avatar: '',
@@ -371,7 +371,7 @@ const sendPasswordResetEmail = asyncHandler(async (req, res) => {
  
   const verificationOtp = await Otp.create({
     user: user?._id,
-    otp: rawOTP,
+    otp: rawOTP, 
     type: 'PASSWORD_RESET',
   });
   console.log(verificationOtp);
